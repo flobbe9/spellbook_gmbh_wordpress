@@ -1,5 +1,5 @@
 <?php
-require_once "AbstractController.php";
+require_once dirname(__DIR__, 1) . "/abstracts/AbstractController.php";
 
 
 class PostTypeController extends AbstractController {

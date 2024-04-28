@@ -1,5 +1,5 @@
 <?php
-require_once "AbstractController.php";
+require_once dirname(__DIR__, 1) . "/abstracts/AbstractController.php";
 
 
 /**
@@ -16,12 +16,19 @@ class WPController extends AbstractController {
     }
 
 
+    /**
+     * Register all routes in this method.
+     */
     public function register(): void {
 
         $this->register_getPages();
+        $this->register_getMenus();
     }
 
 
+    /**
+     * ```/pages```
+     */
     private function register_getPages(): void {
 
         register_rest_route(parent::getMapping(), "/pages", [
@@ -34,6 +41,23 @@ class WPController extends AbstractController {
                     $page->blocks = parse_blocks($page->post_content);
 
                 return $pages;
+            }
+        ]);
+    }
+
+
+    private function register_getMenus(): void {
+
+        register_rest_route(parent::getMapping(), "/menus", [
+            "methods"=> "GET",
+            "callback"=> function() {
+
+                $menus = get_terms(["taxonomy" => "nav_menu"]);
+
+                foreach ($menus as $menu)
+                    $menu->items = wp_get_nav_menu_items($menu->term_id); 
+
+                return $menus;
             }
         ]);
     }

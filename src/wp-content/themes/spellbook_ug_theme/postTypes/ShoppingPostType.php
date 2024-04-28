@@ -1,7 +1,12 @@
 <?php
-require_once "AbstractPostType.php";
+require_once dirname(__DIR__, 1) . "/abstracts/AbstractPostType.php";
 
 
+/**
+ * Custom post type reachable under ```/kaufen/v1/```.
+ * 
+ * @since 0.0.1
+ */
 class ShoppingPostType extends AbstractPostType {
 
     public function __construct() {
@@ -13,7 +18,8 @@ class ShoppingPostType extends AbstractPostType {
                 "label" => "Kaufen",
                 "public" => true,
                 "hierarchical" => true,
-                "menu_position" => 4,
+                "menu_position" => 5,
+                "show_in_rest" => true // pretty edit view
             ]);
     }
 

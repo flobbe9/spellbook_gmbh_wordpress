@@ -1,7 +1,24 @@
 <?php
-// use Carbon_Fields\Carbon_Fields;
+use Carbon_Fields\Carbon_Fields;
+require_once "customBlocks.php";
 
+
+/**
+ * Init custom blocks.
+ */
 function initBlocks() {
+    
+    // do this before adding fields and blocks
+    initCarbonFields();
+    
+    // init all custom blocks
+    initImageSliderBlock();
+    
+    // setAllowedBlockTypes();
+}
 
-    // Carbon_Fields::boot();
+
+function initCarbonFields() {
+    
+    Carbon_Fields::boot();
 }

@@ -1,7 +1,12 @@
 <?php
-require_once "AbstractPostType.php";
+require_once dirname(__DIR__, 1) . "/abstracts/AbstractPostType.php";
 
 
+/**
+ * Custom post type reachable under ```/spielen/v1/```.
+ * 
+ * @since 0.0.1
+ */
 class PlayingPostType extends AbstractPostType {
 
     public function __construct() {
@@ -12,8 +17,9 @@ class PlayingPostType extends AbstractPostType {
             [
                 "label" => "Spielen",
                 "public" => true,
-                "hierarchical" => true,
+                "hierarchical" => true, // page instead of post
                 "menu_position" => 4,
+                "show_in_rest" => true // pretty edit view
             ]);
     }
 

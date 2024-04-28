@@ -1,14 +1,23 @@
 <?php
 
-function addAdminPage(): void {
+/**
+ * Register all custom admin pages.
+ */
+function initAdminPages(): void {
+
+    registerThemeSettings();
+}
+
+
+function registerThemeSettings(): void {
 
     add_menu_page(
-        "Admin thing",
-        "Menu title",
-        "editor",
-        "admin-thing",
-        function($page) {
-
+        "Theme settings",
+        "Theme settings",
+        "edit_posts",
+        "theme-settings",
+        function() {
+            require_once dirname(__DIR__, 1) . "/views/ThemeSettings.php";
         }
     );
 }

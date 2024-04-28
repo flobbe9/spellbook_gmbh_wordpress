@@ -1,5 +1,11 @@
 <?php
 
+
+/**
+ * Abstract super class for any custom PostyType class.
+ * 
+ * @since 0.0.1
+ */
 abstract class AbstractPostType {
 
     private string $name;
