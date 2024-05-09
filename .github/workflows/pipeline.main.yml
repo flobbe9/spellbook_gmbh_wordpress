@@ -41,7 +41,7 @@ jobs:
     #       tags: ${{ secrets.DOCKERHUB_USERNAME }}/spellbook_ug_wordpress:latest
     #       build-args: |
       - name: Build db and wordpress images
-        run: docker-compose build --build-arg WORDPRESS_DB_NAME=${{secrets.WORDPRESS_DB_NAME}} --build-arg WORDPRESS_DB_USER=${{secrets.WORDPRESS_DB_USER}} --build-arg WORDPRESS_DB_PASSWORD=${{secrets.WORDPRESS_DB_PASSWORD}} --build-arg MYSQL_ROOT_PASSWORD=${{secrets.MYSQL_ROOT_PASSWORD}}
+        run: docker-compose -f 'src/docker-compose.yml' build --build-arg WORDPRESS_DB_NAME=${{secrets.WORDPRESS_DB_NAME}} --build-arg WORDPRESS_DB_USER=${{secrets.WORDPRESS_DB_USER}} --build-arg WORDPRESS_DB_PASSWORD=${{secrets.WORDPRESS_DB_PASSWORD}} --build-arg MYSQL_ROOT_PASSWORD=${{secrets.MYSQL_ROOT_PASSWORD}}
 
       - name: Push images to Dockerhub
         run: docker-compose -f 'src/docker-compose.yml' push
