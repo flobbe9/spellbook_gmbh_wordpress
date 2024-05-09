@@ -9,7 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository 
         uses: actions/checkout@v4
@@ -34,14 +33,8 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           
-    #   - name: Build and push
-    #     uses: docker/build-push-action@v5.1.0
-    #     with:
-    #       push: true
-    #       tags: ${{ secrets.DOCKERHUB_USERNAME }}/spellbook_ug_wordpress:latest
-    #       build-args: |
       - name: Build db and wordpress images
-        run: ls && cd app && docker-compose -f '/src/docker-compose.yml' build --build-arg WORDPRESS_DB_NAME=${{secrets.WORDPRESS_DB_NAME}} --build-arg WORDPRESS_DB_USER=${{secrets.WORDPRESS_DB_USER}} --build-arg WORDPRESS_DB_PASSWORD=${{secrets.WORDPRESS_DB_PASSWORD}} --build-arg MYSQL_ROOT_PASSWORD=${{secrets.MYSQL_ROOT_PASSWORD}}
+        run: ls # && cd app && docker-compose -f '/src/docker-compose.yml' build --build-arg WORDPRESS_DB_NAME=${{secrets.WORDPRESS_DB_NAME}} --build-arg WORDPRESS_DB_USER=${{secrets.WORDPRESS_DB_USER}} --build-arg WORDPRESS_DB_PASSWORD=${{secrets.WORDPRESS_DB_PASSWORD}} --build-arg MYSQL_ROOT_PASSWORD=${{secrets.MYSQL_ROOT_PASSWORD}}
 
       - name: Push images to Dockerhub
         run: docker-compose -f '/src/docker-compose.yml' push
