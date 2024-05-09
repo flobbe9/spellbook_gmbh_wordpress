@@ -15,10 +15,9 @@ class ShoppingPostType extends AbstractPostType {
             "kaufen",
             "v1",
              [
-                "label" => "Kaufen",
+                "label" => __("Kaufen"),
                 "public" => true,
                 "hierarchical" => true,
-                "menu_position" => 5,
                 "show_in_rest" => true // pretty edit view
             ]);
     }

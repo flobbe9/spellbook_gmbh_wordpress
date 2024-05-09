@@ -1,0 +1,21 @@
+version: "3.3"
+
+services:
+  db: 
+    image: flobbe9/${WORDPRESS_DB_NAME}
+    build:
+      dockerfile: ../Dockerfile_db
+      args:
+        - MYSQL_VERSION=${MYSQL_VERSION}
+    ports:
+      - ${WORDPRESS_DB_PORT}:${WORDPRESS_DB_PORT}
+
+  wordpress:
+    image: flobbe9/${NAME}
+    build: 
+      context: ../
+      args:
+        - WP_VERSION=${WP_VERSION}
+        - WORDPRESS_DB_PORT=${WORDPRESS_DB_PORT}
+    environment:
+      - WORDPRESS_DB_HOST=db

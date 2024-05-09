@@ -1,0 +1,17 @@
+name: spellbook_ug_wordpress dev
+
+run-name: ${{ github.event.head_commit.message }}
+on: 
+  push: 
+    branches: 
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository 
+        uses: actions/checkout@v4
+
+        # TODO: run to test

@@ -6,6 +6,5 @@
  */
 function initMenus() {
 
-    register_nav_menus([
-    ]);
+    register_nav_menus([]);
 }

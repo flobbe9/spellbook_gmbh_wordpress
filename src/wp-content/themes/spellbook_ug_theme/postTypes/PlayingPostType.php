@@ -15,10 +15,9 @@ class PlayingPostType extends AbstractPostType {
             "spielen", 
             "v1",
             [
-                "label" => "Spielen",
+                "label" => __("Spielen"),
                 "public" => true,
                 "hierarchical" => true, // page instead of post
-                "menu_position" => 4,
                 "show_in_rest" => true // pretty edit view
             ]);
     }

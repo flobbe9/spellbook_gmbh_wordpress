@@ -1,5 +1,7 @@
 <?php
 require_once dirname(__DIR__, 1) . "/abstracts/AbstractController.php";
+require_once dirname(__DIR__, 1) . "/services/WPService.php";
+require_once __DIR__ . "/HttpResponse.php";
 
 
 /**
@@ -21,15 +23,20 @@ class WPController extends AbstractController {
      */
     public function register(): void {
 
-        $this->register_getPages();
-        $this->register_getMenus();
+        $this->registerPages();
+        $this->registerAllPages();
+        $this->registerMenus();
+        $this->registerPostTypes();
+        $this->registerValidateUser();
     }
 
 
     /**
      * ```/pages```
+     * 
+     * @return array of all posts with post_type "page" plus their parsed blocks ("blocks" attribute)
      */
-    private function register_getPages(): void {
+    private function registerPages(): void {
 
         register_rest_route(parent::getMapping(), "/pages", [
             "methdos" => "GET",
@@ -37,16 +44,39 @@ class WPController extends AbstractController {
 
                 $pages = get_pages();
                 
-                foreach ($pages as $page) 
-                    $page->blocks = parse_blocks($page->post_content);
+                return WPService::mapPages($pages);
+            }
+        ]);
+    }
 
-                return $pages;
+    
+    /**
+     * ```/allPages```
+     * 
+     * @return array with all page objects regardless of the post_type plus their parsed blocks ("blocks" attribute). Exclude post_type "post".
+     */
+    private function registerAllPages(): void {
+
+        register_rest_route(parent::getMapping(), "/allPages", [
+            "methdos" => "GET",
+            "callback" => function() {
+
+                $pages = get_posts([
+                    "post_type" => WPService::getAllPostTypes()
+                ]);
+
+                return WPService::mapPages($pages);
             }
         ]);
     }
 
 
-    private function register_getMenus(): void {
+    /**
+     * ```/menus```
+     * 
+     * @return array of nav menu objects
+     */
+    private function registerMenus(): void {
 
         register_rest_route(parent::getMapping(), "/menus", [
             "methods"=> "GET",
@@ -58,6 +88,49 @@ class WPController extends AbstractController {
                     $menu->items = wp_get_nav_menu_items($menu->term_id); 
 
                 return $menus;
+            }
+        ]);
+    }
+
+
+    /**
+     * ```/postTypes```
+     * 
+     * @return array of public post type names
+     */
+    private function registerPostTypes(): void {
+
+        register_rest_route(parent::getMapping(), "/postTypes", [
+            "methods"=> "GET",
+            "callback"=> function() {
+
+                return WPService::getAllPostTypes();
+            }
+        ]);
+    }
+
+
+    /**
+     * ```/validateUser```
+     * 
+     * Expect ```email``` and decrypted ```password``` inside request body (both required). Email may as well be the user name.
+     *  
+     * @return WP_Error 400 in case of missing prop. See ```WPService::validateUser()``` for all other resopnses.
+     */
+    private function registerValidateUser(): void {
+
+        register_rest_route(parent::getMapping(), "/validateUser", [
+            "methods"=> "POST",
+            "callback"=> function(WP_REST_Request $requestBody) {
+
+                $emailOrUserName = $requestBody["email"];
+                $password = $requestBody["password"];
+
+                // case: missing a prop
+                if (empty($emailOrUserName) || empty($password))
+                    return HttpResponse::asRestResponse(400, "Bad Request", "Missing either email or password prop", $requestBody->get_route());
+
+                return WPService::validateUser($emailOrUserName, $password, $requestBody->get_route());
             }
         ]);
     }

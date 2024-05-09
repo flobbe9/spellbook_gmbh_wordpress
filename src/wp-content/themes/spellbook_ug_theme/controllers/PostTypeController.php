@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__DIR__, 1) . "/abstracts/AbstractController.php";
+require_once dirname(__DIR__, 1) . "/services/WPService.php";
 
 
 class PostTypeController extends AbstractController {
@@ -20,10 +21,7 @@ class PostTypeController extends AbstractController {
                     "post_type" => $this->getPostTypeName()
                 ]);
                 
-                foreach ($pages as $page) 
-                    $page->blocks = parse_blocks($page->post_content);
-        
-                return $pages;
+                return WPService::mapPages($pages);
             }
         ]);
     }

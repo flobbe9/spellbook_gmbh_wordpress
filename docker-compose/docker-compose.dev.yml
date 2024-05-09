@@ -2,23 +2,23 @@ version: "3.3"
 
 services:
   db: 
-    image: mysql
+    image: mysql:${MYSQL_VERSION}
     ports:
-      - 3306:3306
+      - ${WORDPRESS_DB_PORT}:${WORDPRESS_DB_PORT}
     environment:
       - MYSQL_DATABASE=${WORDPRESS_DB_NAME}
       - MYSQL_USER=${WORDPRESS_DB_USER}
       - MYSQL_ROOT_PASSWORD=${WORDPRESS_DB_PASSWORD}
       - MYSQL_PASSWORD=${WORDPRESS_DB_PASSWORD}
+    volumes:
+      - ../dbVolume/:/var/lib/mysql/
 
   wordpress: 
     image: wordpress:${WP_VERSION}
     ports:
       - ${PORT}:80
     environment:
-      - WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}
-      - WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
-      - WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
       - WORDPRESS_DB_HOST=db
     volumes:
-      - ./src/:/var/www/html/
+      - ../src/:/var/www/html/
+      - ../docker-compose/:/var/www/html/wp-content/docker-compose/

@@ -1,5 +1,9 @@
 .vscode
 vendor
-wp-plugins
+plugins
+!adminPages
 wp-includes
 wp-admin
+uploads
+dbVolume
+docker-compose.prod.yml
