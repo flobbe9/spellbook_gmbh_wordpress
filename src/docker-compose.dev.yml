@@ -22,4 +22,3 @@ services:
       - WORDPRESS_DB_HOST=db
     volumes:
       - ../src/:/var/www/html/
-      - ../docker-compose/:/var/www/html/wp-content/docker-compose/

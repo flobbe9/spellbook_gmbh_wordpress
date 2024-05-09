@@ -40,7 +40,7 @@ if (!function_exists('getenv_docker')) {
 }
 
 // load .env file to $_ENV
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "/wp-content/docker-compose/");
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 
