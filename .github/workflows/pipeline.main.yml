@@ -34,10 +34,10 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           
       - name: Build db and wordpress images
-        run: ls # && cd app && docker-compose -f '/src/docker-compose.yml' build --build-arg WORDPRESS_DB_NAME=${{secrets.WORDPRESS_DB_NAME}} --build-arg WORDPRESS_DB_USER=${{secrets.WORDPRESS_DB_USER}} --build-arg WORDPRESS_DB_PASSWORD=${{secrets.WORDPRESS_DB_PASSWORD}} --build-arg MYSQL_ROOT_PASSWORD=${{secrets.MYSQL_ROOT_PASSWORD}}
+        run: echo ${GITHUB_WORKSPACE} && cd ${GITHUB_WORKSPACE} && docker-compose -f '/src/docker-compose.yml' build --build-arg WORDPRESS_DB_NAME=${{secrets.WORDPRESS_DB_NAME}} --build-arg WORDPRESS_DB_USER=${{secrets.WORDPRESS_DB_USER}} --build-arg WORDPRESS_DB_PASSWORD=${{secrets.WORDPRESS_DB_PASSWORD}} --build-arg MYSQL_ROOT_PASSWORD=${{secrets.MYSQL_ROOT_PASSWORD}}
 
-      - name: Push images to Dockerhub
-        run: docker-compose -f '/src/docker-compose.yml' push
+      # - name: Push images to Dockerhub
+      #   run: docker-compose -f '/src/docker-compose.yml' push
 
   # deploy_to_server:
   #   runs-on: ubuntu-latest
