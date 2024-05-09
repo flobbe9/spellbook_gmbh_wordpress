@@ -1,5 +1,6 @@
 version: "3.3"
 
+# used for pipeline build
 services:
   db: 
     image: flobbe9/${WORDPRESS_DB_NAME}
