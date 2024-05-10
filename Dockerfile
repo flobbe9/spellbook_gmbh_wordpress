@@ -10,6 +10,7 @@ WORKDIR /var/www/html/
 ARG WORDPRESS_DB_NAME
 ARG WORDPRESS_DB_USER
 ARG WORDPRESS_DB_PASSWORD
+ARG PORT
 
 # set args as env
 ENV WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}
@@ -22,3 +23,5 @@ COPY ./src/wp-config.php ./
 COPY ./src/wp-settings.php ./
 COPY ./src/favicon.ico ./
 COPY ./src/.env ./
+
+EXPOSE ${PORT}

@@ -6,7 +6,7 @@ services:
     image: flobbe9/${WORDPRESS_DB_NAME}
     build:
       context: ../
-      dockerfile: Dockerfile_db
+      dockerfile: db.Dockerfile
       args:
         - MYSQL_VERSION=${MYSQL_VERSION}
     ports:
