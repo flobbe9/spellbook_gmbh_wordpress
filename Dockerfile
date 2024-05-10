@@ -1,6 +1,7 @@
 ARG WORDPRESS_VERSION=latest
 
 
+# TODO: install compoer on a different layer
 #####
 FROM wordpress:${WORDPRESS_VERSION}
 
@@ -10,7 +11,6 @@ WORKDIR /var/www/html/
 ARG WORDPRESS_DB_NAME
 ARG WORDPRESS_DB_USER
 ARG WORDPRESS_DB_PASSWORD
-ARG PORT
 
 # set args as env
 ENV WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}
@@ -24,4 +24,10 @@ COPY ./src/wp-settings.php ./
 COPY ./src/favicon.ico ./
 COPY ./src/.env ./
 
-EXPOSE ${PORT}
+# install composer
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+
+# install dependencies
+RUN cd /var/www/html/wp-content/themes/spellbook_ug_theme/ && composer update
+
+EXPOSE 80

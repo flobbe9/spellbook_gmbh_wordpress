@@ -47,7 +47,6 @@ jobs:
             WORDPRESS_DB_USER=${{secrets.WORDPRESS_DB_USER}}
             WORDPRESS_DB_PASSWORD=${{secrets.WORDPRESS_DB_PASSWORD}}
             WORDPRESS_VERSION=${{vars.WORDPRESS_VERSION}}
-            PORT=${{vars.WORDPRESS_PORT}}
       
       - name: Build and push DB
         uses: docker/build-push-action@v5.3.0
