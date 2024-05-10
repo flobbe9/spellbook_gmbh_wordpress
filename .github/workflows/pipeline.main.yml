@@ -43,9 +43,9 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/spellbook_ug_wordpress:latest
           build-args: |
-            WORDPRESS_DB_NAME: ${{secrets.WORDPRESS_DB_NAME}}
-            WORDPRESS_DB_USER: ${{secrets.WORDPRESS_DB_USER}}
-            WORDPRESS_DB_PASSWORD: ${{secrets.WORDPRESS_DB_PASSWORD}}
+            WORDPRESS_DB_NAME=${{secrets.WORDPRESS_DB_NAME}}
+            WORDPRESS_DB_USER=${{secrets.WORDPRESS_DB_USER}}
+            WORDPRESS_DB_PASSWORD=${{secrets.WORDPRESS_DB_PASSWORD}}
             WORDPRESS_VERSION=${{vars.WORDPRESS_VERSION}}
             PORT=${{vars.WORDPRESS_PORT}}
       
@@ -57,10 +57,10 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/spellbook_ug_db:latest
           build-args: |
-            WORDPRESS_DB_NAME: ${{secrets.WORDPRESS_DB_NAME}}
-            WORDPRESS_DB_USER: ${{secrets.WORDPRESS_DB_USER}}
-            WORDPRESS_DB_PASSWORD: password
-            MYSQL_ROOT_PASSWORD: ${{secrets.MYSQL_ROOT_PASSWORD}}
+            WORDPRESS_DB_NAME=${{secrets.WORDPRESS_DB_NAME}}
+            WORDPRESS_DB_USER=${{secrets.WORDPRESS_DB_USER}}
+            WORDPRESS_DB_PASSWORD=${{secrets.WORDPRESS_DB_PASSWORD}}
+            MYSQL_ROOT_PASSWORD=${{secrets.MYSQL_ROOT_PASSWORD}}
             MYSQL_VERSION=${{vars.MYSQL_VERSION}}
           
 
