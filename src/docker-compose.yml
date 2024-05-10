@@ -23,3 +23,5 @@ services:
         - WORDPRESS_DB_PORT=${WORDPRESS_DB_PORT}
     environment:
       - WORDPRESS_DB_HOST=db
+    ports: 
+      - ${PORT}:80

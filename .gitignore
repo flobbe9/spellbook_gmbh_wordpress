@@ -7,3 +7,4 @@ wp-admin
 uploads
 dbVolume
 docker-compose.prod.yml
+ssl

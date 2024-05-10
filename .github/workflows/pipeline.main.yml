@@ -18,7 +18,6 @@ jobs:
         with:
           compose-file: "./src/docker-compose.yml"
 
-     
 
   push_to_DockerHub:
     runs-on: ubuntu-latest

@@ -8,8 +8,6 @@ require_once __DIR__ . "/blocks/init.php";
  * Admin pages are initialized via "adminPages" plugin.
  */
 // TODO: https
-// TODO: Dockerfile
-// TODO: make note of the version somewhere on the page
 
 // call this first always
 someConfig();
