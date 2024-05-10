@@ -1,6 +1,7 @@
 version: "3.3"
 
 # used for pipeline build
+# TODO delete this?
 services:
   db: 
     image: flobbe9/${WORDPRESS_DB_NAME}
