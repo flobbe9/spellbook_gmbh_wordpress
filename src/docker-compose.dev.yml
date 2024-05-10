@@ -16,6 +16,8 @@ services:
 
   wordpress: 
     image: wordpress:${WP_VERSION}
+    depends_on: 
+      - db
     ports:
       - ${PORT}:80
     environment:

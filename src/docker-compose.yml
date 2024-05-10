@@ -1,7 +1,6 @@
 version: "3.3"
 
 # used for pipeline build
-# TODO delete this?
 services:
   db: 
     image: flobbe9/${WORDPRESS_DB_NAME}
@@ -15,6 +14,8 @@ services:
 
   wordpress:
     image: flobbe9/${NAME}
+    depends_on: 
+      - db
     build: 
       context: ../
       args:

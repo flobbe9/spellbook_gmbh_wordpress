@@ -1,7 +1,6 @@
 ARG WORDPRESS_VERSION=latest
 
 
-# TODO: install compoer on a different layer
 #####
 FROM wordpress:${WORDPRESS_VERSION}
 
