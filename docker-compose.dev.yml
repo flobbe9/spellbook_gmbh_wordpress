@@ -12,7 +12,7 @@ services:
       - MYSQL_ROOT_PASSWORD=${WORDPRESS_DB_PASSWORD}
       - MYSQL_PASSWORD=${WORDPRESS_DB_PASSWORD}
     volumes:
-      - ../dbVolume/:/var/lib/mysql/
+      - ./dbVolume/:/var/lib/mysql/
 
   wordpress: 
     image: wordpress:${WORDPRESS_VERSION}
@@ -30,7 +30,8 @@ services:
     environment:
       - WORDPRESS_DB_HOST=db
     volumes:
-      - ../src/:/var/www/html/
+      - ./src/:/var/www/html/
+      - ./src/.env:/var/www/html/.env
 
   # frontend:
   #   image: ${FRONTEND_NAME}
