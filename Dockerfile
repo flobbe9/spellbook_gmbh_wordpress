@@ -23,8 +23,6 @@ ENV WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
 # copy code
 COPY ./src/wp-content/ ./wp-content
 COPY ./src/wp-config.php ./
-COPY ./src/wp-settings.php ./
-COPY ./src/favicon.ico ./
 COPY ./.env ./
 
 # install composer
