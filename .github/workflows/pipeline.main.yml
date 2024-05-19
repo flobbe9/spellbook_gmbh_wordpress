@@ -66,20 +66,20 @@ jobs:
             MYSQL_VERSION=${{vars.MYSQL_VERSION}}
           
 
-  # deploy_to_server:
-  #   runs-on: ubuntu-latest
-  #   needs: push_to_DockerHub
+  deploy_to_server:
+    runs-on: ubuntu-latest
+    needs: push_to_DockerHub
 
-  #   steps:
-  #     - uses: appleboy/ssh-action@v1.0.3
-  #       with: 
-  #         host: word-light.de
-  #         username: ${{ secrets.SSH_USER_NAME }}
-  #         password: ${{ secrets.SSH_PASSWORD }}
-  #         debug: true
-  #         # pull new image, remove left overs from old image, start microservice
-  #         script: |
-  #           docker-compose pull
-  #           yes | docker rm $(docker container ls --all --filter=ancestor=$(docker images -f "dangling=true" -q) --format "{{.ID}}") --force
-  #           yes | docker image rm $(docker images -f "dangling=true" -q)
-  #           docker-compose up -d
+    steps:
+      - uses: appleboy/ssh-action@v1.0.3
+        with: 
+          host: spellbook-ug.de
+          username: ${{ secrets.SSH_USER_NAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          debug: true
+          # pull new image, remove left overs from old image, start microservice
+          script: |
+            docker compose pull
+            yes | docker rm $(docker container ls --all --filter=ancestor=$(docker images -f "dangling=true" -q) --format "{{.ID}}") --force
+            yes | docker image rm $(docker images -f "dangling=true" -q)
+            docker compose up -d

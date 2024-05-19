@@ -31,16 +31,6 @@ services:
       - WORDPRESS_DB_HOST=db
     volumes:
       - ./src/:/var/www/html/
-      - ./src/.env:/var/www/html/.env
-
-  # frontend:
-  #   image: ${FRONTEND_NAME}
-  #   depends_on: 
-  #     - wordpress
-  #   environment:
-  #     - WORDPRESS_HOST=wordpress
-  #     - PROTOCOL=http
-  #     - PORT=3000
-  #     - ENV=dev
-  #   ports:
-  #     - 3000:3000
+      # - ./src/test/:/var/www/html/
+      - ./.env.local:/var/www/html/.env
+      - ./uploads/:/var/www/html/wp-content/uploads/

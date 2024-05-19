@@ -11,7 +11,7 @@ services:
         - MYSQL_VERSION=${MYSQL_VERSION}
     ports:
       - ${WORDPRESS_DB_PORT}:${WORDPRESS_DB_PORT}
-
+      
   wordpress:
     image: flobbe9/${NAME}
     depends_on: 
@@ -19,7 +19,7 @@ services:
     build: 
       context: .
       args:
-        - WP_VERSION=${WP_VERSION}
+        - WORDPRESS_VERSION=${WORDPRESS_VERSION}
         - WORDPRESS_DB_PORT=${WORDPRESS_DB_PORT}
     environment:
       - WORDPRESS_DB_HOST=db

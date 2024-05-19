@@ -112,9 +112,20 @@ $table_prefix = getenv_docker('WORDPRESS_TABLE_PREFIX', 'wp_');
  *
  * @link https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/
  */
-define( 'WP_DEBUG', !!getenv_docker('WORDPRESS_DEBUG', '') );
+
+// Debug in dev only
+define( 'WP_DEBUG', $_ENV["ENV"] === "dev" );
+define( 'WP_DEBUG_LOG', $_ENV["ENV"] === "dev" );
+
 
 /* Add any custom values between this line and the "stop editing" line. */
+
+// Set default theme
+define('WP_DEFAULT_THEME', 'spellbook_ug_theme');
+
+// Dont update automatically
+define( 'WP_AUTO_UPDATE_CORE', false );
+
 
 // If we're behind a proxy server and using HTTPS, we need to alert WordPress of that fact
 // see also https://wordpress.org/support/article/administration-over-ssl/#using-a-reverse-proxy

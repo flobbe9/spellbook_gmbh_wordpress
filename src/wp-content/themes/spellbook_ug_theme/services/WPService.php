@@ -9,7 +9,7 @@
 class WPService {
 
     /**
-     * Get list of all publicly registered post types (exclude "post").
+     * Get list of all publicly registered post types.
      * 
      * @param string $format possible values are "objects" and "names".
      */
@@ -17,14 +17,43 @@ class WPService {
 
         $allPostTypes = get_post_types(["public" => true], $format);
         
-        unset($allPostTypes["post"]);
-
         return $allPostTypes;
+    }
+
+
+    public static function getHiddenInFrontendPostTypeNames(): array {
+
+        $testPostType = new TestPostType();
+
+        return [
+            "post",
+            $testPostType->getName()
+        ];
+    }
+
+
+    public static function getAllowAllBlockTypesPostTypeNames(): array {
+
+        $testPostType = new TestPostType();
+        
+        return [
+            $testPostType->getName()
+        ];
+    }
+
+
+    public static function getPostTypeNamesHiddenInMenu(): array {
+
+        return [
+            "post"
+        ];
     }
 
 
     /**
      * Add blocks and path. Remove ```post_content``` since blocks are used for rendering.
+     * 
+     * Will ignore a page if its ```post_type``` is included in ```WPService::getHiddenInFrontendPostTypeNames()```.
      * 
      * @param WP_Post[] | bool $pages to map
      * @return WP_Post[] same $pages array but with parsed blocks ("blocks") and paths ("path"). Dont append or prepend "/" to "path".
@@ -36,7 +65,11 @@ class WPService {
 
         $frontPageId = intval(get_option('page_on_front'));
 
-        return array_map(function($page) use ($frontPageId) {
+        return array_map(function(WP_Post $page) use ($frontPageId) {
+            // case: hide in frontend
+            if (in_array($page->post_type, WPService::getHiddenInFrontendPostTypeNames()))
+                return;
+
             // add parsed blocks
             $page->blocks = parse_blocks($page->post_content);
 

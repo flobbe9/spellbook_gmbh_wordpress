@@ -4,31 +4,45 @@ require_once __DIR__ . "/postTypes/init.php";
 require_once __DIR__ . "/menus/init.php";
 require_once __DIR__ . "/adminPages/init.php";
 require_once __DIR__ . "/blocks/init.php";
+// TODO 
+    // custom dashboard (/wp-admin/index.php) (?) or short tutorial on whatsapp :)
+    // cant publish when site and home url are different
+        // register post types properly?
+    // remove unnecessary themes and plugins (manually)
+    // version??
+    // licenses???
+    // README
+
+// TODO: 
+    // slider 
+        // try wp custom block, dont use carbon fields (?)
+        // links
+        // images disappear
+    // register at least one example menu
+
+
 /**
- * Admin pages are initialized via "adminPages" plugin.
+ * PostTypes
  */
-// TODO: https
+add_action("init", "initPostTypes");
 
-// call this first always
-someConfig();
+/**
+ * AdminMenus
+ */
+add_action("admin_menu", "initAdminPages");
 
-initMenus();
+/**
+ * NavMenus
+ */
+add_action("wp_update_nav_menu", "initMenus");
 
-initPostTypes();
+/**
+ * Controllers
+ */
+add_action("rest_api_init", "initControllers");
 
-initControllers();
-
+/**
+ * BlockTypes
+ */
 add_action("carbon_fields_register_fields", "initBlocks");
 add_action("after_setup_theme", "initCarbonFields");
-
-
-/**
- * Do some configuration from wp-settings. 
- */
-function someConfig(): void {
-    
-    // copied from wp-settings.php(675) in order to register rest api here
-    if ( ! class_exists( 'WP_Site_Health' ) )
-        require_once ABSPATH . 'wp-admin/includes/class-wp-site-health.php';
-    WP_Site_Health::get_instance();
-}

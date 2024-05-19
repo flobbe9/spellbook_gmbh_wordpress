@@ -1,10 +1,15 @@
+# auto generated
 .vscode
+
+# WP
 vendor
-plugins
-!adminPages
 wp-includes
 wp-admin
 uploads
+debug.log
+
+# custom
 dbVolume
 docker-compose.prod.yml
 ssl
+.env.*

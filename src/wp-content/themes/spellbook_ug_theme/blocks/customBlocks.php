@@ -32,12 +32,24 @@ function registerImageSliderBlock(): void {
         Field::make("image", "image4")->set_value_type("url"),
         Field::make("image", "image5")->set_value_type("url"),
         Field::make("image", "image6")->set_value_type("url"),
-        Field::make("image", "image7")->set_value_type("url")
+        Field::make("image", "image7")->set_value_type("url"),
+        ...getSliderImage(8)
     ]);
 
     $block->set_description(__("Reihe von Bildern, horizontal nebeneinander, mit Buttons zum scrollen."));
 
-    $block->set_render_callback(function($fields, $attributes, $inner_blocks) {
-        error_log(print_r($fields, true));
-    });
+    $block->set_render_callback(function($fields, $attributes, $inner_blocks) {});
+}
+
+
+/**
+ * @return Field[]
+ */
+function getSliderImage(int $number): array {
+
+    return [
+        Field::make("image", "image" . $number)->set_value_type("url"),
+        Field::make("text", "link" . $number, __("Link" . $number)),
+        Field::make("checkbox", __("open_in_new_tab"))
+    ];
 }

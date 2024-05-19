@@ -18,12 +18,15 @@ function initAdminPages(): void {
 }
 
 
+/**
+ * Call necessary wp function to register theme settings menu. 
+ */
 function registerThemeSettings(): void {
 
     add_menu_page(
         "Theme settings",
         "Theme settings",
-        "edit_posts",
+        "administrator",
         "theme-settings",
         function() {
             require_once dirname(__DIR__, 1) . "/views/ThemeSettingsView.php";
@@ -58,7 +61,7 @@ function getAdminMenuOrder($menuOrder): array | bool {
         'upload.php', // Media
         'edit-comments.php', // Comments
         'separator2',
-
+        
         'themes.php', // Appearance
         'plugins.php', // Plugins
         'users.php', // Users
@@ -72,13 +75,19 @@ function getAdminMenuOrder($menuOrder): array | bool {
 
 
 /**
- * @return array[string] formatted like "edit.php?post_type=```$postTypeName```". Use ```WPService::getAllPostTypes()``` as list.
+ * Will ignore a menu if its ```post_type``` is included in ```WPService::getPostTypeNamesHiddenInMenu()```.
+
+ * @return array[string] formatted like "edit.php?post_type=```$postTypeName```"
  */
 function mapPostTypeMenus(): array {
 
     $postTypeMenus = [];
-    foreach(WPService::getAllPostTypes() as $postTypeName)
-        array_push($postTypeMenus, "edit.php?post_type=$postTypeName");
+
+    foreach(WPService::getAllPostTypes() as $postTypeName) {
+        // case: not to be excluded from menu
+        if (!in_array($postTypeName, WPService::getPostTypeNamesHiddenInMenu()))
+            array_push($postTypeMenus, "edit.php?post_type=$postTypeName");
+    }
 
     return $postTypeMenus;
 }

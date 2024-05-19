@@ -32,5 +32,3 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 # install wp dependencies
 RUN cd /var/www/html/wp-content/themes/spellbook_ug_theme/ && composer update
-
-EXPOSE 80

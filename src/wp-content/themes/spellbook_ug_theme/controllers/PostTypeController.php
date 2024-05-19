@@ -15,14 +15,15 @@ class PostTypeController extends AbstractController {
 
         register_rest_route(parent::getMapping(), "/pages", [
             "methdos" => "GET",
-            "callback" => function() {
+            "callback" => function($data) {
 
                 $pages = get_pages([
                     "post_type" => $this->getPostTypeName()
                 ]);
                 
                 return WPService::mapPages($pages);
-            }
+            },
+            'permission_callback' => "__return_true"
         ]);
     }
 }

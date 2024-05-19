@@ -1,4 +1,5 @@
 <?php
+require_once "TestPostType.php";
 require_once "ShoppingPostType.php";
 require_once "PlayingPostType.php";
 
@@ -10,4 +11,7 @@ function initPostTypes(): void {
 
     $shoppingPostType = new ShoppingPostType();
     $shoppingPostType->register();
+
+    $devPostType = new TestPostType();
+    $devPostType->register();
 }
