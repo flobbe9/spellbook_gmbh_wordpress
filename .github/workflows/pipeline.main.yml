@@ -15,8 +15,6 @@ jobs:
 
       - name: Compose up
         uses: hoverkraft-tech/compose-action@v2.0.0
-        with:
-          compose-file: "./src/docker-compose.yml"
 
 
   push_to_DockerHub:
