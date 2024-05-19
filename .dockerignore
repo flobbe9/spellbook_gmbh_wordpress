@@ -1,0 +1,6 @@
+docker-compose.*
+Dockerfile
+db.Dockerfile
+.github
+dbVolume
+.env.local

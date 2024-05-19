@@ -45,7 +45,8 @@ class WPController extends AbstractController {
                 $pages = get_pages();
                 
                 return WPService::mapPages($pages);
-            }
+            },
+            'permission_callback' => "__return_true"
         ]);
     }
 
@@ -66,7 +67,8 @@ class WPController extends AbstractController {
                 ]);
 
                 return WPService::mapPages($pages);
-            }
+            },
+            'permission_callback' => "__return_true"
         ]);
     }
 
@@ -88,7 +90,8 @@ class WPController extends AbstractController {
                     $menu->items = wp_get_nav_menu_items($menu->term_id); 
 
                 return $menus;
-            }
+            },
+            'permission_callback' => "__return_true"
         ]);
     }
 
@@ -105,7 +108,8 @@ class WPController extends AbstractController {
             "callback"=> function() {
 
                 return WPService::getAllPostTypes();
-            }
+            },
+            'permission_callback' => "__return_true"
         ]);
     }
 
@@ -131,7 +135,8 @@ class WPController extends AbstractController {
                     return HttpResponse::asRestResponse(400, "Bad Request", "Missing either email or password prop", $requestBody->get_route());
 
                 return WPService::validateUser($emailOrUserName, $password, $requestBody->get_route());
-            }
+            },
+            'permission_callback' => "__return_true"
         ]);
     }
 }
