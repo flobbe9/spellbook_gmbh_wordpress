@@ -1,5 +1,4 @@
-1. increase $VERSION on main branch
-2. tag ```latest``` image to succeeding version
-3. push that image
-4. push to main
-5. increase $VERSION on dev branch
+1. tag ```latest``` image to succeeding version
+2. push that image
+3. push to main
+4. increase $VERSION

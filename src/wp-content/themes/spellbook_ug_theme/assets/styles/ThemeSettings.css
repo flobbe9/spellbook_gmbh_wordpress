@@ -1,0 +1,32 @@
+@import "generics.css";
+
+.themeSettingsContainer {
+    min-height: 100vh;
+    position: relative;
+
+    .wpButton {
+        background-color: var(--wpBlue);
+        border: none;
+        border-radius: 3px;
+        box-shadow: none;
+        color: white;
+        outline: none;
+        padding: 10px 15px;
+        transition: opacity 0.2s;
+
+        &:hover {
+            cursor: pointer;
+            opacity: 0.7;
+        }
+    }
+}
+
+.footerContainer {
+    bottom: 30px;
+    position: absolute;
+    width: 100%;
+
+    .footerItemRight {
+        margin-right: 20px;
+    }
+}

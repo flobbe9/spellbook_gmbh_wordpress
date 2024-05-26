@@ -2,6 +2,7 @@
 require_once dirname(__DIR__, 1) . "/abstracts/AbstractController.php";
 require_once dirname(__DIR__, 1) . "/services/WPService.php";
 require_once __DIR__ . "/HttpResponse.php";
+require_once dirname(__DIR__, 1) ."/utils/Utils.php";
 
 
 /**
@@ -63,6 +64,7 @@ class WPController extends AbstractController {
             "callback" => function() {
 
                 $pages = get_posts([
+                    "post_status" => WPService::getPermittedPostStatuses(),
                     "post_type" => WPService::getAllPostTypes()
                 ]);
 
@@ -76,6 +78,8 @@ class WPController extends AbstractController {
     /**
      * ```/menus```
      * 
+     * Dont map menu items to pages, that don't have ```post_status``` "publish".
+     * 
      * @return array of nav menu objects
      */
     private function registerMenus(): void {
@@ -86,8 +90,27 @@ class WPController extends AbstractController {
 
                 $menus = get_terms(["taxonomy" => "nav_menu"]);
 
-                foreach ($menus as $menu)
-                    $menu->items = wp_get_nav_menu_items($menu->term_id); 
+                foreach ($menus as $menu) {
+                    $navMenuItems = wp_get_nav_menu_items($menu->term_id); 
+
+                    // assign nav items
+                    $menu->items = !$navMenuItems ? [] : $navMenuItems;
+
+                    // adjust menu items
+                    for ($i = 0; $i < sizeof($navMenuItems); $i++) {
+                        $item = $navMenuItems[$i];
+                        $itemPage = get_post($item->object_id);
+
+                        // case: page not public
+                        if ($itemPage && $itemPage->post_status !== "publish") {
+                            unset($menu->items[$i]);
+                            continue;
+                        }
+
+                        $item->url = str_replace($_ENV["BASE_URL"], "", $item->url);
+                        $item->isInternalLink = isUrlInternal($item->url);
+                    }
+                }
 
                 return $menus;
             },

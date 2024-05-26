@@ -1,7 +1,51 @@
 <!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+<script defer>
+    function redirectToSiteUrl(event) {
+        const currentPath = window.location.pathname;
+
+        // case: dev
+        if (window.location.href.includes("http://localhost"))
+            window.location.href = "http://localhost:3000" + currentPath;
+        // case: prod
+        else
+            window.location.href = "https://spellbook-ug.de" + currentPath;
+    }
+</script>
+
+<style>
+    .redirectContainer {
+        margin-right: 20px;
+
+        .redirectButton {
+            background: rgb(0, 124, 186);
+            border: none;
+            border-radius: 3px;
+            box-shadow: none;
+            color: white;
+            outline: none;
+            padding: 10px 15px;
+            transition: opacity 0.2s;
+
+            &:hover {
+                cursor: pointer;
+                opacity: 0.7;
+            }
+        }
+    }
+
+    .flexRight {
+        display: flex;
+        justify-content: right;
+    }
+</style>
 
 <!-- wp:group {"tagName":"main","style":{"spacing":{"margin":{"top":"var:preset|spacing|50"}}}} -->
 <main class="wp-block-group" style="margin-top:var(--wp--preset--spacing--50)">
+    <!-- Redirect to real frontend -->
+    <div class="redirectContainer flexRight">
+        <button class="redirectButton" onclick="redirectToSiteUrl()">Auf spellbook-ug.de anschauen</button>
+    </div>
+
 	<!-- wp:group {"layout":{"type":"constrained"}} -->
 	<div class="wp-block-group">
 		<!-- wp:post-featured-image {"overlayColor":"contrast","dimRatio":50,"align":"wide","style":{"spacing":{"margin":{"bottom":"var:preset|spacing|50","top":"calc(-1 * var(--wp--preset--spacing--50))"}}}} /-->

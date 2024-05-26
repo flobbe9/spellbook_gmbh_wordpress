@@ -3,7 +3,7 @@ require_once dirname(__DIR__, 1) . "/abstracts/AbstractPostType.php";
 
 
 /**
- * Custom post type dedicated for testing only. Will be ignored by frontend.
+ * Custom post type dedicated for testing only. Will be kept private by ```WPService::mapPages```.
  * 
  * @since 0.0.1
  */
@@ -22,7 +22,8 @@ class TestPostType extends AbstractPostType {
                 "show_in_rest" => true, // enable gutenberg editor
 
                 "register_meta_box_cb" => function() { // note at bottom of edit page
-                    add_meta_box("metaBoxId", "Diese Seite wird für den Benutzer niemals sichtbar werden.", function() {});
+                    add_meta_box("metaBoxId", "Seiten unter 'Testseiten' bleiben dauerhaft 'privat'. Für normale Benutzer der Webseite werden sie also nie sichtbar werden.
+                                               Du kannst sie dir aber anschauen, indem du dich auf der Webseite mit deinem Admin Account einloggst.", function() {});
                 }
             ]
         );
