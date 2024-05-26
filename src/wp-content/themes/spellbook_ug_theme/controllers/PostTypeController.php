@@ -18,6 +18,7 @@ class PostTypeController extends AbstractController {
             "callback" => function($data) {
 
                 $pages = get_pages([
+                    "post_status" => WPService::getPermittedPostStatuses(),
                     "post_type" => $this->getPostTypeName()
                 ]);
                 

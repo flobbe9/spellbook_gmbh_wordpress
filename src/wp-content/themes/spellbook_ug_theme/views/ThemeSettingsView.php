@@ -19,12 +19,22 @@ require_once "ThemeSettings.php";
             <input type="hidden" name="page" value="theme-settings">
         </div>
 
-        <h2>Slider Image</h2>
-        <div>
-            <!-- Num images -->
-            <label for="numSliderImages">Max Anzahl an Bildern für ImageSlider. Betrifft alle ImageSlider auf allen Seiten!</label>
+        <h2>Footer Icons</h2>
+        <!-- TODO 
+                display present ones as inputs with their respective values
+                button add new
+                max num? scroll in frontend?
+        -->
+        <div class="footerIcons">
+            <!-- 
+                link name
+                link url
+                link target
+                image url
+             -->
+            <label for="linkName"></label>
             <br>
-            <input name="numSliderImages" type="number" min="4">
+            <input name="linkName" type="text">
         </div>
             
         <br><br>
@@ -37,6 +47,7 @@ require_once "ThemeSettings.php";
 
 <footer class="footerContainer">
     <div class="flexRight footerItemRight blueLink">
+        <!-- Theme version -->
         <a href="<?php echo $_ENV["BASE_URL"] . "/wp-admin/themes.php" ?>">
             <?echo getSiteTitle() . " Version " . $_ENV["VERSION"]?>
         </a>

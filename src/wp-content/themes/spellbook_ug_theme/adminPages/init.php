@@ -41,7 +41,12 @@ function registerThemeSettings(): void {
 function removeAdminMenus(): void {
 
     // remove "posts" menu
-    remove_menu_page("edit.php");
+    foreach (WPService::getPostTypeNamesHiddenInMenu() as $postTypeName) {
+        if ("post" === $postTypeName)
+            remove_menu_page("edit.php");
+
+        remove_menu_page("edit.php?post_type=" . $postTypeName);
+    }
 }
 
 

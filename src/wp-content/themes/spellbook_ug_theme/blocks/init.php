@@ -10,6 +10,7 @@ require_once dirname(__DIR__, 1) . "/services/WPService.php";
 function initBlocks() {
 
     registerImageSliderBlock();
+    registerParallaxBlock();
     
     setAllowedBlockTypes();
 }
@@ -43,6 +44,7 @@ function setAllowedBlockTypes($blockNames = []): void {
                 "core/paragraph",
                 "core/columns",
                 "carbon-fields/image-slider",
+                "carbon-fields/hintergrund-bild",
                 ...$blockNames
             ];
         },

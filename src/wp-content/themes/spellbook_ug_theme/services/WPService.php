@@ -1,4 +1,5 @@
 <?php
+require_once dirname(__DIR__, 1) ."/utils/Utils.php";
 
 
 /**
@@ -15,8 +16,13 @@ class WPService {
      */
     public static function getAllPostTypes(string $format = "names"): array {
 
-        $allPostTypes = get_post_types(["public" => true], $format);
-        
+        $allPostTypes = get_post_types(
+            [
+                "public" => true, // is page post type
+                "hierarchical" => true // is page
+            ]
+            , $format);
+
         return $allPostTypes;
     }
 
@@ -51,9 +57,21 @@ class WPService {
 
 
     /**
+     * @return string[] post_statuses of posts that should be displayed in rest api
+     */
+    public static function getPermittedPostStatuses(): array {
+
+        return [
+            "publish",
+            "private"
+        ];
+    }
+
+
+    /**
      * Add blocks and path. Remove ```post_content``` since blocks are used for rendering.
      * 
-     * Will ignore a page if its ```post_type``` is included in ```WPService::getHiddenInFrontendPostTypeNames()```.
+     * Will set a page to "private" if its ```post_type``` is included in ```WPService::getHiddenInFrontendPostTypeNames()```.
      * 
      * @param WP_Post[] | bool $pages to map
      * @return WP_Post[] same $pages array but with parsed blocks ("blocks") and paths ("path"). Dont append or prepend "/" to "path".
@@ -68,7 +86,7 @@ class WPService {
         return array_map(function(WP_Post $page) use ($frontPageId) {
             // case: hide in frontend
             if (in_array($page->post_type, WPService::getHiddenInFrontendPostTypeNames()))
-                return;
+                WPService::makePagePrivate($page->ID);
 
             // add parsed blocks
             $page->blocks = parse_blocks($page->post_content);
@@ -78,6 +96,7 @@ class WPService {
                 // case: is front page
                 if ($frontPageId === $page->ID)
                     $page->path = "";
+                
                 // dont use "page" post_type in path
                 else
                     $page->path = $page->post_name;
@@ -131,5 +150,29 @@ class WPService {
             return HttpResponse::asRestResponse(403, 'User invalid', 'Forbidden', $path);
 
         return HttpResponse::asRestResponse(200, null, "User valid", $path);
+    }
+
+
+    /**
+     * Update given post if present in db and setting ```post_status``` to "private". 
+     * 
+     * @param int $pageId id of post
+     */
+    private static function makePagePrivate(int $pageId): void {
+
+        $page = get_post($pageId);
+        // case: no page with this id
+        if (!$page)
+            return;
+
+        // case: already private
+        if ($page->post_status === "private")
+            return;
+
+        // get page by id first
+        wp_update_post([
+            "ID" => $pageId,
+            "post_status" => "private"
+        ]);
     }
 }
