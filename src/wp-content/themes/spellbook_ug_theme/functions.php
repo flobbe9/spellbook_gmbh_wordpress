@@ -13,26 +13,18 @@ require_once __DIR__ . "/utils/Utils.php";
     
 // TODO 
     // add go live button or something in theme settings
+    // wp update not permanent??
+    // pages not in rest api after deploy??
+    // set default screen options
 
 // TODO: 
     // "Getting started" readme
-    // add menus
-        // spielen 
-            // magic
-            // example external link
-        // kaufen 
-            // yugioh
-
-    // add pages
-        // spielen magic
-        // kaufen yugioh
-        // test something with explanation
-        // pages
-            // login
-            // front page
-            // impressum
-            // datenschutz
-
+        // private sites
+        // design is not there yet, give me your ideas, I can do it most likely
+        // dont mess with settings please :)
+        // please create an account yourself
+        // login page must be named "login"
+        // may be still bugs, tell me
 
 /**
  * PostTypes
