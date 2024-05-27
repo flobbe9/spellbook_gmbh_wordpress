@@ -19,6 +19,7 @@ use Carbon_Fields\Container\Block_Container;
 // IDEA: consider 
     // core/cover
     // core/embed
+// TODO: add layout tabbed-horizontal
 function registerImageSliderBlock(): array {
 
     return registerCustomBlock(
@@ -33,6 +34,7 @@ function registerImageSliderBlock(): array {
                     // true if link should be opened in new tab
                     Field::make("checkbox", __("open_in_new_tab"))
                 ])
+                ->set_layout("tabbed-horizontal")
         ],
         __("Reihe von Bildern, horizontal nebeneinander, mit Buttons zum scrollen."));
 }
