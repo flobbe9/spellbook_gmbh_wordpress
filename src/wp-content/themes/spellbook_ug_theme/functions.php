@@ -14,17 +14,8 @@ require_once __DIR__ . "/utils/Utils.php";
 // TODO 
     // add go live button or something in theme settings
     // wp update not permanent??
-    // pages not in rest api after deploy??
-    // set default screen options
-
-// TODO: 
-    // "Getting started" readme
-        // private sites
-        // design is not there yet, give me your ideas, I can do it most likely
-        // dont mess with settings please :)
-        // please create an account yourself
-        // login page must be named "login"
-        // may be still bugs, tell me
+    // rename to spellbook GmbH
+    // auto db and updates folder backup?
 
 /**
  * PostTypes
@@ -58,6 +49,6 @@ add_action("carbon_fields_register_fields", "initBlocks");
 add_action("after_setup_theme", "initCarbonFields");
 
 /**
- * Other
+ * Config
  */
 add_action("wp_loaded", "initConfig");
