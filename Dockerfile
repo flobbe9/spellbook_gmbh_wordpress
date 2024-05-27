@@ -28,5 +28,7 @@ COPY ./.env ./
 # install composer
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
+RUN chown -R www-data:www-data /var/www/html
+
 # install wp dependencies
 RUN cd /var/www/html/wp-content/themes/spellbook_ug_theme/ && composer update
