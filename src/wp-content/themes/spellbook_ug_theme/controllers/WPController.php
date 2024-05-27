@@ -64,6 +64,7 @@ class WPController extends AbstractController {
             "callback" => function() {
 
                 $pages = get_posts([
+                    "posts_per_page" => -1, // get all posts
                     "post_status" => WPService::getPermittedPostStatuses(),
                     "post_type" => WPService::getAllPostTypes()
                 ]);
