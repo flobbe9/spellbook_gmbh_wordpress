@@ -17,6 +17,15 @@ require_once __DIR__ . "/utils/Utils.php";
     // rename to spellbook GmbH
     // auto db and updates folder backup?
 
+    // url
+        // db
+            // site 
+            // wp
+        // server ssl files rename
+            // delete old ones
+            // default-ssl.conf
+        // image urls?
+
 /**
  * PostTypes
  */

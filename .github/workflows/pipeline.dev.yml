@@ -1,4 +1,4 @@
-name: spellbook_ug_wordpress dev
+name: spellbook_gmbh_wordpress dev
 
 run-name: ${{ github.event.head_commit.message }}
 on: 

@@ -1,4 +1,4 @@
-# spellbook_ug_wordpress
+# spellbook_gmbh_wordpress
 
 # Run
 - create .env.local and place it in the same directory as ```docker-compose.dev.yml```
