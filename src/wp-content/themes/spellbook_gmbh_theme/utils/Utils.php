@@ -4,14 +4,14 @@
 /**
  * Appends url to given style sheet name. 
  * 
-* E.g. "styles.css" would become "http://{currentHost}:{currentPort}/wp-content/themes/spellbook_ug_theme/assets/styles/styles.css"
+* E.g. "styles.css" would become "http://{currentHost}:{currentPort}/wp-content/themes/spellbook_gmbh_theme/assets/styles/styles.css"
 * 
 * @param string $styleSheetName name of the style sheet file (including the extension)
 * @return string the url appended to the style sheet name
 */
 function getStyleSheetUrl(string $styleSheetName): string {
     
-    return $_ENV["BASE_URL"] . "/wp-content/themes/spellbook_ug_theme/assets/styles/" . ($styleSheetName ?? "");
+    return $_ENV["BASE_URL"] . "/wp-content/themes/spellbook_gmbh_theme/assets/styles/" . ($styleSheetName ?? "");
 }
 
 

@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . "/wp-content/themes/spellbook_ug_theme/vendor/autoload.php";
+require_once __DIR__ . "/wp-content/themes/spellbook_gmbh_theme/vendor/autoload.php";
 /**
  * The base configuration for WordPress
  *
@@ -121,7 +121,7 @@ define( 'WP_DEBUG_LOG', $_ENV["ENV"] === "dev" );
 /* Add any custom values between this line and the "stop editing" line. */
 
 // Set default theme
-define('WP_DEFAULT_THEME', 'spellbook_ug_theme');
+define('WP_DEFAULT_THEME', 'spellbook_gmbh_theme');
 
 // Dont update automatically
 define( 'WP_AUTO_UPDATE_CORE', false );

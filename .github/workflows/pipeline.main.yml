@@ -1,4 +1,4 @@
-name: spellbook_ug_wordpress main
+name: spellbook_gmbh_wordpress main
 
 run-name: ${{ github.event.head_commit.message }}
 on: 
@@ -42,7 +42,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/spellbook_ug_wordpress:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/spellbook_gmbh_wordpress:latest
           build-args: |
             WORDPRESS_DB_NAME=${{secrets.WORDPRESS_DB_NAME}}
             WORDPRESS_DB_USER=${{secrets.WORDPRESS_DB_USER}}
@@ -55,7 +55,7 @@ jobs:
           context: .
           file: db.Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/spellbook_ug_db:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/spellbook_gmbh_db:latest
           build-args: |
             WORDPRESS_DB_NAME=${{secrets.WORDPRESS_DB_NAME}}
             WORDPRESS_DB_USER=${{secrets.WORDPRESS_DB_USER}}
@@ -71,7 +71,7 @@ jobs:
     steps:
       - uses: appleboy/ssh-action@v1.0.3
         with: 
-          host: spellbook-ug.de
+          host: spellbook-gmbh.de
           username: ${{ secrets.SSH_USER_NAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           debug: true
