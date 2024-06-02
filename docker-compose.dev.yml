@@ -16,13 +16,14 @@ services:
 
   wordpress: 
     image: wordpress:${WORDPRESS_VERSION}
+    # image: dev_${NAME}
     # build: 
-    #   context: ../
-      # args:
-      #   - WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}
-      #   - WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
-      #   - WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
-      #   - WORDPRESS_VERSION=${WORDPRESS_VERSION}
+    #   context: ./
+    #   args:
+    #     - WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}
+    #     - WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
+    #     - WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
+    #     - WORDPRESS_VERSION=${WORDPRESS_VERSION}
     depends_on: 
       - db
     ports:
@@ -32,5 +33,7 @@ services:
     volumes:
       - ./src/:/var/www/html/
       # - ./src/test/:/var/www/html/
+      # - ./src/wp-content/:/var/www/html/wp-content/
       - ./.env.local:/var/www/html/.env
+      - ./src/api-fetch.min.js:/var/www/html/wp-includes/js/dist/api-fetch.min.js
       - ./uploads/:/var/www/html/wp-content/uploads/

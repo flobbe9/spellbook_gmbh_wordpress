@@ -21,8 +21,6 @@ function restrictAddableMenuItems(): void {
         "hidden_meta_boxes", 
         function($hiddenMetaBoxes, WP_Screen $screen) {
 
-            logg($hiddenMetaBoxes);
-
             // case: menus
             if ("nav-menus" === $screen->base) {
                 array_push($hiddenMetaBoxes, "add-post-type-post");

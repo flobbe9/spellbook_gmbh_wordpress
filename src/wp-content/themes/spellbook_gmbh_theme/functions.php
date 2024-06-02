@@ -13,18 +13,14 @@ require_once __DIR__ . "/utils/Utils.php";
     
 // TODO 
     // add go live button or something in theme settings
+    // add cardmarket link to social links?
     // wp update not permanent??
-    // rename to spellbook GmbH
     // auto db and updates folder backup?
+    // wrong version 
+    // give wp writing permission for .htaccess
 
     // url
-        // db
-            // site 
-            // wp
-        // server ssl files rename
-            // delete old ones
-            // default-ssl.conf
-        // image urls?
+        // write version update .md file, also edit github var
 
 /**
  * PostTypes
