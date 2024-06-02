@@ -22,11 +22,11 @@ function getSiteTitle(): string {
 
 
 /**
- * @return true if given url starts with ```$_ENV["BASE_URL"]``` or is a relative path
+ * @return true if given url starts with ```$_ENV["FRONTEND_BASE_URL_NO_PORT"]``` or is a relative path
  */
 function isUrlInternal(string $url): bool {
     
-    if ($url && (str_starts_with($url, $_ENV["BASE_URL"]) || !str_starts_with($url, $_ENV["PROTOCOL"])))
+    if ($url && (str_starts_with($url, $_ENV["FRONTEND_BASE_URL_NO_PORT"]) || !str_starts_with($url, $_ENV["PROTOCOL"])))
         return true;
 
     return false;
