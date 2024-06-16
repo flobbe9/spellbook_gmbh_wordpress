@@ -88,8 +88,12 @@ class WPService {
             if (in_array($page->post_type, WPService::getHiddenInFrontendPostTypeNames()))
                 WPService::makePagePrivate($page->ID);
 
-            // add parsed blocks
-            $page->blocks = parse_blocks($page->post_content);
+            // get parsed blocks
+            $pageBlocks = parse_blocks($page->post_content);
+            // modify a bit
+            $pageBlocks = WPService::addIndexToColumnBlocks($pageBlocks);
+            // add to page
+            $page->blocks = $pageBlocks;
 
             // add path
             if ($page->post_type === "page") {
@@ -174,5 +178,42 @@ class WPService {
             "ID" => $pageId,
             "post_status" => "private"
         ]);
+    }
+
+
+    /**
+     * @param array $blocks parsed blocks of a page (e.g. retrieved by ```WP_Post->parse_blocks```)
+     */
+    private static function addIndexToColumnBlocks(array $blocks): array {
+
+        if (!is_array($blocks))
+            return $blocks;
+
+        foreach ($blocks as $index => $block) {
+            // find core/columns block
+            if ($blocks[$index]["blockName"] !== "core/columns")
+                continue;
+
+            $innerBlocks = $block["innerBlocks"];
+            
+            // count core/column blocks
+            $columnBlockCount = 0;
+            foreach ($innerBlocks as $innerBlockIndex => $innerBlock) {
+                if ($innerBlock["blockName"] === "core/column")
+                    $columnBlockCount++;
+            }
+
+            foreach ($innerBlocks as $innerBlockIndex => $innerBlock) {
+                // find core/column block
+                if ($innerBlock["blockName"] !== "core/column")
+                    continue;
+
+                // assign columnBlock->attrs->columnIndex
+                $blocks[$index]["innerBlocks"][$innerBlockIndex]["attrs"]["columnIndex"] = $innerBlockIndex;
+                $blocks[$index]["innerBlocks"][$innerBlockIndex]["attrs"]["totalNumColumnBlocks"] = $columnBlockCount;
+            }
+        }
+
+        return $blocks;
     }
 }
