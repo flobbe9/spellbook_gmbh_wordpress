@@ -3,12 +3,7 @@ version: "3.3"
 # used for pipeline build
 services:
   db: 
-    image: flobbe9/${WORDPRESS_DB_NAME}
-    build:
-      context: .
-      dockerfile: db.Dockerfile
-      args:
-        - MYSQL_VERSION=${MYSQL_VERSION}
+    image: mysql:${MYSQL_VERSION}
     ports:
       - ${WORDPRESS_DB_PORT}:${WORDPRESS_DB_PORT}
       
@@ -22,5 +17,8 @@ services:
         - WORDPRESS_VERSION=${WORDPRESS_VERSION}
     environment:
       - WORDPRESS_DB_HOST=db
+      - WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}
+      - WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
+      - WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
     ports: 
       - ${PORT}:80

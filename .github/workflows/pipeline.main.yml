@@ -44,24 +44,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/spellbook_gmbh_wordpress:latest
           build-args: |
-            WORDPRESS_DB_NAME=${{secrets.WORDPRESS_DB_NAME}}
-            WORDPRESS_DB_USER=${{secrets.WORDPRESS_DB_USER}}
-            WORDPRESS_DB_PASSWORD=${{secrets.WORDPRESS_DB_PASSWORD}}
             WORDPRESS_VERSION=${{vars.WORDPRESS_VERSION}}
-      
-      - name: Build and push DB
-        uses: docker/build-push-action@v5.3.0
-        with:
-          context: .
-          file: db.Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/spellbook_gmbh_db:latest
-          build-args: |
-            WORDPRESS_DB_NAME=${{secrets.WORDPRESS_DB_NAME}}
-            WORDPRESS_DB_USER=${{secrets.WORDPRESS_DB_USER}}
-            WORDPRESS_DB_PASSWORD=${{secrets.WORDPRESS_DB_PASSWORD}}
-            MYSQL_ROOT_PASSWORD=${{secrets.MYSQL_ROOT_PASSWORD}}
-            MYSQL_VERSION=${{vars.MYSQL_VERSION}}
           
 
   deploy_to_server:
@@ -75,8 +58,20 @@ jobs:
           username: ${{ secrets.SSH_USER_NAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           debug: true
+          # create .env if not exists
+          # write secrets
           # pull new image, remove left overs from old image, start microservice
           script: |
+            if [ ! -f ./.env ]; then 
+                touch ./.env;
+            fi
+
+            printf "WORDPRESS_DB_NAME=${{secrets.WORDPRESS_DB_NAME}}\n" >> .env
+            printf "WORDPRESS_DB_USER=${{secrets.WORDPRESS_DB_USER}}\n" >> .env
+            printf "WORDPRESS_DB_PASSWORD=${{secrets.WORDPRESS_DB_PASSWORD}}\n" >> .env
+            printf "MYSQL_ROOT_PASSWORD=${{secrets.MYSQL_ROOT_PASSWORD}}\n" >> .env
+            printf "MYSQL_VERSION=${{vars.MYSQL_VERSION}}\n" >> .env
+
             docker compose pull
             yes | docker rm $(docker container ls --all --filter=ancestor=$(docker images -f "dangling=true" -q) --format "{{.ID}}") --force
             yes | docker image rm $(docker images -f "dangling=true" -q)
