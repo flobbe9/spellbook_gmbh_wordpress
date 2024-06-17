@@ -15,29 +15,24 @@ services:
       - ./dbVolume/:/var/lib/mysql/
 
   wordpress: 
-    image: dev_${NAME}
+    image: wordpress:${WORDPRESS_VERSION}
+    # image: dev_${NAME}
     build: 
-      context: ./
+      context: .
       args:
+        - WORDPRESS_VERSION=${WORDPRESS_VERSION}
+    environment:
         - WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}
         - WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
         - WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
-        - WORDPRESS_VERSION=${WORDPRESS_VERSION}
+        - WORDPRESS_DB_HOST=db
     depends_on: 
       - db
     ports:
       - 8080:80
-    environment:
-      - WORDPRESS_DB_HOST=db
     volumes:
       - ./src/:/var/www/html/
       # - ./src/test/:/var/www/html/
       - ./.env.local:/var/www/html/.env
       - ./src/api-fetch.min.js:/var/www/html/wp-includes/js/dist/api-fetch.min.js
       - ./uploads/:/var/www/html/wp-content/uploads/
-#     secrets:
-#       - wordpress
-
-# secrets:
-#   wordpress:
-#     name: WORDPRESS_DB_NAME

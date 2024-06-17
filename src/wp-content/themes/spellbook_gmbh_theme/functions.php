@@ -14,7 +14,6 @@ require_once __DIR__ . "/utils/Utils.php";
 // TODO 
     // add go live button or something in theme settings
     // auto db and updates folder backup?
-    // wrong version 
     // Docker image does not hide env!!!
         // https://stackoverflow.com/questions/68013550/docker-how-to-hide-build-arguments
 
