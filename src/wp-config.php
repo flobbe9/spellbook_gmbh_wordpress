@@ -64,7 +64,8 @@ define( 'DB_PASSWORD', getenv_docker('WORDPRESS_DB_PASSWORD', $_ENV["WORDPRESS_D
 define( 'DB_HOST', getenv_docker('WORDPRESS_DB_HOST', $_ENV["WORDPRESS_DB_HOST"]) );
 
 /** Database charset to use in creating database tables. */
-define( 'DB_CHARSET', getenv_docker('WORDPRESS_DB_CHARSET', 'utf8') );
+// define( 'DB_CHARSET', getenv_docker('WORDPRESS_DB_CHARSET', 'utf8') );
+define( 'DB_CHARSET', "latin1" );
 
 /** The database collate type. Don't change this if in doubt. */
 define( 'DB_COLLATE', getenv_docker('WORDPRESS_DB_COLLATE', '') );

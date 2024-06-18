@@ -62,15 +62,7 @@ jobs:
           # write secrets
           # pull new image, remove left overs from old image, start microservice
           script: |
-            if [ ! -f ./.env ]; then 
-                touch ./.env;
-            fi
-
-            printf "WORDPRESS_DB_NAME=${{secrets.WORDPRESS_DB_NAME}}\n" >> .env
-            printf "WORDPRESS_DB_USER=${{secrets.WORDPRESS_DB_USER}}\n" >> .env
-            printf "WORDPRESS_DB_PASSWORD=${{secrets.WORDPRESS_DB_PASSWORD}}\n" >> .env
-            printf "MYSQL_ROOT_PASSWORD=${{secrets.MYSQL_ROOT_PASSWORD}}\n" >> .env
-            printf "MYSQL_VERSION=${{vars.MYSQL_VERSION}}\n" >> .env
+            ./copySecretsToRemote.sh WORDPRESS_DB_NAME=${{secrets.WORDPRESS_DB_NAME}} WORDPRESS_DB_USER=${{secrets.WORDPRESS_DB_USER}} WORDPRESS_DB_PASSWORD=${{secrets.WORDPRESS_DB_PASSWORD}} MYSQL_ROOT_PASSWORD=${{secrets.MYSQL_ROOT_PASSWORD}} MYSQL_VERSION=${{vars.MYSQL_VERSION}}
 
             docker compose pull
             yes | docker rm $(docker container ls --all --filter=ancestor=$(docker images -f "dangling=true" -q) --format "{{.ID}}") --force
