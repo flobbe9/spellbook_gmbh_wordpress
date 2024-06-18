@@ -13,3 +13,4 @@ dbVolume
 docker-compose.prod.yml
 ssl
 .env.*
+test.sh
