@@ -5,7 +5,7 @@ require_once "Utils.php";
 /**
  * Class handling the generation of the sitemap.xml file.
  * 
- * @since latest
+ * @since 0.1.3
  */
 class SiteMapGenerator {
 
