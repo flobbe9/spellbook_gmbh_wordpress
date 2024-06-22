@@ -64,7 +64,7 @@ jobs:
           script: |
             ./copySecretsToRemote.sh WORDPRESS_DB_NAME='${{secrets.WORDPRESS_DB_NAME}}' WORDPRESS_DB_USER='${{secrets.WORDPRESS_DB_USER}}' WORDPRESS_DB_PASSWORD='${{secrets.WORDPRESS_DB_PASSWORD}}' MYSQL_ROOT_PASSWORD='${{secrets.MYSQL_ROOT_PASSWORD}}' MYSQL_VERSION='${{vars.MYSQL_VERSION}}'
 
-            docker compose pull
+            docker compose pull wordpress
             yes | docker rm $(docker container ls --all --filter=ancestor=$(docker images -f "dangling=true" -q) --format "{{.ID}}") --force
             yes | docker image rm $(docker images -f "dangling=true" -q)
-            docker compose up -d
+            docker compose up wordpress -d
