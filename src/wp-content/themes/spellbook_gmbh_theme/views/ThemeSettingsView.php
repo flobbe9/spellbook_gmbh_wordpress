@@ -1,5 +1,5 @@
 <?php 
-require_once dirname(__DIR__, 1) ."/utils/Utils.php";
+require_once dirname(__DIR__, 1) ."/helpers/Utils.php";
 require_once "ThemeSettings.php";
 ?>
 

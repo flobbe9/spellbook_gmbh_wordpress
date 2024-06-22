@@ -15,8 +15,8 @@ services:
       - ./dbVolume/:/var/lib/mysql/
 
   wordpress: 
-    image: wordpress:${WORDPRESS_VERSION}
-    # image: dev_${NAME}
+    # image: wordpress:${WORDPRESS_VERSION}
+    image: dev_${NAME}
     build: 
       context: .
       args:
@@ -35,4 +35,6 @@ services:
       # - ./src/test/:/var/www/html/
       - ./.env.local:/var/www/html/.env
       - ./src/api-fetch.min.js:/var/www/html/wp-includes/js/dist/api-fetch.min.js
+      - ./src/template-loader.php:/var/www/html/wp-includes/template-loader.php
+      - ./sitemap.xml:/var/www/html/sitemap.xml
       - ./uploads/:/var/www/html/wp-content/uploads/

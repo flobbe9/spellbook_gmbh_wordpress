@@ -6,16 +6,15 @@ require_once __DIR__ . "/adminPages/init.php";
 require_once __DIR__ . "/adminBarMenu/init.php";
 require_once __DIR__ . "/config/init.php";
 require_once __DIR__ . "/blocks/init.php";
-require_once __DIR__ . "/utils/Utils.php";
+require_once __DIR__ . "/helpers/Utils.php";
+require_once __DIR__ . "/helpers/SiteMapGenerator.php";
 
-// IDEA
-    // add english language for whole site
-    
-// TODO 
-    // add go live button or something in theme settings
+
+// TODO
     // auto db and updates folder backup?
-    // Docker image does not hide env!!!
-        // https://stackoverflow.com/questions/68013550/docker-how-to-hide-build-arguments
+
+// TODO
+    // add english language for whole site
 
 /**
  * PostTypes
@@ -52,3 +51,8 @@ add_action("after_setup_theme", "initCarbonFields");
  * Config
  */
 add_action("wp_loaded", "initConfig");
+
+/**
+ * On post status change
+ */
+add_action("transition_post_status", ["SiteMapGenerator", "onPostStatusChange"], 10, 3);

@@ -2,7 +2,8 @@
 require_once dirname(__DIR__, 1) . "/abstracts/AbstractController.php";
 require_once dirname(__DIR__, 1) . "/services/WPService.php";
 require_once __DIR__ . "/HttpResponse.php";
-require_once dirname(__DIR__, 1) ."/utils/Utils.php";
+require_once dirname(__DIR__, 1) ."/helpers/Utils.php";
+require_once dirname(__DIR__, 1) ."/helpers/SiteMapGenerator.php";
 
 
 /**
@@ -43,7 +44,9 @@ class WPController extends AbstractController {
             "methdos" => "GET",
             "callback" => function() {
 
-                $pages = get_pages();
+                $pages = get_pages([
+                    "posts_per_page" => -1, // get all posts
+                ]);
                 
                 return WPService::mapPages($pages);
             },
