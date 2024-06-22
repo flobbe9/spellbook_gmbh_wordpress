@@ -6,6 +6,8 @@ FROM wordpress:${WORDPRESS_VERSION}
 
 WORKDIR /var/www/html/
 
+ENV TZ="Europe/Berlin"
+
 # install vim
 RUN apt-get update
 RUN yes | apt-get install vim
@@ -14,6 +16,10 @@ RUN yes | apt-get install vim
 COPY ./src/wp-content/ ./wp-content
 COPY ./src/wp-config.php ./
 COPY ./.env ./
+COPY ./sitemap.xml ./sitemap.xml
+
+# give wordpress write permissions
+RUN chmod 666 ./sitemap.xml
 
 # install composer
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer

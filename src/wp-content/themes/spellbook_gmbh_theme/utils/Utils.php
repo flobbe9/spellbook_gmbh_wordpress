@@ -112,6 +112,37 @@ function deleteDir(string $dirName): bool {
 
 
 /**
+ * @param string $str to write to fiile
+ * @param string $file absolute file name
+ * @param int $flags see ```file_put_contents``` for explanation
+ * @return bool ```true``` if str has been written to file, else ```false```
+ */
+function writeStringToFile(string $str, string $file, int $flags = 0): bool {
+
+    // case: falsy params
+    if (isBlank($str)) {
+        logg("Failed to write string to file. 'str' is blank");
+        return false;
+    }
+
+    if (!file_exists($file) || !is_file($file)) {
+        logg("Failed to write string to file. Either 'file' " . $file . " could not be found or is a directory");
+        return false;
+    }
+
+    $bytes = file_put_contents($file, $str);
+
+    return is_numeric($bytes);
+}
+
+
+function appendStringToFile(string $str, string $file): bool {
+
+    return writeSTringtoFile($str, $file, FILE_APPEND);
+}
+
+
+/**
  * @return bool true if given ```$str``` is falsy, null, not a string or has a size of 0 after trimming it, else false
  */
 function isBlank(string | null $str): bool {
