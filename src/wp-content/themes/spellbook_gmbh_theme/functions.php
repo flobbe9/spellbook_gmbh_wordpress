@@ -12,7 +12,6 @@ require_once __DIR__ . "/helpers/SiteMapGenerator.php";
 
 // TODO
     // auto db and updates folder backup?
-    // check wordpress 6.5.4 changes
 
 // TODO
     // add english language for whole site
