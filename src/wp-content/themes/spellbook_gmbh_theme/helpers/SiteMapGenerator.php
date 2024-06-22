@@ -220,6 +220,6 @@ class SiteMapGenerator {
      */
     private static function getBaseUrl(): string {
 
-        return $_ENV["PROTOCOL"] . "://www." . $_ENV["HOST"];
+        return $_ENV["PROTOCOL"] . "://www." . $_ENV["FRONTEND_HOST"];
     }
 }
