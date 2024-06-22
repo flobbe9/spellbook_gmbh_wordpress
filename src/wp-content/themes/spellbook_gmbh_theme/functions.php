@@ -6,14 +6,13 @@ require_once __DIR__ . "/adminPages/init.php";
 require_once __DIR__ . "/adminBarMenu/init.php";
 require_once __DIR__ . "/config/init.php";
 require_once __DIR__ . "/blocks/init.php";
-require_once __DIR__ . "/utils/Utils.php";
-require_once __DIR__ . "/utils/SiteMapGenerator.php";
+require_once __DIR__ . "/helpers/Utils.php";
+require_once __DIR__ . "/helpers/SiteMapGenerator.php";
 
 
 // TODO
     // auto db and updates folder backup?
     // check wordpress 6.5.4 changes
-    // rename utils folder to helpers
 
 // TODO
     // add english language for whole site
