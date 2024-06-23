@@ -13,15 +13,6 @@ jobs:
       - name: Checkout repository 
         uses: actions/checkout@v4
 
-      - name: test
-        run: |
-          echo $(cat .env | grep '^VERSION=.*$') >> $GITHUB_ENV
-          echo ${{env.VERSION}}
-          echo $(cat .env | grep '^WORDPRESS_VERSION=.*$') >> $GITHUB_ENV
-          echo ${{env.WORDPRESS_VERSION}}
-          echo $(cat .env | grep '^MYSQL_VERSION=.*$') >> $GITHUB_ENV
-          echo ${{env.MYSQL_VERSION}}
-        shell: bash
-
+      # this does not check container health
       - name: Compose up
         uses: hoverkraft-tech/compose-action@v2.0.0

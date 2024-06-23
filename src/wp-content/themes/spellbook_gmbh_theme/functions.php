@@ -12,6 +12,7 @@ require_once __DIR__ . "/helpers/SiteMapGenerator.php";
 
 // TODO
     // auto db and updates folder backup?
+    // remove git vars once pipe works using .env
 
 // TODO
     // add english language for whole site
