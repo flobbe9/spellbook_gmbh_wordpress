@@ -14,10 +14,6 @@ class SiteMapGenerator {
      */
     public static function onPostStatusChange(string $new_status, string $old_status, WP_Post $post): void {
 
-        // case: status hasn't actually changed
-        if ($new_status === $old_status)
-            return;
-
         // case: status changed from or to publish
         if ($new_status === "publish" || $old_status === "publish") 
             SiteMapGenerator::updateSiteMap();
