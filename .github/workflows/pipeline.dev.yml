@@ -13,5 +13,6 @@ jobs:
       - name: Checkout repository 
         uses: actions/checkout@v4
 
+      # this does not check container health
       - name: Compose up
         uses: hoverkraft-tech/compose-action@v2.0.0

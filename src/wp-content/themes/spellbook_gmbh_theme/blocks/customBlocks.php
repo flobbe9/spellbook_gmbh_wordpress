@@ -25,7 +25,7 @@ function registerImageSliderBlock(): array {
     return registerCustomBlock(
         __("Image Slider"),
         [
-            Field::make("complex", __("image_slider"))
+            Field::make("complex", "image_slider", __("Image slider"))
                 ->add_fields([
                     // image url
                     Field::make("image", __("image"))->set_value_type("url"),
@@ -34,7 +34,8 @@ function registerImageSliderBlock(): array {
                     // true if link should be opened in new tab
                     Field::make("checkbox", __("open_in_new_tab"))
                 ])
-                ->set_layout("tabbed-horizontal")
+                ->set_layout("tabbed-horizontal"),
+            Field::make("checkbox", "full_width", __("Full width"))
         ],
         __("Reihe von Bildern, horizontal nebeneinander, mit Buttons zum scrollen."));
 }
