@@ -13,25 +13,26 @@ jobs:
       - name: Checkout repository 
         uses: actions/checkout@v4
 
+      # - name: Compose up
+      #   uses: hoverkraft-tech/compose-action@v2.0.0
+        
+        
+  push_to_DockerHub:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout repository 
+        uses: actions/checkout@v4
+  
       - name: move .env vars to pipeline
         run: |
           echo 'VERSION=0.1.5' >> $GITHUB_ENV
           echo $(cat .env | grep '^WORDPRESS_VERSION=.*$') >> $GITHUB_ENV
           echo $(cat .env | grep '^MYSQL_VERSION=.*$') >> $GITHUB_ENV
-        shell: bash
-        
-    #   - name: Compose up
-    #     uses: hoverkraft-tech/compose-action@v2.0.0
-
-
-  push_to_DockerHub:
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
+          shell: bash
       - name: test
         run: |
-            echo ${{env.VERSION}}
+          echo ${{env.VERSION}}
 #       - name: Set up QEMU
 #         uses: docker/setup-qemu-action@v3
       
