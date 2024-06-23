@@ -10,11 +10,16 @@ require_once "Utils.php";
 class SiteMapGenerator {
 
     /**
-     * Called by ```transition_post_status``` hook. Calls ```updateSiteMap()``` if post is beeing "published" only.
+     * Called by ```transition_post_status``` hook. Calls ```updateSiteMap()``` if post is beeing published or unpublished.
      */
-    public static function onPostStatusChange($new_status, $old_status, $post) {
+    public static function onPostStatusChange(string $new_status, string $old_status, WP_Post $post): void {
 
-        if ( $new_status == 'publish') 
+        // case: status hasn't actually changed
+        if ($new_status === $old_status)
+            return;
+
+        // case: status changed from or to publish
+        if ($new_status === "publish" || $old_status === "publish") 
             SiteMapGenerator::updateSiteMap();
     }
 
@@ -22,8 +27,6 @@ class SiteMapGenerator {
      * Write all necessary pages to file /var/www/html/sitemap.xml. Override file if already exists.
      */
     public static function updateSiteMap(): void {
-
-        logg("called");
 
         writeStringToFile(SiteMapGenerator::getXmlSitemapString(), ABSPATH . "sitemap.xml");
     }
@@ -115,7 +118,8 @@ class SiteMapGenerator {
 
 
     /**
-     * Iterate pages, filter relevant ones and retrieve only path and last modified date.
+     * Iterate pages, filter relevant ones (see ```WPService::getHiddenInFrontendPostTypeNames()```) and retrieve only path and last modified date.
+     * Also exclude /login page.
      * 
      * @return array 2d array formatted like ```[["loc" => $loc, "lastMod" => $lastMod], ...]``` both values beeing strings.
      * 
@@ -129,11 +133,6 @@ class SiteMapGenerator {
             "post_status" => WPService::getPermittedPostStatuses(),
             "post_type" => WPService::getAllPostTypes()
         ]);
-
-        if (!is_array($pages)) {
-            logg("Failed to map site map page data. 'pages' is falsy");
-            return [];
-        }
 
         return array_map(function(WP_Post $page) {
             // case: hide in frontend
