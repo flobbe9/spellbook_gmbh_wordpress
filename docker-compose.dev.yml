@@ -1,5 +1,3 @@
-version: "3.3"
-
 # used for dev
 services:
   db: 
@@ -41,7 +39,6 @@ services:
       - ./src/:/var/www/html/
       # - ./src/test/:/var/www/html/
       - ./.env.local:/var/www/html/.env
-      - ./src/api-fetch.min.js:/var/www/html/wp-includes/js/dist/api-fetch.min.js
-      - ./src/template-loader.php:/var/www/html/wp-includes/template-loader.php
+      - ./docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh:ro
       - ./sitemap.xml:/var/www/html/sitemap.xml
       - ./uploads/:/var/www/html/wp-content/uploads/
