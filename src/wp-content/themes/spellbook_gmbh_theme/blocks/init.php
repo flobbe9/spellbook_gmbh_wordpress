@@ -43,6 +43,7 @@ function setAllowedBlockTypes($blockNames = []): void {
                 "core/image",
                 "core/paragraph",
                 "core/columns",
+                "core/spacer",
                 "carbon-fields/image-slider",
                 "carbon-fields/hintergrund-bild",
                 ...$blockNames
