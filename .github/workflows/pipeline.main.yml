@@ -13,6 +13,13 @@ jobs:
       - name: Checkout repository 
         uses: actions/checkout@v4
 
+      - name: move .env vars to pipeline
+        run: |
+          echo $(cat .env | grep '^VERSION=.*$') >> $GITHUB_ENV
+          echo $(cat .env | grep '^WORDPRESS_VERSION=.*$') >> $GITHUB_ENV
+          echo $(cat .env | grep '^MYSQL_VERSION=.*$') >> $GITHUB_ENV
+        shell: bash
+        
       - name: Compose up
         uses: hoverkraft-tech/compose-action@v2.0.0
 
@@ -42,9 +49,11 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/spellbook_gmbh_wordpress:latest
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/spellbook_gmbh_wordpress:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/spellbook_gmbh_wordpress:${{env.VERSION}}
           build-args: |
-            WORDPRESS_VERSION=${{vars.WORDPRESS_VERSION}}
+            WORDPRESS_VERSION=${{env.WORDPRESS_VERSION}}
           
 
   deploy_to_server:
@@ -62,7 +71,7 @@ jobs:
           # write secrets
           # pull new image, remove left overs from old image, start microservice
           script: |
-            ./copySecretsToRemote.sh WORDPRESS_DB_NAME='${{secrets.WORDPRESS_DB_NAME}}' WORDPRESS_DB_USER='${{secrets.WORDPRESS_DB_USER}}' WORDPRESS_DB_PASSWORD='${{secrets.WORDPRESS_DB_PASSWORD}}' MYSQL_ROOT_PASSWORD='${{secrets.MYSQL_ROOT_PASSWORD}}' MYSQL_VERSION='${{vars.MYSQL_VERSION}}'
+            ./copySecretsToRemote.sh WORDPRESS_DB_NAME='${{secrets.WORDPRESS_DB_NAME}}' WORDPRESS_DB_USER='${{secrets.WORDPRESS_DB_USER}}' WORDPRESS_DB_PASSWORD='${{secrets.WORDPRESS_DB_PASSWORD}}' MYSQL_ROOT_PASSWORD='${{secrets.MYSQL_ROOT_PASSWORD}}' MYSQL_VERSION='${{env.MYSQL_VERSION}}'
 
             docker compose pull wordpress
             yes | docker rm $(docker container ls --all --filter=ancestor=$(docker images -f "dangling=true" -q) --format "{{.ID}}") --force
