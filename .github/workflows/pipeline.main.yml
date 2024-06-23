@@ -29,9 +29,10 @@ jobs:
           echo 'VERSION=0.1.5' >> $GITHUB_ENV
           echo $(cat .env | grep '^WORDPRESS_VERSION=.*$') >> $GITHUB_ENV
           echo $(cat .env | grep '^MYSQL_VERSION=.*$') >> $GITHUB_ENV
-          shell: bash
+        shell: bash
       - name: test
         run: |
+          echo ${{env.WORDPRESS_VERSION}}
           echo ${{env.VERSION}}
 #       - name: Set up QEMU
 #         uses: docker/setup-qemu-action@v3
