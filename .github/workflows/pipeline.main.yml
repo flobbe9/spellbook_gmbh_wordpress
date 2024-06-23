@@ -51,9 +51,9 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/spellbook_gmbh_wordpress:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/spellbook_gmbh_wordpress:${{env.VERSION}}
+            ${{ secrets.DOCKERHUB_USERNAME }}/spellbook_gmbh_wordpress:'${{env.VERSION}}'
           build-args: |
-            WORDPRESS_VERSION=${{env.WORDPRESS_VERSION}}
+            WORDPRESS_VERSION='${{env.WORDPRESS_VERSION}}'
           
 
   deploy_to_server:
