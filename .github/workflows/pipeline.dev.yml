@@ -13,10 +13,5 @@ jobs:
       - name: Checkout repository 
         uses: actions/checkout@v4
 
-      # this does not check container health
       - name: Compose up
         run: docker-compose -f 'docker-compose.pipeline.dev.yml' up -d
-        # uses: hoverkraft-tech/compose-action@v2.0.0
-        # with: 
-        #   up-flags: "-d"
-        #   compose-file: "./docker-compose.pipeline.dev.yml"
