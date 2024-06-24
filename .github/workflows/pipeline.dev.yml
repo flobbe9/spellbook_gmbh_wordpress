@@ -15,7 +15,8 @@ jobs:
 
       # this does not check container health
       - name: Compose up
-        uses: hoverkraft-tech/compose-action@v2.0.0
-        with: 
-          up-flags: "--abort-on-container-failure"
-          compose-file: "./docker-compose.pipeline.dev.yml"
+        run: docker-compose up -d
+        # uses: hoverkraft-tech/compose-action@v2.0.0
+        # with: 
+        #   up-flags: "-d"
+        #   compose-file: "./docker-compose.pipeline.dev.yml"
