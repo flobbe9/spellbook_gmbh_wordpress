@@ -21,4 +21,4 @@ jobs:
 
       - name: move some config files to remote server
         run: | 
-          sshpass -p${{ secrets.SSH_PASSWORD }} scp ./docker-compose.prod.yml ${{ secrets.SSH_USER_NAME }}@spellbook-gmbh.de:~/docker-compose.yml
+          sshpass -p '${{ secrets.SSH_PASSWORD }}'' | yes | scp ./docker-compose.prod.yml ${{ secrets.SSH_USER_NAME }}@spellbook-gmbh.de:~/docker-compose.yml
