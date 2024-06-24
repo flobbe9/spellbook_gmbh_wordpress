@@ -17,6 +17,5 @@ jobs:
       - name: Compose up
         uses: hoverkraft-tech/compose-action@v2.0.0
         with: 
-          up-flags: "--abort-on-container-exit"
-        #   compose-file: "./docker-compose.dev.yml"
-        
+          up-flags: "--abort-on-container-failure"
+          compose-file: "./docker-compose.pipeline.dev.yml"
