@@ -15,7 +15,7 @@ jobs:
 
       # this does not check container health
       - name: Compose up
-        run: docker-compose up --abort-on-container-exit
+        run: docker-compose up -d --abort-on-container-exit
         # uses: hoverkraft-tech/compose-action@v2.0.0
         # with: 
         #   compose-file: "./docker-compose.dev.yml"
