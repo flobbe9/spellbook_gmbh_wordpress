@@ -36,9 +36,9 @@ services:
     ports:
       - 8080:80
     volumes:
-      - ./src/:/var/www/html/
-      # - ./src/test/:/var/www/html/
+      - ./src/wp-content/:/var/www/html/wp-content/
+      - ./src/wp-config.php:/var/www/html/wp-config.php
       - ./.env.local:/var/www/html/.env
-      - ./docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh:ro
+      - ./docker-entrypoint.dev.sh:/usr/local/bin/docker-entrypoint.dev.sh:ro
       - ./sitemap.xml:/var/www/html/sitemap.xml
       - ./uploads/:/var/www/html/wp-content/uploads/
