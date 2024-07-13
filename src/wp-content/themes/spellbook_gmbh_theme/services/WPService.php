@@ -186,6 +186,7 @@ class WPService {
      */
     private static function addIndexToColumnBlocks(array $blocks): array {
 
+        // case: falsy param
         if (!is_array($blocks))
             return $blocks;
 
@@ -198,10 +199,9 @@ class WPService {
             
             // count core/column blocks
             $columnBlockCount = 0;
-            foreach ($innerBlocks as $innerBlockIndex => $innerBlock) {
+            foreach ($innerBlocks as $innerBlockIndex => $innerBlock)
                 if ($innerBlock["blockName"] === "core/column")
                     $columnBlockCount++;
-            }
 
             foreach ($innerBlocks as $innerBlockIndex => $innerBlock) {
                 // find core/column block
@@ -210,6 +210,7 @@ class WPService {
 
                 // assign columnBlock->attrs->columnIndex
                 $blocks[$index]["innerBlocks"][$innerBlockIndex]["attrs"]["columnIndex"] = $innerBlockIndex;
+                // assing columnBlock->attrs->totalNumColumnBlocks
                 $blocks[$index]["innerBlocks"][$innerBlockIndex]["attrs"]["totalNumColumnBlocks"] = $columnBlockCount;
             }
         }

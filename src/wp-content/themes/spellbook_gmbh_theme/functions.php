@@ -12,8 +12,9 @@ require_once __DIR__ . "/helpers/SiteMapGenerator.php";
 
 // TODO
     // auto db and updates folder backup?
+    // copy files from dockerfile instead of mounting them
 
-// TODO
+// IDEA
     // add english language for whole site
 
 /**

@@ -39,11 +39,14 @@ function setAllowedBlockTypes($blockNames = []): void {
                 return;
 
             return [
+                "core/columns",
                 "core/heading",
                 "core/image",
+                "core/list",
+                "core/list-item",
                 "core/paragraph",
-                "core/columns",
                 "core/spacer",
+                "core/separator",
                 "carbon-fields/image-slider",
                 "carbon-fields/hintergrund-bild",
                 ...$blockNames
