@@ -39,6 +39,6 @@ services:
       - ./src/wp-content/:/var/www/html/wp-content/
       - ./src/wp-config.php:/var/www/html/wp-config.php
       - ./.env.local:/var/www/html/.env
-      - ./docker-entrypoint.dev.sh:/usr/local/bin/docker-entrypoint.dev.sh:ro
+      - ./docker-entrypoint.dev.sh:/usr/local/bin/docker-entrypoint.d.sh:ro
       - ./sitemap.xml:/var/www/html/sitemap.xml
       - ./uploads/:/var/www/html/wp-content/uploads/
