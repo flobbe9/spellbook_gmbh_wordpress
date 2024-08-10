@@ -20,7 +20,7 @@ require_once "ThemeSettings.php";
         </div>
 
         <h2>Footer Icons</h2>
-        <!-- TODO 
+        <!--  
                 display present ones as inputs with their respective values
                 button add new
                 max num? scroll in frontend?

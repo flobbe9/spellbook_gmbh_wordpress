@@ -47,8 +47,9 @@ function setAllowedBlockTypes($blockNames = []): void {
                 "core/paragraph",
                 "core/spacer",
                 "core/separator",
-                "carbon-fields/image-slider",
-                "carbon-fields/hintergrund-bild",
+                // those are not working properly yet
+                // "carbon-fields/image-slider",
+                // "carbon-fields/hintergrund-bild",
                 ...$blockNames
             ];
         },

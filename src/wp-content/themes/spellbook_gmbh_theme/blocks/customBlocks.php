@@ -19,7 +19,6 @@ use Carbon_Fields\Container\Block_Container;
 // IDEA: consider 
     // core/cover
     // core/embed
-// TODO: add layout tabbed-horizontal
 function registerImageSliderBlock(): array {
 
     return registerCustomBlock(

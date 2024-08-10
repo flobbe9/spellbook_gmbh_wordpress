@@ -10,11 +10,9 @@ require_once __DIR__ . "/helpers/Utils.php";
 require_once __DIR__ . "/helpers/SiteMapGenerator.php";
 
 
-// TODO
+// IDEA
     // auto db and updates folder backup?
     // copy files from dockerfile instead of mounting them
-
-// IDEA
     // add english language for whole site
 
 /**
