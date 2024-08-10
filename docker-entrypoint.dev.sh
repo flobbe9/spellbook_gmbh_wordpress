@@ -96,8 +96,7 @@ if [[ "$1" == apache2* ]] || [ "$1" = 'php-fpm' ]; then
 	fi
 fi
 
-mv /var/www/html/template-loader.php /var/www/html/wp-includes/template-loader.php
-mv /var/www/html/api-fetch.min.js /var/www/html/wp-includes/js/dist/api-fetch.min.js
+mv /var/www/html/template-loader.pp /var/www/html/wp-includes/template-loader.php
 
 # a2enmod ssl
 # a2ensite default-ssl

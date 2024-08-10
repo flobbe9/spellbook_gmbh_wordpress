@@ -3,6 +3,7 @@
 
 # WP
 vendor
+upgrade
 wp-includes
 wp-admin
 uploads
