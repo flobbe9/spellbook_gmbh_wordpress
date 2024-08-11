@@ -96,7 +96,7 @@ if [[ "$1" == apache2* ]] || [ "$1" = 'php-fpm' ]; then
 	fi
 fi
 
-mv /var/www/html/template-loader.pp /var/www/html/wp-includes/template-loader.php
+mv /template-loader.php /var/www/html/wp-includes/template-loader.php
 
 # a2enmod ssl
 # a2ensite default-ssl
@@ -104,3 +104,5 @@ mv /var/www/html/template-loader.pp /var/www/html/wp-includes/template-loader.ph
 # service apache2 stop
 
 exec "$@"
+
+# NOTE: in VSCode, set "End of line sequence" to "LF" at the bottom right

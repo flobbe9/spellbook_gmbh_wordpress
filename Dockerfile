@@ -18,7 +18,7 @@ COPY ./src/wp-config.php ./
 COPY ./.env ./
 
 # copy certain wp files into tmp folder first, to be copied by entrypoint later on
-COPY ./src/template-loader.php ./template-loader.php
+COPY ./src/template-loader.php /template-loader.php
 
 # install composer
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
