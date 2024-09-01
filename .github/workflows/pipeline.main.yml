@@ -24,11 +24,11 @@ jobs:
       - name: Checkout repository 
         uses: actions/checkout@v4
   
-      - name: move .env vars to pipeline
+      - name: move .env vars to temporary github env
+        # NOTE: GITHUB_ENV vars are only accessible inside this job
         run: |
           echo $(cat .env | grep '^VERSION=.*$') >> $GITHUB_ENV
           echo $(cat .env | grep '^WORDPRESS_VERSION=.*$') >> $GITHUB_ENV
-          echo $(cat .env | grep '^MYSQL_VERSION=.*$') >> $GITHUB_ENV
         shell: bash
 
       - name: Set up QEMU
@@ -60,14 +60,20 @@ jobs:
     needs: push_to_DockerHub
 
     steps:
+      - name: Checkout repository 
+        uses: actions/checkout@v4
+
+      - name: move .env vars to temporary github env
+        run: |
+            echo $(cat .env | grep '^MYSQL_VERSION=.*$') >> $GITHUB_ENV
+        shell: bash
+
       - uses: appleboy/ssh-action@v1.0.3
         with: 
           host: spellbook-gmbh.de
           username: ${{ secrets.SSH_USER_NAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           debug: true
-          # write secrets to remote .env file
-          # pull new image, remove left overs from old image, start microservice
           script: |
             ./copySecretsToRemote.sh WORDPRESS_DB_NAME='${{secrets.WORDPRESS_DB_NAME}}' WORDPRESS_DB_USER='${{secrets.WORDPRESS_DB_USER}}' WORDPRESS_DB_PASSWORD='${{secrets.WORDPRESS_DB_PASSWORD}}' MYSQL_ROOT_PASSWORD='${{secrets.MYSQL_ROOT_PASSWORD}}' MYSQL_VERSION='${{env.MYSQL_VERSION}}'
 
