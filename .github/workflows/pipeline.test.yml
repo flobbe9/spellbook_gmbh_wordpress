@@ -22,4 +22,4 @@ jobs:
             username: ${{ secrets.SSH_USER_NAME }}
             password: ${{ secrets.SSH_PASSWORD }}
             source: "docker-entrypoint.sh,test.sh"
-            target: /root/test
+            target: ~/
