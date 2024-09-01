@@ -37,6 +37,8 @@ function deleteDefaultThemes(): void {
 
 /**
  * Add cors to allow frontend url only.
+ * 
+ * @since 0.2.1
  */
 function addCors(): void {
 
