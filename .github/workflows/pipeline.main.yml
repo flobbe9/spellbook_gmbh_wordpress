@@ -63,11 +63,16 @@ jobs:
       - name: Checkout repository 
         uses: actions/checkout@v4
 
-      - name: Copy file contents to temporary github env
-        run: |
-            echo "DOCKER_ENTRYPOINT_SH"="$(cat .gitignore)" >> $GITHUB_ENV
+      - name: Copy some files to remote
+        uses: appleboy/scp-action@v0.1.7
+        with:
+            host: spellbook-gmbh.de
+            username: ${{ secrets.SSH_USER_NAME }}
+            password: ${{ secrets.SSH_PASSWORD }}
+            source: copySecretsToRemote.sh,docker-entrypoint.sh
+            target: /root
 
-      - name: move .env vars to temporary github env
+      - name: copy .env vars to temporary github env
         run: |
             echo $(cat .env | grep '^MYSQL_VERSION=.*$') >> $GITHUB_ENV
         shell: bash
@@ -79,7 +84,6 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           debug: true
           script: |
-            ./copyFilesToRemote.sh .gitignore '${{env.DOCKER_ENTRYPOINT_SH}}'
             ./copySecretsToRemote.sh WORDPRESS_DB_NAME='${{secrets.WORDPRESS_DB_NAME}}' WORDPRESS_DB_USER='${{secrets.WORDPRESS_DB_USER}}' WORDPRESS_DB_PASSWORD='${{secrets.WORDPRESS_DB_PASSWORD}}' MYSQL_ROOT_PASSWORD='${{secrets.MYSQL_ROOT_PASSWORD}}' MYSQL_VERSION='${{env.MYSQL_VERSION}}'
 
             docker compose pull wordpress
