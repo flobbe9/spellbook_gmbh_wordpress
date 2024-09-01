@@ -18,6 +18,8 @@ jobs:
         id: changed-remote-files
         uses: tj-actions/changed-files@v45
         with:
+            # include_all_old_new_renamed_files: true
+            since_last_remote_commit: true
             files: |
                 remoteFiles/**
             separator: ","
