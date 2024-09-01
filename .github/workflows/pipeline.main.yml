@@ -63,6 +63,10 @@ jobs:
       - name: Checkout repository 
         uses: actions/checkout@v4
 
+      - name: Copy file contents to temporary github env
+        run: |
+            echo "DOCKER_ENTRYPOINT_SH"="$(cat .gitignore)" >> $GITHUB_ENV
+
       - name: move .env vars to temporary github env
         run: |
             echo $(cat .env | grep '^MYSQL_VERSION=.*$') >> $GITHUB_ENV
@@ -75,6 +79,7 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           debug: true
           script: |
+            ./copyFilesToRemote.sh .gitignore '${{env.DOCKER_ENTRYPOINT_SH}}'
             ./copySecretsToRemote.sh WORDPRESS_DB_NAME='${{secrets.WORDPRESS_DB_NAME}}' WORDPRESS_DB_USER='${{secrets.WORDPRESS_DB_USER}}' WORDPRESS_DB_PASSWORD='${{secrets.WORDPRESS_DB_PASSWORD}}' MYSQL_ROOT_PASSWORD='${{secrets.MYSQL_ROOT_PASSWORD}}' MYSQL_VERSION='${{env.MYSQL_VERSION}}'
 
             docker compose pull wordpress
