@@ -72,9 +72,6 @@ jobs:
             source: copySecretsToRemote.sh,docker-entrypoint.sh,docker-compose.yml
             target: /root
 
-      - name: Give some files read, write and execute permissions
-        run: chmod 705 copySecretsToRemote.sh docker-entrypoint.sh
-
       - name: copy .env vars to temporary github env
         run: |
             echo $(cat .env | grep '^MYSQL_VERSION=.*$') >> $GITHUB_ENV
@@ -87,6 +84,7 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           debug: true
           script: |
+            chmod 705 copySecretsToRemote.sh docker-entrypoint.sh
             ./copySecretsToRemote.sh WORDPRESS_DB_NAME='${{secrets.WORDPRESS_DB_NAME}}' WORDPRESS_DB_USER='${{secrets.WORDPRESS_DB_USER}}' WORDPRESS_DB_PASSWORD='${{secrets.WORDPRESS_DB_PASSWORD}}' MYSQL_ROOT_PASSWORD='${{secrets.MYSQL_ROOT_PASSWORD}}' MYSQL_VERSION='${{env.MYSQL_VERSION}}'
 
             docker compose pull wordpress
