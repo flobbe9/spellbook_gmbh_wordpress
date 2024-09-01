@@ -14,22 +14,11 @@ jobs:
       - name: Checkout repository 
         uses: actions/checkout@v4
 
-      - name: Get all files for remote server that have changed since last commit
-        id: changed-remote-files
-        uses: tj-actions/changed-files@v45
-        with:
-            # include_all_old_new_renamed_files: true
-            since_last_remote_commit: true
-            files: |
-                remoteFiles/**
-            separator: ","
-
-      - name: Copy changed files to remote (if any)
-        if: steps.changed-remote-files.outputs.any_changed == 'true'
+      - name: Copy changed files to remote
         uses: appleboy/scp-action@v0.1.7
         with:
             host: spellbook-gmbh.de
             username: ${{ secrets.SSH_USER_NAME }}
             password: ${{ secrets.SSH_PASSWORD }}
-            source: ${{ steps.changed-remote-files.outputs.all_changed_files }}
+            source: remoteFiles/**
             target: /root

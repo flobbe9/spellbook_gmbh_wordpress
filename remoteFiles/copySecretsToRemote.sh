@@ -1,4 +1,4 @@
-ENV_FILE_NAME=./.env.tes
+ENV_FILE_NAME=./.env.test
 
 # # case: file does not exist
 if [ ! -f $ENV_FILE_NAME ]; then 
