@@ -1,0 +1,68 @@
+version: "3.3"
+
+# used for remote server
+services:
+  db: 
+    image: mysql:${MYSQL_VERSION}
+    ports:
+      - 85.215.123.25:3306:3306
+    networks: 
+      - backend
+    environment:
+      - MYSQL_DATABASE=${WORDPRESS_DB_NAME}
+      - MYSQL_USER=${WORDPRESS_DB_USER}
+      - MYSQL_PASSWORD=${WORDPRESS_DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - TZ=Europe/Berlin
+    volumes:
+      - ./spellbook_gmbh_db-volume/:/var/lib/mysql/
+    healthcheck:
+      test: mysqladmin ping -h db
+      start_period: 20s
+      interval: 5s
+      timeout: 5s
+      retries: 55
+
+      
+  wordpress: 
+    image: flobbe9/spellbook_gmbh_wordpress
+    depends_on: 
+      db: 
+        condition: service_healthy
+    ports:
+      - 85.215.123.25:443:443
+    environment:
+      - WORDPRESS_DB_HOST=db
+      - WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}
+      - WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
+      - WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
+    networks:
+      - backend
+    volumes:
+      - ./spellbook_gmbh-ssl/spellbook-gmbh.de.crt:/etc/ssl/certs/spellbook-gmbh.de.crt:ro
+      - ./spellbook_gmbh-ssl/spellbook-gmbh.de.key:/etc/ssl/private/spellbook-gmbh.de.key:ro
+      - ./spellbook_gmbh-ssl/default-ssl.conf:/etc/apache2/sites-available/default-ssl.conf:ro
+      - ./docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh:ro
+      - ./uploads/:/var/www/html/wp-content/uploads/
+      - ./sitemap.xml:/var/www/html/sitemap.xml
+
+  frontend:
+    image: flobbe9/spellbook_gmbh_frontend
+    depends_on: 
+      - wordpress
+    environment:
+      - REACT_APP_CRYPTO_KEY=${REACT_APP_CRYPTO_KEY}
+      - REACT_APP_CRYPTO_IV=${REACT_APP_CRYPTO_IV}
+      - SSL_KEY_PASSWORD=${SSL_KEY_PASSWORD}
+    ports:
+      - 85.215.117.207:443:443
+    networks: 
+      - frontend
+    volumes:
+      - ./sitemap.xml:/app/build/sitemap.xml
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge

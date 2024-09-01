@@ -69,7 +69,7 @@ jobs:
             host: spellbook-gmbh.de
             username: ${{ secrets.SSH_USER_NAME }}
             password: ${{ secrets.SSH_PASSWORD }}
-            source: copySecretsToRemote.sh,docker-entrypoint.sh
+            source: copySecretsToRemote.sh,docker-entrypoint.sh,docker-compose.yml
             target: /root
 
       - name: copy .env vars to temporary github env
