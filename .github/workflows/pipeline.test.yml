@@ -14,6 +14,7 @@ jobs:
       - name: Checkout repository 
         uses: actions/checkout@v4
 
+        # copy folder instead
       - name: Copy files to remote
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -21,4 +22,4 @@ jobs:
             username: ${{ secrets.SSH_USER_NAME }}
             password: ${{ secrets.SSH_PASSWORD }}
             source: "docker-entrypoint.sh,test.sh"
-            target: /root
+            target: /root/test
