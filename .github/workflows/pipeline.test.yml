@@ -20,5 +20,5 @@ jobs:
             host: spellbook-gmbh.de
             username: ${{ secrets.SSH_USER_NAME }}
             password: ${{ secrets.SSH_PASSWORD }}
-            source: "docker-entrypoint.sh/test.sh,"
+            source: "docker-entrypoint.sh,test.sh"
             target: ./
