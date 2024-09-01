@@ -14,11 +14,11 @@ jobs:
       - name: Checkout repository 
         uses: actions/checkout@v4
 
-      - name: Copy file contents to temporary github env
+      - name: Copy files to remote
         uses: appleboy/scp-action@v0.1.7
         with:
             host: spellbook-gmbh.de
             username: ${{ secrets.SSH_USER_NAME }}
             password: ${{ secrets.SSH_PASSWORD }}
             source: "docker-entrypoint.sh,test.sh"
-            target: ./
+            target: /root
