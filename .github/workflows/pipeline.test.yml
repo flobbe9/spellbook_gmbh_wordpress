@@ -20,5 +20,5 @@ jobs:
             host: spellbook-gmbh.de
             username: ${{ secrets.SSH_USER_NAME }}
             password: ${{ secrets.SSH_PASSWORD }}
-            source: remoteFiles/*
+            source: copySecretsToRemote.sh,docker-entrypoint.sh
             target: /root
