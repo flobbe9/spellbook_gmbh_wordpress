@@ -1,4 +1,4 @@
-name: spellbook_gmbh_wordpress main
+name: spellbook_gmbh_wordpress test
 
 run-name: ${{ github.event.head_commit.message }}
 on: 
@@ -15,15 +15,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Copy file contents to temporary github env
-        run: |
-            echo DOCKER_ENTRYPOINT_SH="$(cat docker-entrypoint.sh)" >> $GITHUB_ENV
-        shell: bash
-
-      - uses: appleboy/ssh-action@v1.0.3
-        with: 
-          host: spellbook-gmbh.de
-          username: ${{ secrets.SSH_USER_NAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          debug: true
-          script: |
-            ./copyFilesToRemote.sh test.sh "${{env.DOCKER_ENTRYPOINT_SH}}"
+        uses: appleboy/scp-action@v0.1.7
+        with:
+            host: spellbook-gmbh.de
+            username: ${{ secrets.SSH_USER_NAME }}
+            password: ${{ secrets.SSH_PASSWORD }}
+            source: "docker-entrypoint.sh/test.sh,"
+            target: ./
