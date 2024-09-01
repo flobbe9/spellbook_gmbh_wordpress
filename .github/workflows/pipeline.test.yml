@@ -7,19 +7,27 @@ on:
       - dev
 
 jobs:
-  deploy_to_server:
+  copy_stuff_to_remote:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository 
         uses: actions/checkout@v4
 
-        # copy folder instead
-      - name: Copy files to remote
+      - name: Get all files for remote server that have changed since last commit
+        id: changed-remote-files
+        uses: tj-actions/changed-files@v45
+        with:
+            files: |
+                remoteFiles/**
+            separator: ","
+
+      - name: Copy changed files to remote (if any)
+        if: steps.changed-remote-files.outputs.any_changed == 'true'
         uses: appleboy/scp-action@v0.1.7
         with:
             host: spellbook-gmbh.de
             username: ${{ secrets.SSH_USER_NAME }}
             password: ${{ secrets.SSH_PASSWORD }}
-            source: "docker-entrypoint.sh,test.sh"
-            target: ~/
+            source: ${{ steps.changed-remote-files.outputs.all_changed_files }}
+            target: /root
