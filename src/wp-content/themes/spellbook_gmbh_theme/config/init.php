@@ -42,9 +42,10 @@ function deleteDefaultThemes(): void {
  */
 function addCors(): void {
 
-    $frontendBaseUrl = $_ENV["FRONTEND_PORT"] === "443" ? $_ENV["FRONTEND_BASE_URL_NO_PORT"] : $_ENV["FRONTEND_BASE_URL"];
+    // decide by http origin, add "www" if necessary
+    $allowedOrigin = getAllowOriginResponseHeader();
 
-    header("Access-Control-Allow-Origin: $frontendBaseUrl");
+    header("Access-Control-Allow-Origin: $allowedOrigin");
     header('Access-Control-Allow-Credentials: true');
     header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 
@@ -56,4 +57,46 @@ function addCors(): void {
     if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS')
         // somehow necessary for cors to work (see https://stackoverflow.com/questions/8719276/cross-origin-request-headerscors-with-php-headers)
         exit(0);
+}
+
+
+/**
+ * Get the value for response header "Access-Control-Allow-Origin". Since this can only be one domain,
+ * check http origin agains frontend url to cover both "https.//..." and "https://www...." urls.
+ * 
+ * @return string the frontend base url possibly with "www." depending on the request origin
+ */
+function getAllowOriginResponseHeader(): string {
+
+    $frontendBaseUrl = getFrontendBaseUrl();
+    
+    // case: no origin, just use default frontend base url
+    if (!isset($_SERVER["HTTP_ORIGIN"]))
+        return $frontendBaseUrl;
+
+    $frontendBaseUrlWithWWW = getFrontendBaseUrl(true);
+
+    if ($_SERVER["HTTP_ORIGIN"] === $frontendBaseUrlWithWWW)
+        return $frontendBaseUrlWithWWW;
+
+    return $frontendBaseUrl;
+}
+
+
+/**
+ * Get clean frontend base url optionally with "www.". Ommits ```PORT``` if is port "80" or "443".
+ * 
+ * @param mixed $isIncludeWWW if ```true``` "www." is appended after protocol
+ * @return string frontend base url
+ */
+function getFrontendBaseUrl($isIncludeWWW = false): string {
+
+    // case: is default port
+    if ($_ENV["PORT"] === "80" || $_ENV["PORT"] === "443")
+        return $_ENV["FRONTEND_BASE_URL_NO_PORT"];
+
+    if ($isIncludeWWW)
+        return $_ENV['FRONTEND_PROTOCOL'] . "://www." . $_ENV['FRONTEND_HOST'] . ":" . $_ENV['FRONTEND_PORT'];
+
+    return $_ENV["FRONTEND_BASE_URL"];
 }
