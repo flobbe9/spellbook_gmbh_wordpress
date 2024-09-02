@@ -39,6 +39,7 @@ function deleteDefaultThemes(): void {
  * Add cors to allow frontend url only.
  * 
  * @since 0.2.1
+ * @fixed 0.2.2
  */
 function addCors(): void {
 
@@ -64,6 +65,7 @@ function addCors(): void {
  * Get the value for response header "Access-Control-Allow-Origin". Since this can only be one domain,
  * check http origin agains frontend url to cover both "https.//..." and "https://www...." urls.
  * 
+ * @since 0.2.2
  * @return string the frontend base url possibly with "www." depending on the request origin
  */
 function getAllowOriginResponseHeader(): string {
@@ -86,6 +88,7 @@ function getAllowOriginResponseHeader(): string {
 /**
  * Get clean frontend base url optionally with "www.". Ommits ```PORT``` if is port "80" or "443".
  * 
+ * @since 0.2.2
  * @param mixed $isIncludeWWW if ```true``` "www." is appended after protocol
  * @return string frontend base url
  */
