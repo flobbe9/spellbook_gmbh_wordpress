@@ -71,17 +71,33 @@ function addCors(): void {
 function getAllowOriginResponseHeader(): string {
 
     $frontendBaseUrl = getFrontendBaseUrl();
-    
-    // case: no origin, just use default frontend base url
-    if (!isset($_SERVER["HTTP_ORIGIN"]))
-        return $frontendBaseUrl;
-
     $frontendBaseUrlWithWWW = getFrontendBaseUrl(true);
 
-    if ($_SERVER["HTTP_ORIGIN"] === $frontendBaseUrlWithWWW)
+    $requestOrigin = getRequestOrigin();
+
+    // case: url uses "www"
+    if ($requestOrigin === $frontendBaseUrlWithWWW)
         return $frontendBaseUrlWithWWW;
 
     return $frontendBaseUrl;
+}
+
+
+/**
+ * Get the request origin url. Try ```$["HTTP_ORIGIN"]``` ("Origin" request header) first and fallback on ```$["HTTP_REFERER"]``` ("Referer" request header),
+ * cutting the trailing slash.
+ * 
+ * @return string the request origin or a blank string
+ */
+function getRequestOrigin(): string {
+
+    if (isset($_SERVER["HTTP_ORIGIN"]))
+        return $_SERVER["HTTP_ORIGIN"];
+
+    if (isset($_SERVER["HTTP_REFERER"]))
+        return substr($_SERVER["HTTP_REFERER"], 0, strlen($_SERVER["HTTP_REFERER"]) - 1);
+    
+    return "";
 }
 
 
