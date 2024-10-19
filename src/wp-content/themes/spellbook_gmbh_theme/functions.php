@@ -30,7 +30,7 @@ add_action("admin_menu", "initAdminPages");
 /**
  * AdminToolBar
  */
-add_action("admin_bar_menu", "initAdminBarMenu");
+add_action("wp_before_admin_bar_render", "initAdminBarMenu");
 
 /**
  * NavMenus
