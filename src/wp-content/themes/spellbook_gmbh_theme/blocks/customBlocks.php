@@ -3,6 +3,8 @@ require_once (dirname(__DIR__, 1) . "/views/ThemeSettings.php");
 use Carbon_Fields\Block;
 use Carbon_Fields\Field;
 use Carbon_Fields\Container\Block_Container;
+use SpellbookGmbhTheme\Blocks\CustomBlockWrapper;
+
 /**
  * Custom carbon field blocks will get a name starting with "carbon-fields/" followed by the 
  * block name (set in ```Block::make($blockName)```) split with "-". 
@@ -19,7 +21,7 @@ use Carbon_Fields\Container\Block_Container;
 // IDEA: consider 
     // core/cover
     // core/embed
-function registerImageSliderBlock(): array {
+function registerImageSliderBlock(): CustomBlockWrapper | null{
 
     return registerCustomBlock(
         __("Image Slider"),
@@ -40,7 +42,7 @@ function registerImageSliderBlock(): array {
 }
 
 
-function registerParallaxBlock(): array {
+function registerParallaxBlock(): CustomBlockWrapper | null {
 
     return registerCustomBlock(
         __("Hintergrund Bild"), 
@@ -59,18 +61,19 @@ function registerParallaxBlock(): array {
  * @param string $blockName name of the block
  * @param Field[] $fields to add to the block 
  * @param string $description of the block. Default is ```""``` 
- * @return Field[] fields array passed to this function
+ * @return CustomBlockWrapper the custom block of category "carbon-fields"
  */
-function registerCustomBlock(string $blockName, array $fields, string $description = ""): array {
+function registerCustomBlock(string $blockName, array $fields, string $description = ""): CustomBlockWrapper | null {
 
     $block = Block::make(is_string($blockName) ? $blockName : __("Unnamed block"));
+
     // case: wrong block class
     if (!$block instanceof Block_Container)
-        return [];
+        return null;
 
     $block->add_fields(is_array($fields) ? $fields : []);
     $block->set_description($description);
     $block->set_render_callback(function($fields, $attributes, $inner_blocks) {});
 
-    return $fields;
+    return new CustomBlockWrapper($block, $blockName, "carbon-fields");
 }

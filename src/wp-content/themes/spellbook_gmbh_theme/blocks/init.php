@@ -9,10 +9,11 @@ require_once dirname(__DIR__, 1) . "/services/WPService.php";
  */
 function initBlocks() {
 
-    registerImageSliderBlock();
-    registerParallaxBlock();
-    
-    setAllowedBlockTypes();
+    setAllowedBlockTypes([
+        // NOTE: these dont work properly yet
+        // registerImageSliderBlock()?->getBlockName(),
+        // registerParallaxBlock()?->getBlockName()
+    ]);
 }
 
 
@@ -47,9 +48,6 @@ function setAllowedBlockTypes($blockNames = []): void {
                 "core/paragraph",
                 "core/spacer",
                 "core/separator",
-                // those are not working properly yet
-                // "carbon-fields/image-slider",
-                // "carbon-fields/hintergrund-bild",
                 ...$blockNames
             ];
         },
