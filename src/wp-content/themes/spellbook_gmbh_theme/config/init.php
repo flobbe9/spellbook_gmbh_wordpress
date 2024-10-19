@@ -111,12 +111,12 @@ function getRequestOrigin(): string {
  */
 function getFrontendBaseUrl($isIncludeWWW = false): string {
 
-    // case: is default port
-    if ($_ENV["PORT"] === "80" || $_ENV["PORT"] === "443")
-        return $_ENV["FRONTEND_BASE_URL_NO_PORT"];
-
-    if ($isIncludeWWW)
-        return $_ENV['FRONTEND_PROTOCOL'] . "://www." . $_ENV['FRONTEND_HOST'] . ":" . $_ENV['FRONTEND_PORT'];
+    if ($isIncludeWWW) {
+        $isDefaultPort = $_ENV["PORT"] === "80" || $_ENV["PORT"] === "443";
+        $port = $isDefaultPort ? "" : ":{$_ENV["PORT"]}";
+    
+        return $_ENV['FRONTEND_PROTOCOL'] . "://www." . $_ENV['FRONTEND_HOST'] . $port;
+    }
 
     return $_ENV["FRONTEND_BASE_URL"];
 }
