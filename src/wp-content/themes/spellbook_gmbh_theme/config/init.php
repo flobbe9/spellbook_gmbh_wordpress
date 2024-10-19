@@ -73,6 +73,9 @@ function getAllowOriginResponseHeader(): string {
     $frontendBaseUrl = getFrontendBaseUrl();
     $frontendBaseUrlWithWWW = getFrontendBaseUrl(true);
 
+    logg($frontendBaseUrl);
+    logg($frontendBaseUrlWithWWW);
+
     $requestOrigin = getRequestOrigin();
 
     // case: url uses "www"
