@@ -19,7 +19,6 @@ services:
       retries: 10
 
   wordpress: 
-    # image: wordpress:${WORDPRESS_VERSION}
     image: dev_${NAME}
     depends_on: 
       db: 

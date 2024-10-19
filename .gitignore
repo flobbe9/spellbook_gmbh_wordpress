@@ -15,3 +15,4 @@ ssl
 .env.*
 test.sh
 /sitemap.xml
+notes.md

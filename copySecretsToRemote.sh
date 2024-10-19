@@ -1,6 +1,6 @@
 ENV_FILE_NAME=./.env
 
-# # case: file does not exist
+# case: file does not exist
 if [ ! -f $ENV_FILE_NAME ]; then 
     touch $ENV_FILE_NAME;
 fi

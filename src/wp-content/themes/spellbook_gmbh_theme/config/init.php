@@ -87,6 +87,7 @@ function getAllowOriginResponseHeader(): string {
  * Get the request origin url. Try ```$["HTTP_ORIGIN"]``` ("Origin" request header) first and fallback on ```$["HTTP_REFERER"]``` ("Referer" request header),
  * cutting the trailing slash.
  * 
+ * @since 0.2.2
  * @return string the request origin or a blank string
  */
 function getRequestOrigin(): string {
