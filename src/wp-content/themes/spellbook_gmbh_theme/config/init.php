@@ -73,6 +73,9 @@ function getAllowOriginResponseHeader(): string {
     $frontendBaseUrl = getFrontendBaseUrl();
     $frontendBaseUrlWithWWW = getFrontendBaseUrl(true);
 
+    logg($frontendBaseUrl);
+    logg($frontendBaseUrlWithWWW);
+
     $requestOrigin = getRequestOrigin();
 
     // case: url uses "www"
@@ -111,12 +114,13 @@ function getRequestOrigin(): string {
  */
 function getFrontendBaseUrl($isIncludeWWW = false): string {
 
+    $isDefaultPort = $_ENV["FRONTEND_PORT"] === "80" || $_ENV["FRONTEND_PORT"] === "443";
+
     if ($isIncludeWWW) {
-        $isDefaultPort = $_ENV["PORT"] === "80" || $_ENV["PORT"] === "443";
-        $port = $isDefaultPort ? "" : ":{$_ENV["PORT"]}";
+        $port = $isDefaultPort ? "" : ":{$_ENV["FRONTEND_PORT"]}";
     
         return $_ENV['FRONTEND_PROTOCOL'] . "://www." . $_ENV['FRONTEND_HOST'] . $port;
     }
 
-    return $_ENV["FRONTEND_BASE_URL"];
+    return $isDefaultPort ? $_ENV["FRONTEND_BASE_URL_NO_PORT"] : $_ENV["FRONTEND_BASE_URL"];
 }
