@@ -8,7 +8,7 @@ require_once dirname(__DIR__, 1) . "/helpers/Utils.php";
 /**
  * Wrapper class containing a carbon-fields block and it's title. 
  * 
- * @since latest
+ * @since 0.2.3
  */
 class CustomBlockWrapper {
 
