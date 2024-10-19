@@ -23,6 +23,9 @@ RUN chmod 777 /template-loader.php
 COPY ./src/api-fetch.min.js /api-fetch.min.js
 RUN chmod 777 /api-fetch.min.js
 
+# make sure wordpress has necessary file permissions
+RUN chown -R www-data:www-data ./
+
 # install composer
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
