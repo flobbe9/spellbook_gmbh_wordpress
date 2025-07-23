@@ -72,4 +72,7 @@ class AnyClass {
 - `composer dump-autoload`
 
 ### Notes
-- Folder names for `"psr-4"` are relative to the "wordpress/var/www/html/wp-content/themes/gingco_relaunch/gingco_relaunch/vendor" folder.
+- Folder names for `"psr-4"` are relative to the "wordpress/var/www/html/wp-content/themes/gingco_relaunch/gingco_relaunch/vendor" folder.#
+
+# Update SSL
+Simply download the new .crt file from strato and replace the .crt / .crt.pem files (.pem file needs to be regenerated).
