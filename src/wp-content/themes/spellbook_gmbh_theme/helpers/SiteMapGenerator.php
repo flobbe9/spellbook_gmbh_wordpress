@@ -1,4 +1,7 @@
 <?php
+
+use SpellbookGmbhTheme\Services\WPService;
+
 require_once "Utils.php";
 
 

@@ -1,6 +1,9 @@
 <?php
-require_once dirname(__DIR__, 1) . "/abstracts/AbstractController.php";
-require_once dirname(__DIR__, 1) . "/services/WPService.php";
+namespace SpellbookGmbhTheme\Controllers;
+
+use SpellbookGmbhTheme\Abstracts\AbstractController;
+use SpellbookGmbhTheme\Abstracts\AbstractPostType;
+use SpellbookGmbhTheme\Services\WPService;
 
 
 class PostTypeController extends AbstractController {

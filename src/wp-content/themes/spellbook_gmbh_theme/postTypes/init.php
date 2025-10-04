@@ -1,8 +1,8 @@
 <?php
-require_once "TestPostType.php";
-require_once "ShoppingPostType.php";
-require_once "PlayingPostType.php";
 
+use SpellbookGmbhTheme\PostTypes\ShoppingPostType;
+use SpellbookGmbhTheme\PostTypes\PlayingPostType;
+use SpellbookGmbhTheme\PostTypes\TestPostType;
 
 function initPostTypes(): void {
 

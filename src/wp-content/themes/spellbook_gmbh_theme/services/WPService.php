@@ -1,4 +1,11 @@
 <?php
+namespace SpellbookGmbhTheme\Services;
+
+use HttpResponse;
+use SpellbookGmbhTheme\PostTypes\TestPostType;
+use WP_Post;
+use WP_REST_Response;
+
 require_once dirname(__DIR__, 1) ."/helpers/Utils.php";
 
 
@@ -33,16 +40,6 @@ class WPService {
 
         return [
             "post",
-            $testPostType->getName()
-        ];
-    }
-
-
-    public static function getAllowAllBlockTypesPostTypeNames(): array {
-
-        $testPostType = new TestPostType();
-        
-        return [
             $testPostType->getName()
         ];
     }

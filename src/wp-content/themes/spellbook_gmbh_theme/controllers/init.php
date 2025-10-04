@@ -1,8 +1,9 @@
 <?php
-require_once "WPController.php";
-require_once "PostTypeController.php";
-require_once dirname(__DIR__, 1) . "/postTypes/ShoppingPostType.php";
-require_once dirname(__DIR__, 1) . "/postTypes/PlayingPostType.php";
+
+use SpellbookGmbhTheme\Controllers\PostTypeController;
+use SpellbookGmbhTheme\Controllers\WPController;
+use SpellbookGmbhTheme\PostTypes\PlayingPostType;
+use SpellbookGmbhTheme\PostTypes\ShoppingPostType;
 
 
 function initControllers(): void {

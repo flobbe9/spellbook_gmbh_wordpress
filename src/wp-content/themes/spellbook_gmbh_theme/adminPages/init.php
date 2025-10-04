@@ -1,5 +1,6 @@
 <?php
-require_once dirname(__DIR__, 1) . "/services/WPService.php";
+
+use SpellbookGmbhTheme\Services\WPService;
 
 /**
  * Register all custom admin pages.

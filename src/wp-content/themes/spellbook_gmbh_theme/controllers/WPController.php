@@ -1,6 +1,11 @@
 <?php
-require_once dirname(__DIR__, 1) . "/abstracts/AbstractController.php";
-require_once dirname(__DIR__, 1) . "/services/WPService.php";
+namespace SpellbookGmbhTheme\Controllers;
+
+use HttpResponse;
+use SpellbookGmbhTheme\Abstracts\AbstractController;
+use SpellbookGmbhTheme\Services\WPService;
+use WP_REST_Request;
+
 require_once __DIR__ . "/HttpResponse.php";
 require_once dirname(__DIR__, 1) ."/helpers/Utils.php";
 require_once dirname(__DIR__, 1) ."/helpers/SiteMapGenerator.php";

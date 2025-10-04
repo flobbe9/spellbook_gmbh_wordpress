@@ -1,6 +1,7 @@
 <?php
+namespace SpellbookGmbhTheme\Abstracts;
 
-
+use WP_REST_Controller;
 
 /**
  * @since 0.0.1

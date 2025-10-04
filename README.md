@@ -68,7 +68,7 @@ class AnyClass {
     ...
 }
 ```
-- `cd wordpress/var/www/html/wp-content/themes/gingco_relaunch/gingco_relaunch` 
+- `cd wordpress/var/www/html/wp-content/themes/spellbook_gmbh_theme` 
 - `composer dump-autoload`
 
 ### Notes

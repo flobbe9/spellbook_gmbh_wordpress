@@ -1,18 +1,22 @@
 <?php
-require_once dirname(__DIR__, 1) . "/abstracts/AbstractPostType.php";
+namespace SpellbookGmbhTheme\PostTypes;
+use SpellbookGmbhTheme\Abstracts\AbstractPostType;
 
 
 /**
  * Custom post type dedicated for testing only. Will be kept private by ```WPService::mapPages```.
  * 
  * @since 0.0.1
+ * @deprecated marked for removal once all pages are moved to new "page" post type
  */
 class TestPostType extends AbstractPostType {
+    
+    const NAME = "test";
 
     public function __construct() {
 
         parent::__construct(
-            "test", 
+            TestPostType::NAME, 
             "v1",
             [
                 "label" => __("Testseiten"),
@@ -27,6 +31,10 @@ class TestPostType extends AbstractPostType {
                 }
             ]
         );
+    }
+
+    public function getAllowedBlockNames($customBlockNames = []): ?array {
+        return null;
     }
 
 

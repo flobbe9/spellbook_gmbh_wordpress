@@ -5,7 +5,11 @@
     },
     "autoload": {
         "psr-4": {
-            "SpellbookGmbhTheme\\Blocks\\": "blocks"
+            "SpellbookGmbhTheme\\Blocks\\": "blocks",
+            "SpellbookGmbhTheme\\Abstracts\\": "abstracts",
+            "SpellbookGmbhTheme\\Controllers\\": "controllers",
+            "SpellbookGmbhTheme\\Services\\": "services",
+            "SpellbookGmbhTheme\\PostTypes\\": "postTypes"
         }
     }
 }

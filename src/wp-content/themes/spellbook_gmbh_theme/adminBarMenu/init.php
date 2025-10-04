@@ -1,6 +1,4 @@
 <?php
-require_once dirname(__DIR__, 1) . "/services/WPService.php";
-require_once dirname(__DIR__, 1) . "/helpers/Utils.php";
 
 /**
  * Customizes the horizontal menu at the top (containing the wordpress logo and profile link etc.). Also refered to as wp_admin_bar or toolBar.

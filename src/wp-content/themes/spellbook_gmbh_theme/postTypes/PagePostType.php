@@ -1,27 +1,27 @@
 <?php
 namespace SpellbookGmbhTheme\PostTypes;
+
 use SpellbookGmbhTheme\Abstracts\AbstractPostType;
 
 
 /**
- * Custom post type reachable under ```/kaufen/v1/```.
+ * Represents the default wordpress "page" post type, should not be registered.
  * 
- * @since 0.0.1
- * @deprecated marked for removal once all pages are moved to new "page" post type
+ * @since latest
  */
-class ShoppingPostType extends AbstractPostType {
+class PagePostType extends AbstractPostType {
 
-    const NAME = "kaufen";
+    const NAME = "page";
 
     public function __construct() {
         parent::__construct(
-            ShoppingPostType::NAME,
+            PagePostType::NAME,
             "v1",
-             [
-                "label" => __("Kaufen"),
+            [
+                "label" => __("Pages"),
                 "public" => true,
                 "hierarchical" => true,
-                "show_in_rest" => true // pretty edit view
+                "show_in_rest" => true // gutenberg editor
             ]);
     }
 
@@ -35,11 +35,11 @@ class ShoppingPostType extends AbstractPostType {
             "core/paragraph",
             "core/spacer",
             "core/separator",
+            ...$customBlockNames
         ];
     }
 
     public function register(): void {
-
-        register_post_type(parent::getName(), parent::getOptions());
+        // not implemented, this is a default wordpress post type
     }
 }
