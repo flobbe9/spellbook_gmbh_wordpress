@@ -6,7 +6,7 @@
  * 
  * @since 0.0.1
  */
-class HttpResponse {
+class CustomResponseFormat {
 
     private int $status;
 
@@ -43,7 +43,7 @@ class HttpResponse {
     public static function asRestResponse(int $status, string | null $error, string $message, string $path): WP_REST_Response {
 
         return new WP_REST_Response(
-                    HttpResponse::getArrayInstance($status, $error, $message, $path),
+                    CustomResponseFormat::getArrayInstance($status, $error, $message, $path),
                     $status);
     }
 

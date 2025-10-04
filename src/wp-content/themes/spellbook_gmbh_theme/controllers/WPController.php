@@ -1,12 +1,11 @@
 <?php
 namespace SpellbookGmbhTheme\Controllers;
 
-use HttpResponse;
+use CustomResponseFormat;
 use SpellbookGmbhTheme\Abstracts\AbstractController;
 use SpellbookGmbhTheme\Services\WPService;
 use WP_REST_Request;
 
-require_once __DIR__ . "/HttpResponse.php";
 require_once dirname(__DIR__, 1) ."/helpers/Utils.php";
 require_once dirname(__DIR__, 1) ."/helpers/SiteMapGenerator.php";
 
@@ -164,7 +163,7 @@ class WPController extends AbstractController {
 
                 // case: missing a prop
                 if (empty($emailOrUserName) || empty($password))
-                    return HttpResponse::asRestResponse(400, "Bad Request", "Missing either email or password prop", $requestBody->get_route());
+                    return CustomResponseFormat::asRestResponse(400, "Bad Request", "Missing either email or password prop", $requestBody->get_route());
 
                 return WPService::validateUser($emailOrUserName, $password, $requestBody->get_route());
             },

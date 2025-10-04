@@ -1,7 +1,7 @@
 <?php
 namespace SpellbookGmbhTheme\Services;
 
-use HttpResponse;
+use CustomResponseFormat;
 use SpellbookGmbhTheme\PostTypes\TestPostType;
 use WP_Post;
 use WP_REST_Response;
@@ -139,18 +139,18 @@ class WPService {
         if (empty($user)) {
             // case: no user with this userName
             if (empty($user = get_user_by("slug", $emailOrUserName)))
-                return HttpResponse::asRestResponse(406, 'User invalid', 'Could not find user with given email or user name', $path);
+                return CustomResponseFormat::asRestResponse(406, 'User invalid', 'Could not find user with given email or user name', $path);
         }
 
         // case: wrong password
         if (!wp_check_password($decryptedPassword, $user->user_pass))
-        return HttpResponse::asRestResponse(401, 'User invalid', 'Wrong password', $path );
+        return CustomResponseFormat::asRestResponse(401, 'User invalid', 'Wrong password', $path );
 
         // case: not an administrator
         if (!in_array($role, $user->roles))
-            return HttpResponse::asRestResponse(403, 'User invalid', 'Forbidden', $path);
+            return CustomResponseFormat::asRestResponse(403, 'User invalid', 'Forbidden', $path);
 
-        return HttpResponse::asRestResponse(200, null, "User valid", $path);
+        return CustomResponseFormat::asRestResponse(200, null, "User valid", $path);
     }
 
 
