@@ -4,6 +4,7 @@ require_once dirname(__DIR__, 1) . "/helpers/Utils.php";
 
 
 function initConfig(): void {
+    date_default_timezone_set($_ENV["TZ"]);
 
     deleteDefaultPlugins();
     deleteDefaultThemes();

@@ -16,7 +16,6 @@ class ShoppingPostType extends AbstractPostType {
     public function __construct() {
         parent::__construct(
             ShoppingPostType::NAME,
-            "v1",
              [
                 "label" => __("Kaufen"),
                 "public" => true,

@@ -1,22 +1,23 @@
 <?php
 
+use SpellbookGmbhTheme\Controllers\DefaultController;
 use SpellbookGmbhTheme\Controllers\PostTypeController;
-use SpellbookGmbhTheme\Controllers\WPController;
+use SpellbookGmbhTheme\PostTypes\PagePostType;
 use SpellbookGmbhTheme\PostTypes\PlayingPostType;
 use SpellbookGmbhTheme\PostTypes\ShoppingPostType;
 
 
 function initControllers(): void {
 
-    // /wp/v2
-    $wpController = new WPController();
-    $wpController->register();
+    $defaultController = new DefaultController("v1");
+    $defaultController->registerAllRoutes();
 
-    // /kaufen/v1
-    $shoppingController = new PostTypeController(new ShoppingPostType());
-    $shoppingController->register();
+    $pageController = new PostTypeController(new PagePostType(), "v1");
+    $pageController->registerAllRoutes();
 
-    // /spielen/v1
-    $playingController = new PostTypeController(new PlayingPostType());
-    $playingController->register();
+    $shoppingController = new PostTypeController(new ShoppingPostType(), "v1");
+    $shoppingController->registerAllRoutes();
+
+    $playingController = new PostTypeController(new PlayingPostType(), "v1");
+    $playingController->registerAllRoutes();
 }

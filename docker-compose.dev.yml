@@ -9,6 +9,7 @@ services:
       - MYSQL_USER=${WORDPRESS_DB_USER}
       - MYSQL_ROOT_PASSWORD=${WORDPRESS_DB_PASSWORD}
       - MYSQL_PASSWORD=${WORDPRESS_DB_PASSWORD}
+      - TZ=${TZ}
     volumes:
       - ./dbVolume/:/var/lib/mysql/
     healthcheck:
@@ -32,6 +33,7 @@ services:
         - WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
         - WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
         - WORDPRESS_DB_HOST=db
+        - TZ=${TZ}
     ports:
       - 8080:80
     volumes:

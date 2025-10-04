@@ -146,11 +146,15 @@ function appendStringToFile(string $str, string $file): bool {
  * @return bool true if given ```$str``` is falsy, null, not a string or has a size of 0 after trimming it, else false
  */
 function isBlank(string | null $str): bool {
-
     if (!$str || !is_string($str) || strlen($str) === 0)
         return true;
 
     $trimmedStr = trim($str);
 
     return strlen($trimmedStr) === 0;
+}
+
+function getTimeStamp(): string {
+    $dateTime = new DateTime();
+    return $dateTime->format("Y-m-d H:i:s:u");
 }

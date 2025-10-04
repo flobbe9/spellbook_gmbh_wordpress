@@ -14,10 +14,8 @@ class TestPostType extends AbstractPostType {
     const NAME = "test";
 
     public function __construct() {
-
         parent::__construct(
             TestPostType::NAME, 
-            "v1",
             [
                 "label" => __("Testseiten"),
                 "description" => __("."),

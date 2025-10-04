@@ -1,92 +1,74 @@
 <?php
 namespace SpellbookGmbhTheme\Abstracts;
 
-use WP_REST_Controller;
-
 /**
  * @since 0.0.1
  */
-abstract class AbstractController extends WP_REST_Controller {
+abstract class AbstractController {
 
-    private string $postTypeName;
+    const THEME_NAME_SPACE = "spellbook_gmbh";
+
+    private string $nameSpace;
 
     private string $version;
 
     private string $requestMapping;
 
 
-    public function __construct(string $postTypeName, string $version, string $requestMapping = "") {
-
-        $this->postTypeName = $postTypeName;
+    public function __construct(string $nameSpace, string $version, string $requestMapping = "") {
+        $this->nameSpace = $nameSpace;
         $this->version = $version;
         $this->requestMapping = $requestMapping;
     }
 
-
-    public function getPostTypeName(): string {
-
-        return $this->postTypeName;
+    public function getNameSpace(): string {
+        return $this->nameSpace;
     }
 
     
-    public function setPostTypeName(string $postTypeName): void {
+    public function setNameSpace(string $nameSpace): void {
         
-        $this->postTypeName = $postTypeName;
+        $this->nameSpace = $nameSpace;
     }
-    
     
     public function getVersion(): string {
         
         return $this->version;
     }
 
-
     public function setVersion(string $version): void {
-
         $this->version = $version;
     }
 
-
     public function getRequestMapping(): string {
-
         return $this->requestMapping;
     }
     
-
     public function setRequestMapping( string $requestMapping ): void {
-
         $this->requestMapping = $requestMapping;
     }
-
 
     /**
      * @return string complete mapping without "/" at the start or end.
      */
     public function getMapping(): string {
-
-        return $this->postTypeName . "/" . $this->version . ($this->requestMapping ? "/" . $this->requestMapping : "");
+        return $this->nameSpace . "/" . $this->version . ($this->requestMapping ? "/" . $this->requestMapping : "");
     }
 
-
-    /**
-     * Return array with all posts of ```$this->postType``` and include all used block types 
-     * (using ```parse_blocks()```).
-     */
-    public function getPostTypePages(): bool | array {
-
-        $pages = get_pages([
-            "post_type" => $this->getPostTypeName()
-        ]);
-        
-        foreach ($pages as $page) 
-            $page->blocks = parse_blocks($page->post_content);
-
-        return $pages;
-    }
-
+    public function registerRoute(array $methods, string $route, callable $callback): void {
+        register_rest_route(
+            $this->getMapping(), 
+            $route, 
+            [
+                "methods" => $methods,
+                "callback" => $callback,
+                'permission_callback' => "__return_true"
+            ]
+        );
+    } 
 
     /**
      * Call ```register_rest_route()``` to activate the custom controller.
      */
-    abstract function register(): void;
+    abstract function registerAllRoutes(): void;
 }

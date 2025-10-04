@@ -3,32 +3,48 @@ namespace SpellbookGmbhTheme\Controllers;
 
 use SpellbookGmbhTheme\Abstracts\AbstractController;
 use SpellbookGmbhTheme\Abstracts\AbstractPostType;
+use SpellbookGmbhTheme\Dto\CustomResponseFormat;
 use SpellbookGmbhTheme\Services\WPService;
+use WP_REST_Request;
 
-
+/**
+ * @since 0.0.1
+ */
 class PostTypeController extends AbstractController {
 
-    public function __construct(AbstractPostType $postType, $requestMapping = "") {
-
-        parent::__construct($postType->getName(), $postType->getVersion(), $requestMapping);
+    public function __construct(AbstractPostType $postType, string $version) {
+        parent::__construct(parent::THEME_NAME_SPACE, $version, $postType->getName());
     }
 
+    public function registerAllRoutes(): void {
+        $this->registerGetBySlug();    
+    }
 
-    public function register(): void {
+    /**
+     * Leave the "slug" param blank to get the "/" slug page.
+     * 
+     * @throws 400 if "slug" param is missing completely, 404 if page not found
+     */
+    public function registerGetBySlug(): void {
+        $this->registerRoute(
+            ["GET"],
+            "getBySlug",
+            function(WP_REST_Request $request) {
+                if (!$request->has_param('slug'))
+                    return CustomResponseFormat::asRestResponse(400, "Missing required param 'slug'", $request);
 
-        register_rest_route(parent::getMapping(), "/pages", [
-            "methdos" => "GET",
-            "callback" => function($data) {
+                $slug = $request->get_param('slug');
+                $page = get_page_by_path($slug, OBJECT, $this->getPostType());
 
-                $pages = get_pages([
-                    "posts_per_page" => -1, // get all posts
-                    "post_status" => WPService::getPermittedPostStatuses(),
-                    "post_type" => $this->getPostTypeName()
-                ]);
-                
-                return WPService::mapPages($pages);
-            },
-            'permission_callback' => "__return_true"
-        ]);
+                if (!$page)
+                    return CustomResponseFormat::asRestResponse(404, "Could not find page with slug '$slug'", $request);
+
+                return WPService::mapPages([$page])[0];
+            }
+        );
+    }
+
+    private function getPostType(): string {
+        return $this->getRequestMapping();
     }
 }

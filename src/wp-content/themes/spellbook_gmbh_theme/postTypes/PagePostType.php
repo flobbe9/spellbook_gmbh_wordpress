@@ -16,7 +16,6 @@ class PagePostType extends AbstractPostType {
     public function __construct() {
         parent::__construct(
             PagePostType::NAME,
-            "v1",
             [
                 "label" => __("Pages"),
                 "public" => true,

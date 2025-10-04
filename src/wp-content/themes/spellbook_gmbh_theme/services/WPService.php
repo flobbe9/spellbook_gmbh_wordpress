@@ -2,6 +2,7 @@
 namespace SpellbookGmbhTheme\Services;
 
 use CustomResponseFormat;
+use SpellbookGmbhTheme\PostTypes\PagePostType;
 use SpellbookGmbhTheme\PostTypes\TestPostType;
 use WP_Post;
 use WP_REST_Response;
@@ -22,7 +23,6 @@ class WPService {
      * @param string $format possible values are "objects" and "names".
      */
     public static function getAllPostTypes(string $format = "names"): array {
-
         $allPostTypes = get_post_types(
             [
                 "public" => true, // is page post type
@@ -35,7 +35,6 @@ class WPService {
 
 
     public static function getHiddenInFrontendPostTypeNames(): array {
-
         $testPostType = new TestPostType();
 
         return [
@@ -44,26 +43,35 @@ class WPService {
         ];
     }
 
-
     public static function getPostTypeNamesHiddenInMenu(): array {
-
         return [
             "post"
         ];
     }
 
-
     /**
      * @return string[] post_statuses of posts that should be displayed in rest api
      */
     public static function getPermittedPostStatuses(): array {
-
         return [
-            "publish",
-            "private"
+            "publish"
         ];
     }
 
+    /**
+     * @param array $options optionally pass more filter options to `get_pages`. Wont override default filters. Default is `[]`
+     * @return WP_Post[] pages (not posts) visible to frontend users. 
+     * @see `getPermittedPostStatuses`, `getAllPostTypes`
+     */
+    public static function getPublicPages(array $options = []): array {
+        $pages = get_posts([
+            ...$options,
+            "post_type" => WPService::getAllPostTypes(),
+            "post_status" => WPService::getPermittedPostStatuses()
+        ]);
+
+        return $pages ? $pages : [];
+    }
 
     /**
      * Add blocks and path. Remove ```post_content``` since blocks are used for rendering.
@@ -71,16 +79,13 @@ class WPService {
      * Will set a page to "private" if its ```post_type``` is included in ```WPService::getHiddenInFrontendPostTypeNames()```.
      * 
      * @param WP_Post[] | bool $pages to map
-     * @return WP_Post[] same $pages array but with parsed blocks ("blocks") and paths ("path"). Dont append or prepend "/" to "path".
+     * @return WP_Post[] same $pages array but with parsed blocks ("blocks") and paths ("path").
      */
     public static function mapPages(array $pages): array {
-
         if (!is_array($pages)) 
             return [];
 
-        $frontPageId = intval(get_option('page_on_front'));
-
-        return array_map(function(WP_Post $page) use ($frontPageId) {
+        return array_map(function(WP_Post $page) {
             // case: hide in frontend
             if (in_array($page->post_type, WPService::getHiddenInFrontendPostTypeNames()))
                 WPService::makePagePrivate($page->ID);
@@ -91,19 +96,8 @@ class WPService {
             $pageBlocks = WPService::addIndexToColumnBlocks($pageBlocks);
             // add to page
             $page->blocks = $pageBlocks;
-
             // add path
-            if ($page->post_type === "page") {
-                // case: is front page
-                if ($frontPageId === $page->ID)
-                    $page->path = "";
-                
-                // dont use "page" post_type in path
-                else
-                    $page->path = $page->post_name;
-
-            } else
-                $page->path = $page->post_type . "/" . $page->post_name;
+            $page->path = WPService::formatPagePath($page);
 
             // remove html content (using blocks only)
             unset($page->post_content);
@@ -113,46 +107,34 @@ class WPService {
         }, $pages);
     }
 
-
     /**
-     * Validate given user credentials and user role.
-     * 
-     * @param $emailOrUserName email or user name of user
-     * @param $password decrypted
-     * @param $path path of the request (anything after base url)
-     * @param $role user role that is required. Default is "administrator"
-     * @return WP_REST_Response containing the http status code depending on given params:
-     * 
-     *             ```406```: no user with this email or user name
-     * 
-     *             ```401```: wrong password
-     * 
-     *             ```403```: user does not have given role
-     * 
-     *             ```200```: all good
+     * @param WP_Post $page to get path for
+     * @return string|null the path visible in frontend for `$page`. Always prepend slash
      */
-    public static function validateUser(string $emailOrUserName, string $decryptedPassword, $path = "", string $role = "administrator"): WP_REST_Response {
+    public static function formatPagePath(WP_Post $page): string|null {
+        if (!$page)
+            return null;
 
-        $user = get_user_by("email", $emailOrUserName);
+        $path = "";
 
-        // case: no user with this email
-        if (empty($user)) {
-            // case: no user with this userName
-            if (empty($user = get_user_by("slug", $emailOrUserName)))
-                return CustomResponseFormat::asRestResponse(406, 'User invalid', 'Could not find user with given email or user name', $path);
-        }
+        // don't prepend post type for "page"
+        if ($page->post_type === PagePostType::NAME) {
+            // case: no home page
+            if (WPService::getHomePageId() !== $page->ID)
+                $path = $page->post_name;
 
-        // case: wrong password
-        if (!wp_check_password($decryptedPassword, $user->user_pass))
-        return CustomResponseFormat::asRestResponse(401, 'User invalid', 'Wrong password', $path );
+        } else
+            $path = $page->post_type . "/" . $page->post_name;
 
-        // case: not an administrator
-        if (!in_array($role, $user->roles))
-            return CustomResponseFormat::asRestResponse(403, 'User invalid', 'Forbidden', $path);
-
-        return CustomResponseFormat::asRestResponse(200, null, "User valid", $path);
+        return "/$path";
     }
 
+    /**
+     * @return int the page id of the page marked as home page in wordpress or 0 if not found
+     */
+    public static function getHomePageId(): int {
+        return intval(get_option('page_on_front'));
+    }
 
     /**
      * Update given post if present in db and setting ```post_status``` to "private". 
@@ -160,7 +142,6 @@ class WPService {
      * @param int $pageId id of post
      */
     private static function makePagePrivate(int $pageId): void {
-
         $page = get_post($pageId);
         // case: no page with this id
         if (!$page)

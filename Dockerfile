@@ -6,8 +6,6 @@ FROM wordpress:${WORDPRESS_VERSION}
 
 WORKDIR /var/www/html/
 
-ENV TZ="Europe/Berlin"
-
 # install vim
 RUN apt-get update
 RUN yes | apt-get install vim

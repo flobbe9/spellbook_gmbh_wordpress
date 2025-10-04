@@ -16,16 +16,12 @@ abstract class AbstractPostType {
     /** The slug of the post type */
     private string $name;
 
-    /** Endpoint version */
-    private string $version;
-
     /** Options to pass to `register_post_type`. Default is `[]` */
     private array $options;
 
 
-    public function __construct(string $name, string $version, array $options = []) {
+    public function __construct(string $name, array $options = []) {
         $this->name = $name;
-        $this->version = $version;
         $this->options = $options;
     }
 
@@ -39,17 +35,6 @@ abstract class AbstractPostType {
         $this->name = $name;
     }
         
-    
-    public function getVersion(): string {
-        return $this->version;
-    }
-
-
-    public function setVersion(string $version): void {
-        $this->version = $version;
-    }
-
-
     public function getOptions(): array {
         return $this->options;
     }
@@ -82,9 +67,7 @@ abstract class AbstractPostType {
         }
     }
 
-
     abstract function register(): void;
-
 
     /**
      * The blockname should look like `core/columns` or `carbon-fields/myCustomBlock`.

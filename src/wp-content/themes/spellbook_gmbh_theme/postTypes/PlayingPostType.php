@@ -4,8 +4,6 @@ use SpellbookGmbhTheme\Abstracts\AbstractPostType;
 
 
 /**
- * Custom post type reachable under ```/spielen/v1/```.
- * 
  * @since 0.0.1
  * @deprecated marked for removal once all pages are moved to new "page" post type
  */
@@ -16,7 +14,6 @@ class PlayingPostType extends AbstractPostType {
     public function __construct() {
         parent::__construct(
             PlayingPostType::NAME, 
-            "v1",
             [
                 "label" => __("Spielen"),
                 "public" => true,

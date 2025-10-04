@@ -9,6 +9,7 @@
             "SpellbookGmbhTheme\\Abstracts\\": "abstracts",
             "SpellbookGmbhTheme\\Controllers\\": "controllers",
             "SpellbookGmbhTheme\\Services\\": "services",
+            "SpellbookGmbhTheme\\Dto\\": "dto",
             "SpellbookGmbhTheme\\PostTypes\\": "postTypes"
         }
     }
