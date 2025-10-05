@@ -1,11 +1,13 @@
 <?php
 namespace SpellbookGmbhTheme\Controllers;
 
-use CustomResponseFormat;
 use SpellbookGmbhTheme\Abstracts\AbstractController;
+use SpellbookGmbhTheme\Dto\CustomResponseFormat;
+use SpellbookGmbhTheme\Dto\NavigationMenu;
 use SpellbookGmbhTheme\Services\WPService;
 use WP_Post;
 use WP_REST_Request;
+use WP_REST_Response;
 
 require_once dirname(__DIR__, 1) ."/helpers/Utils.php";
 require_once dirname(__DIR__, 1) ."/helpers/SiteMapGenerator.php";
@@ -28,10 +30,11 @@ class DefaultController extends AbstractController {
     public function registerAllRoutes(): void {
         $this->registerSlugs();
         $this->registerMenus();
+        $this->registerNavigationLinks();
     }
 
     /**
-     * Dont map menu items to pages, that don't have ```post_status``` "publish".
+     * @return NavigationMenu[] all menus except the `NAVIGATION_LINKS_MENU_NAME` menu
      */
     private function registerMenus(): void {
         $this->registerRoute(
@@ -39,34 +42,49 @@ class DefaultController extends AbstractController {
             "/menus",
             function() {
                 $menus = get_terms(["taxonomy" => "nav_menu"]);
+                $navigationMenus = [];
 
                 foreach ($menus as $menu) {
-                    $navMenuItems = wp_get_nav_menu_items($menu->term_id); 
+                    $navigationMenu = NavigationMenu::parseWpObj($menu);
 
-                    // assign nav items
-                    $menu->items = !$navMenuItems ? [] : $navMenuItems;
+                    // don't make a menu for navigation links
+                    if ($navigationMenu->label === NavigationMenu::NAVIGATION_LINKS_MENU_NAME)
+                        continue;
 
-                    // adjust menu items
-                    for ($i = 0; $i < sizeof($navMenuItems); $i++) {
-                        $item = $navMenuItems[$i];
-                        $itemPage = get_post($item->object_id);
-
-                        // case: page not public
-                        if ($itemPage && $itemPage->post_status !== "publish") {
-                            unset($menu->items[$i]);
-                            continue;
-                        }
-
-                        $item->url = str_replace($_ENV["BASE_URL"], "", $item->url);
-                        $item->isInternalLink = isUrlInternal($item->url);
-                    }
+                    $navigationMenus[] = $navigationMenu;
                 }
-
-                return $menus;
+                
+                return $navigationMenus;
             }
         );
     }
+    
+    /**
+     * @return NavigationMenuItem[] all menu items of `NAVIGATION_LINKS_MENU_NAME` menu
+     */
+    private function registerNavigationLinks(): void {
+        $this->registerRoute(
+            ["GET"],
+            "/menus/navigationLinks",
+            function() {
+                $menus = get_terms(["taxonomy" => "nav_menu"]);
+                $navigationMenu = [];
 
+                foreach ($menus as $menu) {
+                    $navigationMenu = NavigationMenu::parseWpObj($menu);
+
+                    // don't make a menu for navigation links
+                    if ($navigationMenu->label === NavigationMenu::NAVIGATION_LINKS_MENU_NAME) {
+                        $navigationMenus = $navigationMenu;
+                        break;
+                    }
+                }
+                
+                return $navigationMenus->items;
+            }
+        );
+    }
+    
     /**
      * @return string[] list of page slugs of all public pages. Includes the post type (except for "page") and prepends a slash but does not 
      * contain a trailing slash

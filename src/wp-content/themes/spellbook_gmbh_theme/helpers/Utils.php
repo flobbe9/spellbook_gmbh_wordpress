@@ -21,18 +21,6 @@ function getSiteTitle(): string {
 }
 
 
-/**
- * @return true if given url starts with ```$_ENV["FRONTEND_BASE_URL_NO_PORT"]``` or is a relative path
- */
-function isUrlInternal(string $url): bool {
-    
-    if ($url && (str_starts_with($url, $_ENV["FRONTEND_BASE_URL_NO_PORT"]) || !str_starts_with($url, $_ENV["PROTOCOL"])))
-        return true;
-
-    return false;
-}
-
-
 function logg(mixed $str, mixed $obj = null): void {
 
     error_log(print_r($str, true));

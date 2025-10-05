@@ -11,30 +11,20 @@ use WP_REST_Response;
  */
 class CustomResponseFormat {
 
-    private int $status;
+    public int $status;
 
-    private string $timestamp;
+    public string $timestamp;
 
-    private string $message;
+    public string $message;
 
-    private string $path;
+    public string $path;
 
 
     public function __construct(int $status, string $message, string $path) {
-
         $this->status = $status;
         $this->timestamp = getTimeStamp();
         $this->message = $message;
         $this->path = $path;
-    }
-
-    public static function getArrayInstance(int $status, string $message, WP_REST_Request $request): array {
-        return [
-            "status"=> $status,
-            "timestamp"=> getTimeStamp(),
-            "message"=> $message,
-            "path"=> CustomResponseFormat::getRestRequestPath($request)
-        ];
     }
 
     /**
@@ -42,7 +32,7 @@ class CustomResponseFormat {
      */
     public static function asRestResponse(int $status, string $message, WP_REST_Request $request): WP_REST_Response {
         return new WP_REST_Response(
-            CustomResponseFormat::getArrayInstance($status, $message, $request),
+            new CustomResponseFormat($status, $message, CustomResponseFormat::getRestRequestPath($request)),
             $status);
     }
 
