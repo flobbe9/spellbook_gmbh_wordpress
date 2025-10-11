@@ -2,14 +2,11 @@
 namespace SpellbookGmbhTheme\Controllers;
 
 use SpellbookGmbhTheme\Abstracts\AbstractController;
-use SpellbookGmbhTheme\Dto\CustomResponseFormat;
 use SpellbookGmbhTheme\Dto\NavigationMenu;
 use SpellbookGmbhTheme\Services\WPService;
 use WP_Post;
 use WP_REST_Request;
-use WP_REST_Response;
 
-require_once dirname(__DIR__, 1) ."/helpers/Utils.php";
 require_once dirname(__DIR__, 1) ."/helpers/SiteMapGenerator.php";
 
 

@@ -1,11 +1,13 @@
-<?php 
-require_once dirname(__DIR__, 1) ."/helpers/Utils.php";
+<?php
+
+use SpellbookGmbhTheme\Helpers\Utils;
+
 require_once "ThemeSettings.php";
 ?>
 
 
 <head>
-    <link rel="stylesheet" href="<?php echo getStyleSheetUrl("ThemeSettings.css") ?>">
+    <link rel="stylesheet" href="<?php echo Utils::getStyleSheetUrl("ThemeSettings.css") ?>">
 </head>
 
 <div class="themeSettingsContainer">
@@ -49,7 +51,7 @@ require_once "ThemeSettings.php";
     <div class="flexRight footerItemRight blueLink">
         <!-- Theme version -->
         <a href="<?php echo $_ENV["BASE_URL"] . "/wp-admin/themes.php" ?>">
-            <?echo getSiteTitle() . " Version " . $_ENV["VERSION"]?>
+            <?echo Utils::getSiteTitle() . " Version " . $_ENV["VERSION"]?>
         </a>
     </div>
 </footer>

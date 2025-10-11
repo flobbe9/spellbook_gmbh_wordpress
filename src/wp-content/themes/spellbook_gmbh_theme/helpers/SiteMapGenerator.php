@@ -1,8 +1,7 @@
 <?php
 
+use SpellbookGmbhTheme\Helpers\Utils;
 use SpellbookGmbhTheme\Services\WPService;
-
-require_once "Utils.php";
 
 
 /**
@@ -27,7 +26,7 @@ class SiteMapGenerator {
      */
     public static function updateSiteMap(): void {
 
-        writeStringToFile(SiteMapGenerator::getXmlSitemapString(), ABSPATH . "sitemap.xml");
+        Utils::writeStringToFile(SiteMapGenerator::getXmlSitemapString(), ABSPATH . "sitemap.xml");
     }
 
 
@@ -50,10 +49,9 @@ class SiteMapGenerator {
      * @return string of ```<url>``` tags with ```loc``` and ```lastMod```
      */
     private static function mapXmlUrls(array $mappedPages): string {
-
         // case: falsy param
         if (!is_array($mappedPages)) {
-            logg("Failed to map xml urls. 'mappedPages' is not an array");
+            Utils::log("Failed to map xml urls. 'mappedPages' is not an array");
             return "";
         }
 
@@ -63,7 +61,7 @@ class SiteMapGenerator {
             $xmlUrlTag = SiteMapGenerator::mapXmlUrl($mappedPage);
 
             // case: invalid url tag
-            if (isBlank($xmlUrlTag))
+            if (Utils::isBlank($xmlUrlTag))
                 continue;
 
             $xmlUrlTags .= $xmlUrlTag;
@@ -99,7 +97,7 @@ class SiteMapGenerator {
     private static function getLastModXmlString(string $lastMod): string {
 
         // case: falsy param
-        if (isBlank($lastMod))
+        if (Utils::isBlank($lastMod))
             $lastMod = "";
 
         return "\t\t<lastmod>$lastMod</lastmod>\n";
@@ -109,7 +107,7 @@ class SiteMapGenerator {
     private static function getLocXmlString(string $loc): string | null {
 
         // case: falsy param
-        if (isBlank($loc))
+        if (Utils::isBlank($loc))
             return null;
 
         return "\t\t<loc>$loc</loc>\n";
@@ -160,7 +158,7 @@ class SiteMapGenerator {
     private static function getLocByWpPage(WP_Post $page): string {
 
         if (!$page) {
-            logg("Failed to get page path. 'page' is falsy");
+            Utils::log("Failed to get page path. 'page' is falsy");
             return "";
         }
 
@@ -189,7 +187,7 @@ class SiteMapGenerator {
     private static function getLastModByWpPage(WP_Post $page): string {
 
         if (!$page) {
-            logg("Failed to get page last modified date. 'page' is falsy");
+            Utils::log("Failed to get page last modified date. 'page' is falsy");
             return "";
         }
 
@@ -204,7 +202,7 @@ class SiteMapGenerator {
      */
     private static function stripTimeFromDate(string $timestamp): string {
 
-        if (isBlank($timestamp))
+        if (Utils::isBlank($timestamp))
             return "";
 
         $arr = explode(" ", $timestamp);

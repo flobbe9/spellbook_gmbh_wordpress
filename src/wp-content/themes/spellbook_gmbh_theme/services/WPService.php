@@ -1,13 +1,9 @@
 <?php
 namespace SpellbookGmbhTheme\Services;
 
-use CustomResponseFormat;
 use SpellbookGmbhTheme\PostTypes\PagePostType;
 use SpellbookGmbhTheme\PostTypes\TestPostType;
 use WP_Post;
-use WP_REST_Response;
-
-require_once dirname(__DIR__, 1) ."/helpers/Utils.php";
 
 
 /**

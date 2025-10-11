@@ -1,147 +1,148 @@
 <?php
+namespace SpellbookGmbhTheme\Helpers;
 
-const CARBON_FIELDS_BLOCK_TYPE_CATEGORY = "carbon-fields";
-
-
-/**
- * Appends url to given style sheet name. 
- * 
-* E.g. "styles.css" would become "http://{currentHost}:{currentPort}/wp-content/themes/spellbook_gmbh_theme/assets/styles/styles.css"
-* 
-* @param string $styleSheetName name of the style sheet file (including the extension)
-* @return string the url appended to the style sheet name
-*/
-function getStyleSheetUrl(string $styleSheetName): string {
-    return $_ENV["BASE_URL"] . "/wp-content/themes/spellbook_gmbh_theme/assets/styles/" . ($styleSheetName ?? "");
-}
-
-
-function getSiteTitle(): string {
-    return get_bloginfo('name');
-}
-
-
-function logg(mixed $str, mixed $obj = null): void {
-    error_log(print_r($str, true));
-
-    if ($obj)
-        error_log(print_r($obj, true));
-}
+use DateTime;
 
 
 /**
- * Delete all files, subdirectories and subdirectories' files. Don't delete the given dir though.
- * 
- * @param string $dirName absolute path of the dir to clear
- * @return boolean true if all contents have been deleted, else false
+ * @since latest
  */
-function clearDir(string $dirName): bool {
+class Utils {
+    const CARBON_FIELDS_BLOCK_TYPE_CATEGORY = "carbon-fields";
 
-    // case: falsy dir name
-    if (isBlank($dirName) || !is_dir($dirName)) {
-        logg("Failed to clear dir. Falsy dirName");
-        return false;
+    /**
+     * Appends url to given style sheet name. 
+     * 
+    * E.g. "styles.css" would become "http://{currentHost}:{currentPort}/wp-content/themes/spellbook_gmbh_theme/assets/styles/styles.css"
+    * 
+    * @param string $styleSheetName name of the style sheet file (including the extension)
+    * @return string the url appended to the style sheet name
+    */
+    public static function getStyleSheetUrl(string $styleSheetName): string {
+        return $_ENV["BASE_URL"] . "/wp-content/themes/spellbook_gmbh_theme/assets/styles/" . ($styleSheetName ?? "");
     }
 
-    $files = scandir($dirName);
-
-    // case: could not get files
-    if (!$files) {
-        logg("Failed to clear dir. Failed to get files from dir");
-        return false;
+    public static function getSiteTitle(): string {
+        return get_bloginfo('name');
     }
 
-    // iterate files in dir
-    foreach ($files as $file) {
-        // avoid these
-        if ($file === "." || $file === "..")
-            continue;
+    public static function log(mixed $obj, mixed ...$args): void {
+        error_log(print_r($obj, true));
 
-        $file = $dirName . "/" . $file;
+        if ($args)
+            foreach ($args as $arg)
+                error_log(print_r($arg, true));
+    }
 
-        // case: is dir
-        if (is_dir($file)) {
-            if (clearDir($file))
-                rmdir($file);
-
-            continue;
-        }
-
-        // case: not a file
-        if (!is_file($file)) {
-            logg("Failed to clear dir. Failed to delete a file");
+    /**
+     * Delete all files, subdirectories and subdirectories' files. Don't delete the given dir though.
+     * 
+     * @param string $dirName absolute path of the dir to clear
+     * @return boolean true if all contents have been deleted, else false
+     */
+    public static function clearDir(string $dirName): bool {
+        // case: falsy dir name
+        if (Utils::isBlank($dirName) || !is_dir($dirName)) {
+            Utils::log("Failed to clear dir. Falsy dirName");
             return false;
         }
 
-        unlink($file);
-    }
+        $files = scandir($dirName);
 
-    return true;
-}
+        // case: could not get files
+        if (!$files) {
+            Utils::log("Failed to clear dir. Failed to get files from dir");
+            return false;
+        }
 
+        // iterate files in dir
+        foreach ($files as $file) {
+            // avoid these
+            if ($file === "." || $file === "..")
+                continue;
 
-/**
- * Delete all files, subdirectories and subdirectories' files.
- * 
- * @param string $dirName absolute path of the dir to clear
- * @return boolean true if all contents have been deleted, else false
- */
-function deleteDir(string $dirName): bool {
+            $file = $dirName . "/" . $file;
 
-    if (isBlank($dirName) || !is_dir($dirName))
-        return false;
+            // case: is dir
+            if (is_dir($file)) {
+                if (Utils::clearDir($file))
+                    rmdir($file);
 
-    if (clearDir($dirName))
-        return rmdir($dirName);  
-    
-    return false;
-}
+                continue;
+            }
 
+            // case: not a file
+            if (!is_file($file)) {
+                Utils::log("Failed to clear dir. Failed to delete a file");
+                return false;
+            }
 
-/**
- * @param string $str to write to fiile
- * @param string $file absolute file name
- * @param int $flags see ```file_put_contents``` for explanation
- * @return bool ```true``` if str has been written to file, else ```false```
- */
-function writeStringToFile(string $str, string $file, int $flags = 0): bool {
+            unlink($file);
+        }
 
-    // case: falsy params
-    if (isBlank($str)) {
-        logg("Failed to write string to file. 'str' is blank");
-        return false;
-    }
-
-    if (!file_exists($file) || !is_file($file)) {
-        logg("Failed to write string to file. Either 'file' " . $file . " could not be found or is a directory");
-        return false;
-    }
-
-    $bytes = file_put_contents($file, $str);
-
-    return is_numeric($bytes);
-}
-
-
-function appendStringToFile(string $str, string $file): bool {
-
-    return writeSTringtoFile($str, $file, FILE_APPEND);
-}
-
-
-/**
- * @return bool true if given ```$str``` is falsy, null, not a string or has a size of 0 after trimming it, else false
- */
-function isBlank(string | null $str): bool {
-    if (!$str || !is_string($str) || strlen($str) === 0)
         return true;
+    }
 
-    $trimmedStr = trim($str);
+    /**
+     * Delete all files, subdirectories and subdirectories' files.
+     * 
+     * @param string $dirName absolute path of the dir to clear
+     * @return boolean true if all contents have been deleted, else false
+     */
+    public static function deleteDir(string $dirName): bool {
+        if (Utils::isBlank($dirName) || !is_dir($dirName))
+            return false;
 
-    return strlen($trimmedStr) === 0;
-}
+        if (Utils::clearDir($dirName))
+            return rmdir($dirName);  
+        
+        return false;
+    }
 
-function getTimeStamp(): string {
-    $dateTime = new DateTime();
-    return $dateTime->format("Y-m-d H:i:s:u");
+    /**
+     * @param string $str to write to fiile
+     * @param string $file absolute file name
+     * @param int $flags see ```file_put_contents``` for explanation
+     * @return bool ```true``` if str has been written to file, else ```false```
+     */
+    public static function writeStringToFile(string $str, string $file, int $flags = 0): bool {
+        // case: falsy params
+        if (Utils::isBlank($str)) {
+            Utils::log("Failed to write string to file. 'str' is blank");
+            return false;
+        }
+
+        if (!file_exists($file) || !is_file($file)) {
+            Utils::log("Failed to write string to file. Either 'file' " . $file . " could not be found or is a directory");
+            return false;
+        }
+
+        $bytes = file_put_contents($file, $str);
+
+        return is_numeric($bytes);
+    }
+
+
+    public static function appendStringToFile(string $str, string $file): bool {
+
+        return Utils::writeSTringtoFile($str, $file, FILE_APPEND);
+    }
+
+
+    /**
+     * @return bool true if given ```$str``` is falsy, null, not a string or has a size of 0 after trimming it, else false
+     */
+    public static function isBlank(string | null $str): bool {
+        if (!$str || !is_string($str) || strlen($str) === 0)
+            return true;
+
+        $trimmedStr = trim($str);
+
+        return strlen($trimmedStr) === 0;
+    }
+
+    public static function getTimeStamp(): string {
+        $dateTime = new DateTime();
+        return $dateTime->format("Y-m-d H:i:s:u");
+    }
 }

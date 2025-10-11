@@ -12,6 +12,10 @@ use SpellbookGmbhTheme\Blocks\CustomBlockWrapper;
  * 
  * @return array `[blockNameWithinBackend => block]
  */
+// TODO
+    // assertthrows
+    // log
+    // customblcokwrapper block
 function customBlocks(): array {
     return [
         "separatorBlock" => new CustomBlockWrapper(

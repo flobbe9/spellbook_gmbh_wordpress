@@ -1,6 +1,8 @@
 <?php
+
+use SpellbookGmbhTheme\Helpers\Utils;
+
 require_once dirname(__DIR__, 1) . "/services/WPService.php";
-require_once dirname(__DIR__, 1) . "/helpers/Utils.php";
 
 
 function initConfig(): void {
@@ -17,7 +19,7 @@ function initConfig(): void {
  */
 function deleteDefaultPlugins(): void {
 
-    deleteDir(dirname(__DIR__, 3) . "/plugins/akismet");
+    Utils::deleteDir(dirname(__DIR__, 3) . "/plugins/akismet");
 
     $hello = dirname(__DIR__, 3) . "/plugins/hello.php";
     if (file_exists($hello))
@@ -30,10 +32,10 @@ function deleteDefaultPlugins(): void {
  */
 function deleteDefaultThemes(): void {
 
-    deleteDir(dirname(__DIR__, 2) . "/twentytwentytwo");
-    deleteDir(dirname(__DIR__, 2) . "/twentytwentythree");
-    deleteDir(dirname(__DIR__, 2) . "/twentytwentyfour");
-    deleteDir(dirname(__DIR__, 2) . "/twentytwentyfive");
+    Utils::deleteDir(dirname(__DIR__, 2) . "/twentytwentytwo");
+    Utils::deleteDir(dirname(__DIR__, 2) . "/twentytwentythree");
+    Utils::deleteDir(dirname(__DIR__, 2) . "/twentytwentyfour");
+    Utils::deleteDir(dirname(__DIR__, 2) . "/twentytwentyfive");
 }
 
 

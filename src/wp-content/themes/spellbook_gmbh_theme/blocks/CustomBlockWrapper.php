@@ -5,9 +5,7 @@ use Carbon_Fields\Block;
 use Carbon_Fields\Container\Block_Container;
 use Carbon_Fields\Field\Field;
 use Error;
-
-require_once dirname(__DIR__, 1) . "/helpers/Utils.php";
-
+use SpellbookGmbhTheme\Helpers\Utils;
 
 /**
  * Wrapper class containing a carbon-fields block and it's title. 
@@ -39,13 +37,13 @@ class CustomBlockWrapper {
      * @return string the ```CARBON_FIELDS_BLOCK_TYPE_CATEGORY``` concatenated with the modified ```blockTitle```.
      */
     public function getBlockType(): string {
-        if (isBlank($this->blockTitle))
+        if (Utils::isBlank($this->blockTitle))
             return "";
 
         // to lowercase and replace " " with "-" 
         $modifiedBlockTitle = str_replace(" ", "-", strtolower($this->blockTitle));
 
-        return CARBON_FIELDS_BLOCK_TYPE_CATEGORY . "/$modifiedBlockTitle";
+        return Utils::CARBON_FIELDS_BLOCK_TYPE_CATEGORY . "/$modifiedBlockTitle";
     }
 
     /**
