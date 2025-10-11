@@ -1,8 +1,8 @@
 <?php
 namespace SpellbookGmbhTheme\PostTypes;
 
+use Override;
 use SpellbookGmbhTheme\Abstracts\AbstractPostType;
-
 
 /**
  * Represents the default wordpress "page" post type, should not be registered.
@@ -24,18 +24,9 @@ class PagePostType extends AbstractPostType {
             ]);
     }
 
-    public function getAllowedBlockNames($customBlockNames = []): ?array {
-        return [
-            "core/columns",
-            "core/heading",
-            "core/image",
-            "core/list",
-            "core/list-item",
-            "core/paragraph",
-            "core/spacer",
-            "core/separator",
-            ...$customBlockNames
-        ];
+    #[Override]
+    public function getAllowedBlockTypes(): array|bool {
+        return true;
     }
 
     public function register(): void {

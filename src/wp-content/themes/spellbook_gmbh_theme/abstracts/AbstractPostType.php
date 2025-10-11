@@ -5,6 +5,8 @@ use SpellbookGmbhTheme\PostTypes\PagePostType;
 use SpellbookGmbhTheme\PostTypes\PlayingPostType;
 use SpellbookGmbhTheme\PostTypes\ShoppingPostType;
 use SpellbookGmbhTheme\PostTypes\TestPostType;
+use Carbon_Fields\Block;
+
 
 /**
  * Abstract super class for any custom PostyType class.
@@ -72,9 +74,20 @@ abstract class AbstractPostType {
     /**
      * The blockname should look like `core/columns` or `carbon-fields/myCustomBlock`.
      * 
-     * @param string[] $customBlockNames list of carbon-fields block names. Default is `[]`
-     * @return string[]|null list of all block names that should be allowed for this post type in gutenberg editor.
-     * Return `null` to allow all, return an empty array to allow none.
+     * Get all custom blocks with
+     * 
+     * ```
+     * require_once dirname(__DIR__, 1) . "/blocks/customBlocks.php";
+     * 
+     * return array_map(
+     *     function(CustomBlockWrapper $block) {
+     *         return $block->getBlockType();
+     *     },
+     *     array_values(customBlocks())
+     * );
+     * ```
+     * 
+     * @return string[]|bool list of all block types that should be allowed for this post type in gutenberg editor or `true` in order to allow all.
      */
-    abstract function getAllowedBlockNames($customBlockNames = []): array | null;
+    abstract function getAllowedBlockTypes(): array|bool;
 }

@@ -1,4 +1,5 @@
 <?php
+
 use Carbon_Fields\Carbon_Fields;
 use SpellbookGmbhTheme\Abstracts\AbstractPostType;
 
@@ -6,14 +7,13 @@ require_once "customBlocks.php";
 
 
 /**
- * Init custom blocks.
+ * Configure allowed block types and register custom blocks
  */
 function initBlocks() {
-    setAllowedBlockTypes([
-        // NOTE: these dont work properly yet
-        // registerImageSliderBlock()?->getBlockName(),
-        // registerParallaxBlock()?->getBlockName()
-    ]);
+    foreach (customBlocks() as $customBlockWrapper)
+        $customBlockWrapper->register();
+
+    configureAllowedBlockTypes();
 }
 
 function initCarbonFields() {
@@ -23,22 +23,29 @@ function initCarbonFields() {
 /**
  * Set allowed block types for the current post type. 
  * 
- * @param array blockNames. List of names of blocks to allow in wp editor.
- * @see `AbstractPostType->getAllowedBlockNames`
+ * @see `AbstractPostType->getAllowedBlockTypes`
  */
-function setAllowedBlockTypes($blockNames = []): void {
+function configureAllowedBlockTypes(): void {
     add_filter(
         "allowed_block_types_all",
-        function($allowedBlocks, $context) use ($blockNames) {
+        function($allowedBlocks, $context) {
             $currentPostType = $context->post->post_type;
             $postTypeInstance = AbstractPostType::getInstance($currentPostType);
-
             if (!$postTypeInstance) 
                 return $allowedBlocks;
 
-            return $postTypeInstance->getAllowedBlockNames($blockNames);
+            return $postTypeInstance->getAllowedBlockTypes();
         },
         10,
         2
     );
+}
+
+/**
+ * @return string[]
+ */
+function allowedGutenBergBlocks(): array {
+    return [
+        "core/separator"
+    ];
 }

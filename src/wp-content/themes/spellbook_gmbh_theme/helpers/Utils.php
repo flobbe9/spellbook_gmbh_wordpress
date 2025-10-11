@@ -1,5 +1,7 @@
 <?php
 
+const CARBON_FIELDS_BLOCK_TYPE_CATEGORY = "carbon-fields";
+
 
 /**
  * Appends url to given style sheet name. 
@@ -10,19 +12,16 @@
 * @return string the url appended to the style sheet name
 */
 function getStyleSheetUrl(string $styleSheetName): string {
-    
     return $_ENV["BASE_URL"] . "/wp-content/themes/spellbook_gmbh_theme/assets/styles/" . ($styleSheetName ?? "");
 }
 
 
 function getSiteTitle(): string {
-    
     return get_bloginfo('name');
 }
 
 
 function logg(mixed $str, mixed $obj = null): void {
-
     error_log(print_r($str, true));
 
     if ($obj)

@@ -1,5 +1,7 @@
 <?php
 namespace SpellbookGmbhTheme\PostTypes;
+
+use Override;
 use SpellbookGmbhTheme\Abstracts\AbstractPostType;
 
 
@@ -31,13 +33,13 @@ class TestPostType extends AbstractPostType {
         );
     }
 
-    public function getAllowedBlockNames($customBlockNames = []): ?array {
-        return null;
+    #[Override]
+    public function getAllowedBlockTypes(): array|bool {
+        return true;
     }
-
-
+    
+    #[Override]
     public function register(): void {
-
         register_post_type(parent::getName(), parent::getOptions());
     }
 }

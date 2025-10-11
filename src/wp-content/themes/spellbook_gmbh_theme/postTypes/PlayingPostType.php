@@ -1,5 +1,7 @@
 <?php
 namespace SpellbookGmbhTheme\PostTypes;
+
+use Override;
 use SpellbookGmbhTheme\Abstracts\AbstractPostType;
 
 
@@ -26,16 +28,8 @@ class PlayingPostType extends AbstractPostType {
         register_post_type(parent::getName(), parent::getOptions());
     }
 
-    public function getAllowedBlockNames($customBlockNames = []): ?array {
-        return [
-            "core/columns",
-            "core/heading",
-            "core/image",
-            "core/list",
-            "core/list-item",
-            "core/paragraph",
-            "core/spacer",
-            "core/separator",
-        ];
+    #[Override]
+    public function getAllowedBlockTypes(): array|bool {
+        return true;
     }
 }
