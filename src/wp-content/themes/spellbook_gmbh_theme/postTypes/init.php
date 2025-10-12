@@ -5,7 +5,6 @@ use SpellbookGmbhTheme\PostTypes\PlayingPostType;
 use SpellbookGmbhTheme\PostTypes\TestPostType;
 
 function initPostTypes(): void {
-
     $playingPostType = new PlayingPostType();
     $playingPostType->register();
 

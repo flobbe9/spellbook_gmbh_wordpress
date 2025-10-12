@@ -46,6 +46,6 @@ function configureAllowedBlockTypes(): void {
  */
 function allowedGutenBergBlocks(): array {
     return [
-        "core/separator"
+        "core/spacer"
     ];
 }

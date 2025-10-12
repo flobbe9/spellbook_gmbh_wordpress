@@ -5,19 +5,22 @@ use SpellbookGmbhTheme\Controllers\PostTypeController;
 use SpellbookGmbhTheme\PostTypes\PagePostType;
 use SpellbookGmbhTheme\PostTypes\PlayingPostType;
 use SpellbookGmbhTheme\PostTypes\ShoppingPostType;
-
+use SpellbookGmbhTheme\PostTypes\TestPostType;
 
 function initControllers(): void {
 
-    $defaultController = new DefaultController("v1");
-    $defaultController->registerAllRoutes();
+    $controller = new DefaultController("v1");
+    $controller->registerAllRoutes();
 
-    $pageController = new PostTypeController(new PagePostType(), "v1");
-    $pageController->registerAllRoutes();
+    $controller = new PostTypeController(new PagePostType(), "v1");
+    $controller->registerAllRoutes();
 
-    $shoppingController = new PostTypeController(new ShoppingPostType(), "v1");
-    $shoppingController->registerAllRoutes();
+    $controller = new PostTypeController(new ShoppingPostType(), "v1");
+    $controller->registerAllRoutes();
 
-    $playingController = new PostTypeController(new PlayingPostType(), "v1");
-    $playingController->registerAllRoutes();
+    $controller = new PostTypeController(new PlayingPostType(), "v1");
+    $controller->registerAllRoutes();
+    
+    $controller = new PostTypeController(new TestPostType(), "v1");
+    $controller->registerAllRoutes();
 }

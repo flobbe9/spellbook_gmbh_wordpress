@@ -1,6 +1,7 @@
 <?php
 namespace SpellbookGmbhTheme\Dto;
 
+use SpellbookGmbhTheme\Helpers\Utils;
 use WP_REST_Request;
 use WP_REST_Response;
 
@@ -22,7 +23,7 @@ class CustomResponseFormat {
 
     public function __construct(int $status, string $message, string $path) {
         $this->status = $status;
-        $this->timestamp = getTimeStamp();
+        $this->timestamp = Utils::getTimeStamp();
         $this->message = $message;
         $this->path = $path;
     }

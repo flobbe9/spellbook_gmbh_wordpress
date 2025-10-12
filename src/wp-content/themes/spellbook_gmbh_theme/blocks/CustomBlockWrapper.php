@@ -15,22 +15,53 @@ use SpellbookGmbhTheme\Helpers\Utils;
 class CustomBlockWrapper {
 
     /** 
-     * The carbon fields block 
+     * The carbon fields block.
+     * 
+     * Required
+     * 
      * @var Field[]
      */
-    private array $fields;
+    public array $fields;
 
-    /** Name of this block visible to the user. CAnnot be blank */
-    private string $blockTitle;
+    /** 
+     * Name of this block visible to the user. CAnnot be blank 
+     * 
+     * Required
+     */
+    public string $blockTitle;
 
-    /** Short explanation for user */
-    private string $description;
+    /** 
+     * Short explanation for user 
+     * 
+     * Required
+     */
+    public string $description;
+
+    /**
+     * Will show when hovering the custom block in gutenberg editor.
+     * 
+     * Possible args: `$fields, $attributes, $inner_blocks`
+     * 
+     * Optional
+     * 
+     * @var callable|null
+     */
+    public $previewCallback;
+
+    /**
+     * Visible in gutenberg editor when selecting the block.
+     * 
+     * Optional
+     * 
+     * @see https://developer.wordpress.org/resource/dashicons/#rest-api
+     */
+    public string $icon;
 
 
-    public function __construct(string $blockTitle, string $description, array $fields) {
-        $this->blockTitle = $blockTitle;
-        $this->description = $description;
-        $this->fields = $fields;
+    public function __construct() {}
+
+    public static function builder(): CustomBlockWrapperBuilder {
+        return new CustomBlockWrapperBuilder();
     }
 
     /**
@@ -41,7 +72,7 @@ class CustomBlockWrapper {
             return "";
 
         // to lowercase and replace " " with "-" 
-        $modifiedBlockTitle = str_replace(" ", "-", strtolower($this->blockTitle));
+        $modifiedBlockTitle = CustomBlockWrapper::parseBlockName($this->blockTitle);
 
         return Utils::CARBON_FIELDS_BLOCK_TYPE_CATEGORY . "/$modifiedBlockTitle";
     }
@@ -66,6 +97,28 @@ class CustomBlockWrapper {
 
         $block->add_fields($this->fields);
         $block->set_description($this->description);
-        $block->set_render_callback(function($fields, $attributes, $inner_blocks) {});
+
+        if ($this->previewCallback)
+            $block->set_mode("preview");
+        $block->set_render_callback($this->previewCallback ?? function($fields, $attributes, $inner_blocks) {});
+
+        $block->set_icon($this->icon);
+    }
+
+    /**
+     * "blockName" meaning the prefix after the "blockTypeCategory", e.g. `carbon-fields/my-block` would have
+     * "my-block" as "blockName".
+     * 
+     * Lower-case and repalce whitespace with dashes.
+     * 
+     * @param string $string to format
+     * @return string slightly modified `$string`
+     */
+    public static function parseBlockName(string $string): string {
+        Utils::assertNotNullBlankOrThrow($string);
+
+        $string = str_replace(" ", "-", strtolower($string));
+
+        return $string;
     }
 }

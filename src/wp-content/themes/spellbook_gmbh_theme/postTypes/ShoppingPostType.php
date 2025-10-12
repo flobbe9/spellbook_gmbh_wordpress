@@ -25,14 +25,4 @@ class ShoppingPostType extends AbstractPostType {
                 "show_in_rest" => true // pretty edit view
             ]);
     }
-
-    #[Override]
-    public function getAllowedBlockTypes(): array|bool {
-        return true;
-    }
-
-    #[Override]
-    public function register(): void {
-        register_post_type(parent::getName(), parent::getOptions());
-    }
 }

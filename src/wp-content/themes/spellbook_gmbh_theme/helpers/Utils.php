@@ -2,13 +2,18 @@
 namespace SpellbookGmbhTheme\Helpers;
 
 use DateTime;
-
+use Error;
+use Throwable;
 
 /**
  * @since latest
  */
 class Utils {
     const CARBON_FIELDS_BLOCK_TYPE_CATEGORY = "carbon-fields";
+    
+    const PRIMARY_COLOR_HEX = "#3533cd"; // bluish
+    const SECONDARY_COLOR_HEX = "#fff";
+    const ACCENT_COLOR_HEX = "#000";
 
     /**
      * Appends url to given style sheet name. 
@@ -32,6 +37,23 @@ class Utils {
         if ($args)
             foreach ($args as $arg)
                 error_log(print_r($arg, true));
+    }
+
+    public static function logError(Throwable $error): void {
+        if (!$error)
+            return;
+
+        Utils::log("Error with code " . $error->getCode() . ": " . $error->getMessage());
+
+        // log stack trace
+        if ($error->getTrace())
+            Utils::log($error->getTraceAsString());
+
+        // log cause
+        if ($error->getPrevious()) {
+            Utils::log("Caused by:");
+            Utils::logError($error->getPrevious());
+        }
     }
 
     /**
@@ -132,8 +154,8 @@ class Utils {
     /**
      * @return bool true if given ```$str``` is falsy, null, not a string or has a size of 0 after trimming it, else false
      */
-    public static function isBlank(string | null $str): bool {
-        if (!$str || !is_string($str) || strlen($str) === 0)
+    public static function isBlank(string|null $str): bool {
+        if (!$str)
             return true;
 
         $trimmedStr = trim($str);
@@ -144,5 +166,20 @@ class Utils {
     public static function getTimeStamp(): string {
         $dateTime = new DateTime();
         return $dateTime->format("Y-m-d H:i:s:u");
+    }
+
+    /**
+     * Throw for the first blank arg but don't throw if no arguments are passed at all
+     */
+    public static function assertNotNullBlankOrThrow(mixed ...$args): void {
+        if (!$args) 
+            return;
+
+        for ($i = 0; $i < count($args); $i++) {
+            $arg = $args[$i];
+
+            if ($arg == null || (is_string($arg) && Utils::isBlank($arg)))
+                throw new Error("Arg $i null or blank");
+        }
     }
 }

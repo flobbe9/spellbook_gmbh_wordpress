@@ -17,16 +17,12 @@ require_once __DIR__ . "/helpers/SiteMapGenerator.php";
     // csrf 
         // use from wp guard
 
-/**
- * PostTypes
- */
-add_action("init", "initPostTypes");
-
+        
 /**
  * AdminMenus
  */
 add_action("admin_menu", "initAdminPages");
-
+        
 /**
  * AdminToolBar
  */
@@ -42,6 +38,12 @@ add_action("after_setup_theme", "initMenus");
  */
 add_action("rest_api_init", "initControllers");
 
+/**
+ * PostTypes
+ * 
+ * Same hook as custom blocks because opst types are used by custom blocks
+ */
+add_action("carbon_fields_register_fields", "initPostTypes");
 /**
  * BlockTypes
  */

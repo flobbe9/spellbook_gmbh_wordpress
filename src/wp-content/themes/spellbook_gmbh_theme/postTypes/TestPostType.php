@@ -37,9 +37,4 @@ class TestPostType extends AbstractPostType {
     public function getAllowedBlockTypes(): array|bool {
         return true;
     }
-    
-    #[Override]
-    public function register(): void {
-        register_post_type(parent::getName(), parent::getOptions());
-    }
 }

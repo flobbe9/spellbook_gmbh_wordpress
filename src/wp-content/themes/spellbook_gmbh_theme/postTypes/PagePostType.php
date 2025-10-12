@@ -24,11 +24,6 @@ class PagePostType extends AbstractPostType {
             ]);
     }
 
-    #[Override]
-    public function getAllowedBlockTypes(): array|bool {
-        return true;
-    }
-
     public function register(): void {
         // not implemented, this is a default wordpress post type
     }

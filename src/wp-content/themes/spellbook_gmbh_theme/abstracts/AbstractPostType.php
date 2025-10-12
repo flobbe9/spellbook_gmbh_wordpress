@@ -6,6 +6,9 @@ use SpellbookGmbhTheme\PostTypes\PlayingPostType;
 use SpellbookGmbhTheme\PostTypes\ShoppingPostType;
 use SpellbookGmbhTheme\PostTypes\TestPostType;
 use Carbon_Fields\Block;
+use SpellbookGmbhTheme\Blocks\CustomBlockWrapper;
+require_once dirname(__DIR__, 1) . "/blocks/customBlocks.php";
+require_once dirname(__DIR__, 1) . "/blocks/init.php";
 
 
 /**
@@ -69,7 +72,12 @@ abstract class AbstractPostType {
         }
     }
 
-    abstract function register(): void;
+    /**
+     * Register post type in wordpress. Only call this once in `init` hook
+     */
+    function register(): void {
+        register_post_type($this->name, $this->options);
+    }
 
     /**
      * The blockname should look like `core/columns` or `carbon-fields/myCustomBlock`.
@@ -88,6 +96,16 @@ abstract class AbstractPostType {
      * ```
      * 
      * @return string[]|bool list of all block types that should be allowed for this post type in gutenberg editor or `true` in order to allow all.
+     * Allow all custom blocks and `allowedGutenBergBlocks` by default
      */
-    abstract function getAllowedBlockTypes(): array|bool;
+    public function getAllowedBlockTypes(): array|bool {
+        return array_map(
+            function(CustomBlockWrapper|string $block) {
+                if (is_string($block))
+                    return $block;
+                return $block->getBlockType();
+            },
+            [...array_values(customBlocks()), ...allowedGutenBergBlocks()]
+        );
+    }
 }

@@ -3,6 +3,7 @@ namespace SpellbookGmbhTheme\Controllers;
 
 use SpellbookGmbhTheme\Abstracts\AbstractController;
 use SpellbookGmbhTheme\Dto\NavigationMenu;
+use SpellbookGmbhTheme\Helpers\Utils;
 use SpellbookGmbhTheme\Services\WPService;
 use WP_Post;
 use WP_REST_Request;

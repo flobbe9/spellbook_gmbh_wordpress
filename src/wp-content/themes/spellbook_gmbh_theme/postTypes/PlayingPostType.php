@@ -23,13 +23,4 @@ class PlayingPostType extends AbstractPostType {
                 "show_in_rest" => true // pretty edit view
             ]);
     }
-
-    public function register(): void {
-        register_post_type(parent::getName(), parent::getOptions());
-    }
-
-    #[Override]
-    public function getAllowedBlockTypes(): array|bool {
-        return true;
-    }
 }

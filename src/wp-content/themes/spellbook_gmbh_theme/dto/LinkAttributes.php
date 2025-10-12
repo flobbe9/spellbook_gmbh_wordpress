@@ -1,6 +1,7 @@
 <?php
 namespace SpellbookGmbhTheme\Dto;
 
+use SpellbookGmbhTheme\Helpers\Utils;
 
 /**
  * Wrapper for html `<a>` tag attributes other than "href", e.g. "_target" or "rel".
@@ -26,7 +27,7 @@ class LinkAttributes {
             return null;
 
         $_target = $navMenuItemPage->target;
-        if (isBlank($_target))
+        if (Utils::isBlank($_target))
             $_target = "_self";
 
         return new LinkAttributes($_target);
