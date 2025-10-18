@@ -1,0 +1,23 @@
+.dashicons-custom.dashicons-accordion::before {
+    background-image: url('/wp-content/themes/spellbook_gmbh_theme/assets/img/accordion.svg');   
+}
+
+.dashicons-custom.dashicons-slider::before {
+    background-image: url('/wp-content/themes/spellbook_gmbh_theme/assets/img/slider.svg');   
+}
+
+.dashicons-custom::before {
+    background-position: center;
+    background-repeat: no-repeat;
+    content: '';
+    display: block;
+    height: 1em;
+    width: 1em;
+}
+
+.block-editor-block-list__block.wp-block:has(.cf-block__fields) {
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 15px 0;
+    padding: 5px;
+}

@@ -1,0 +1,40 @@
+<svg 
+    version="1.1"
+    viewbox="0 0 16 16"
+    xmlns="http://www.w3.org/2000/svg"
+>
+    <style>
+        .default {
+            stroke: black;
+            stroke-width: 2;
+            stroke-linecap: round;
+        }
+    </style>
+    
+    <!-- container -->
+    <path
+        class="default"
+        d="M1 1 L19 1 M19 1 L19 19 M19 19 L1 19 M1 19 L1 1"
+    />
+
+    <path 
+        class="default"
+        d="M14 8 L16 10"
+    />
+
+    <path 
+        class="default"
+        d="M16 10 L14 12"
+    />
+
+    <!-- arrow-left -->
+    <path 
+        class="default"
+        d="M6 8 L4 10"
+    />
+
+    <path 
+        class="default"
+        d="M4 10 L6 12"
+    />
+</svg>

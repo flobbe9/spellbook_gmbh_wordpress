@@ -30,8 +30,15 @@ class CustomBlockWrapperBuilder {
         return $this;
     }
 
-    public function icon(string $icon): CustomBlockWrapperBuilder {
+    /**
+     * @param bool $isCustomIcon indicates that this icon name is not from documentation but defined in "gutenbergEditor.css". Default is `false`
+     */
+    public function icon(string $icon, bool $isCustomIcon = false): CustomBlockWrapperBuilder {
+        if ($isCustomIcon)
+            $icon = $icon . " dashicons-custom"; // add additional classname .dashicons-custom
+        
         $this->customBlockWrapper->icon = $icon;
+
         return $this;
     }
     

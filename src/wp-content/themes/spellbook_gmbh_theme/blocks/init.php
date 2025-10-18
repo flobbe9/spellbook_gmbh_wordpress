@@ -55,4 +55,5 @@ function allowedGutenBergBlocks(): array {
 
 function loadBlockAssets(): void {
     Utils::loadAsset("cfVideoBlockThumbnailFix.js", "defer"); // wait for window.wp and helpers.js to load
+    Utils::loadAsset("gutenbergEditor.css");
 }

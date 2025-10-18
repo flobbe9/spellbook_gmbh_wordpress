@@ -40,8 +40,7 @@ function customBlocks(): array {
         "accordion" => CustomBlockWrapper::builder() 
             ->blockTitle("Accordion")
             ->description("Ausfahrbahrer Text")
-            // TODO: add css for class .dashicons-accordion
-            ->icon("accordion")
+            ->icon("accordion", true)
             ->fields([
                 fieldFactory("complex", "header-bodies", "Accordion", "Accordion")
                     ->set_min(1)
@@ -57,8 +56,7 @@ function customBlocks(): array {
         "slider" => CustomBlockWrapper::builder()
             ->blockTitle("Slider")
             ->description("Bilder- / Text-Gallerie in voller Breite zum sliden (horizontal)")
-            // TODO: add slider icon class
-            ->icon("slider")
+            ->icon("slider", true)
             ->fields([
                 fieldFactory("complex", "slides", "Slides", "Slider")
                     ->set_layout("tabbed-horizontal")
