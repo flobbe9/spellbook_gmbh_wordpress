@@ -1,5 +1,6 @@
 <?php
 
+use SpellbookGmbhTheme\Helpers\Utils;
 use SpellbookGmbhTheme\Services\WPService;
 
 /**

@@ -16,15 +16,66 @@ class Utils {
     const ACCENT_COLOR_HEX = "#000";
 
     /**
-     * Appends url to given style sheet name. 
-     * 
-    * E.g. "styles.css" would become "http://{currentHost}:{currentPort}/wp-content/themes/spellbook_gmbh_theme/assets/styles/styles.css"
-    * 
-    * @param string $styleSheetName name of the style sheet file (including the extension)
-    * @return string the url appended to the style sheet name
-    */
+     * @param bool $absolute whether to return an absolute url. Return the full path if `false`. Default is `true`
+     * @return string absolute url for assets like styles and scripts
+     */
+    public static function getAssetUrl(bool $absolute = true): string {
+        $path = "/wp-content/themes/spellbook_gmbh_theme/assets";
+
+        return ($absolute ? $_ENV["BASE_URL"] : "") . $path;
+    }
+
+    /**
+     * @param string $styleSheetName name of the style sheet file (including the extension)
+     * @return string assetUrl with the `$styleSheetName` appended
+     */
     public static function getStyleSheetUrl(string $styleSheetName): string {
-        return $_ENV["BASE_URL"] . "/wp-content/themes/spellbook_gmbh_theme/assets/styles/" . ($styleSheetName ?? "");
+        return Utils::getAssetUrl() . "\/styles/" . ($styleSheetName ?? "");
+    }
+
+    /**
+     * @param string $scriptName file with extension, no slashes, e.g. "myScript.js"
+     * @param bool $absolute whether to return an absolute url. Return the full path if `false`. Default is `true`
+     * @return string assetUrl with the `$scriptName` appended
+     */
+    public static function getScriptUrl(string $scriptName, bool $absolute = true): string {
+        return Utils::getAssetUrl($absolute) . "\/script/" . ($scriptName ?? "");
+    }
+
+    /**
+     * Load either style or script.
+     * 
+     * @param string $filePath relative to "assets/{script or style}" dir starting with a slash. e.g. "/cfScripts/myScript.js" would be
+     * expected to be inside "/assets/script/cfScripts/myScript.js"
+     * @param array $scriptStrategy see https://developer.wordpress.org/reference/functions/wp_enqueue_script/
+     * @param array $deps see `wp_enqueue` docs
+     */
+    public static function loadAsset(string $filePath, string|null $scriptStrategy = null, array $deps = []): void {
+        Utils::assertNotNullBlankOrThrow($filePath);
+
+        $filePathSplit = explode("/", $filePath);
+        $fileName = $filePathSplit[count($filePathSplit) - 1];
+
+        $fileNameSplit = explode(".", $fileName);
+        $fileNameWithoutExtension = $fileNameSplit[0]; 
+        $fileExtension = $fileNameSplit[1];
+
+        if ($fileExtension === "js")
+            wp_enqueue_script(
+                $fileNameWithoutExtension,
+                Utils::getScriptUrl($filePath, false),
+                $deps,
+                Utils::getAppVersion(),
+                ["strategy" => $scriptStrategy ?? ""]
+            );
+
+        else if ($fileExtension === "css")
+            wp_enqueue_style(
+                $fileNameWithoutExtension,
+                Utils::getStyleSheetUrl($filePath, false),
+                $deps,
+                Utils::getAppVersion(),
+            ); 
     }
 
     public static function getSiteTitle(): string {
@@ -181,5 +232,29 @@ class Utils {
             if ($arg == null || (is_string($arg) && Utils::isBlank($arg)))
                 throw new Error("Arg $i null or blank");
         }
+    }
+
+    /**
+     * Same as php's `array_map` but for an associative array.
+     * 
+     * @param callable $callback mapping function. Params are `$key, $value, $index, $arr`. Should return something
+     * @param array $arr to iterate over. If not an assoicative array, `$key` will be the array index
+     * @return array non-associative array containing return values of `$callback`
+     */
+    public static function array_map_key_values(callable $callback, array $arr): array {
+        Utils::assertNotNullBlankOrThrow($callback, $arr);
+        $resultArr = [];
+
+        $i = 0;
+        foreach ($arr as $key => $value) {
+            $resultArr[] = call_user_func($callback, $key, $value, $i, $arr);
+            $i++;   
+        }
+
+        return $resultArr;
+    }
+    
+    public static function getAppVersion(): string {
+        return $_ENV["VERSION"];
     }
 }

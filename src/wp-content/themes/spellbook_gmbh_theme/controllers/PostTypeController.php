@@ -31,7 +31,6 @@ class PostTypeController extends AbstractController {
             ["GET"],
             "getBySlug",
             function(WP_REST_Request $request) {
-
                 if (!$request->has_param('slug'))
                     return CustomResponseFormat::asRestResponse(400, "Missing required param 'slug'", $request);
 

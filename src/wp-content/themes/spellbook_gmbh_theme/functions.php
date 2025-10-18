@@ -41,7 +41,7 @@ add_action("rest_api_init", "initControllers");
 /**
  * PostTypes
  * 
- * Same hook as custom blocks because opst types are used by custom blocks
+ * Same hook as custom blocks because post types are used by custom blocks
  */
 add_action("carbon_fields_register_fields", "initPostTypes");
 /**

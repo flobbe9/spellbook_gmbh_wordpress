@@ -11,6 +11,7 @@ function initConfig(): void {
     deleteDefaultPlugins();
     deleteDefaultThemes();
     addCors();
+    loadGeneralAssets();
 }
 
 
@@ -124,4 +125,10 @@ function getFrontendBaseUrl($isIncludeWWW = false): string {
     }
 
     return $isDefaultPort ? $_ENV["FRONTEND_BASE_URL_NO_PORT"] : $_ENV["FRONTEND_BASE_URL"];
+}
+
+function loadGeneralAssets(): void {
+    Utils::loadAsset("helpers.js");
+
+    Utils::loadAsset("generic.css");
 }

@@ -10,6 +10,16 @@ use SpellbookGmbhTheme\Helpers\Utils;
 /**
  * Wrapper class containing a carbon-fields block and it's title. 
  * 
+ * NOTE: optional fields cannot have a type for some reason
+ * 
+ * Naming:
+ * 
+ * `blockType`: "carbon-fields/myBlock"
+ * 
+ * `blockName`: "myBlock"
+ * 
+ * `blockTypeCategory`: "carbon-fields"
+ * 
  * @since 0.2.3
  */
 class CustomBlockWrapper {
@@ -24,7 +34,7 @@ class CustomBlockWrapper {
     public array $fields;
 
     /** 
-     * Name of this block visible to the user. CAnnot be blank 
+     * Name of this block visible to the user. Will be used for the `blockname`
      * 
      * Required
      */
@@ -49,16 +59,19 @@ class CustomBlockWrapper {
     public $previewCallback;
 
     /**
-     * Visible in gutenberg editor when selecting the block.
+     * Visible in gutenberg editor when selecting the block. Adds className "dashicon-{iconString}" to the block select button.
      * 
      * Optional
      * 
+     * @var string
      * @see https://developer.wordpress.org/resource/dashicons/#rest-api
      */
-    public string $icon;
+    public $icon;
 
 
-    public function __construct() {}
+    public function __construct() {
+        // use builder() instead
+    }
 
     public static function builder(): CustomBlockWrapperBuilder {
         return new CustomBlockWrapperBuilder();
@@ -72,7 +85,7 @@ class CustomBlockWrapper {
             return "";
 
         // to lowercase and replace " " with "-" 
-        $modifiedBlockTitle = CustomBlockWrapper::parseBlockName($this->blockTitle);
+        $modifiedBlockTitle = CustomBlockWrapper::parseName($this->blockTitle);
 
         return Utils::CARBON_FIELDS_BLOCK_TYPE_CATEGORY . "/$modifiedBlockTitle";
     }
@@ -106,15 +119,12 @@ class CustomBlockWrapper {
     }
 
     /**
-     * "blockName" meaning the prefix after the "blockTypeCategory", e.g. `carbon-fields/my-block` would have
-     * "my-block" as "blockName".
-     * 
-     * Lower-case and repalce whitespace with dashes.
+     * Lower-case and repalce whitespace with dashes. Valid for both blocks and fields
      * 
      * @param string $string to format
      * @return string slightly modified `$string`
      */
-    public static function parseBlockName(string $string): string {
+    public static function parseName(string $string): string {
         Utils::assertNotNullBlankOrThrow($string);
 
         $string = str_replace(" ", "-", strtolower($string));

@@ -75,7 +75,7 @@ class WPService {
      * Will set a page to "private" if its ```post_type``` is included in ```WPService::getHiddenInFrontendPostTypeNames()```.
      * 
      * @param WP_Post[] | bool $pages to map
-     * @return WP_Post[] same $pages array but with parsed blocks ("blocks") and paths ("path").
+     * @return WP_Post[] modified `$pages` array
      */
     public static function mapPages(array $pages): array {
         if (!is_array($pages)) 
@@ -88,17 +88,19 @@ class WPService {
 
             // get parsed blocks
             $pageBlocks = parse_blocks($page->post_content);
-            // modify a bit
-            $pageBlocks = WPService::addIndexToColumnBlocks($pageBlocks);
-            // add to page
-            $page->blocks = $pageBlocks;
-            // add path
-            $page->path = WPService::formatPagePath($page);
 
-            // remove html content (using blocks only)
-            unset($page->post_content);
+            return [
+                "ID" => $page->ID,
+                "post_date" => $page->post_date,
+                "post_title" => $page->post_title,
+                "post_status" => $page->post_status,
+                "menu_order" => $page->menu_order,
+                "post_type" => $page->post_type,
 
-            return $page;
+                // custom
+                "path" => WPService::formatPagePath($page),
+                "blocks" => $pageBlocks
+            ];
 
         }, $pages);
     }
@@ -157,9 +159,9 @@ class WPService {
 
     /**
      * @param array $blocks parsed blocks of a page (e.g. retrieved by ```WP_Post->parse_blocks```)
+     * @archived while "core/columns" is n ot an allowed block
      */
     private static function addIndexToColumnBlocks(array $blocks): array {
-
         // case: falsy param
         if (!is_array($blocks))
             return $blocks;
