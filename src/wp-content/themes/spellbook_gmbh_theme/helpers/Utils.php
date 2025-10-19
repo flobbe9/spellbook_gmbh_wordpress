@@ -257,4 +257,8 @@ class Utils {
     public static function getAppVersion(): string {
         return $_ENV["VERSION"];
     }
+
+    public static function getEnv(): string {
+        return $_ENV["ENV"];
+    }
 }

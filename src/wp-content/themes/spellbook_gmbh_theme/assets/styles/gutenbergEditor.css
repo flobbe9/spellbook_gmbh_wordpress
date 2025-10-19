@@ -1,3 +1,4 @@
+/* Block icons */
 .dashicons-custom.dashicons-accordion::before {
     background-image: url('/wp-content/themes/spellbook_gmbh_theme/assets/img/accordion.svg');   
 }
@@ -15,9 +16,20 @@
     width: 1em;
 }
 
+
+/* Carbon fields blocks */
 .block-editor-block-list__block.wp-block:has(.cf-block__fields) {
     border: 1px solid black;
     border-radius: 5px;
     margin: 15px 0;
     padding: 5px;
+}
+
+/* cf radio buttons */
+.cf-radio__list {
+    display: flex;
+    padding-left: 0;
+}
+.cf-radio__list .cf-radio__label {
+    margin-right: 10px;
 }

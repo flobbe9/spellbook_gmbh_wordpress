@@ -4,7 +4,7 @@
 }
 
 .wpButton {
-    background-color: var(--wpBlue);
+    background-color: rgb(0, 124, 186);
     border: none;
     border-radius: 3px;
     box-shadow: none;

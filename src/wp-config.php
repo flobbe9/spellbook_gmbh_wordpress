@@ -115,8 +115,8 @@ $table_prefix = getenv_docker('WORDPRESS_TABLE_PREFIX', 'wp_');
  */
 
 // Debug in dev only
-define( 'WP_DEBUG', $_ENV["ENV"] === "dev" );
-define( 'WP_DEBUG_LOG', $_ENV["ENV"] === "dev" );
+define( 'WP_DEBUG', $_ENV["ENV"] === "development" );
+define( 'WP_DEBUG_LOG', $_ENV["ENV"] === "development" );
 
 
 /* Add any custom values between this line and the "stop editing" line. */

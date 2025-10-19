@@ -5,6 +5,7 @@ require_once __DIR__ . "/menus/init.php";
 require_once __DIR__ . "/adminPages/init.php";
 require_once __DIR__ . "/adminBarMenu/init.php";
 require_once __DIR__ . "/config/init.php";
+require_once __DIR__ . "/config/mailConfig.php";
 require_once __DIR__ . "/blocks/init.php";
 require_once __DIR__ . "/helpers/Utils.php";
 require_once __DIR__ . "/helpers/SiteMapGenerator.php";
@@ -54,6 +55,8 @@ add_action("after_setup_theme", "initCarbonFields");
  * Config
  */
 add_action("wp_loaded", "initConfig");
+add_action("phpmailer_init", "initMailEnv");
+add_action("wp_mail_failed", "handleMailingErrors");
 
 /**
  * On post status change

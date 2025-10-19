@@ -33,6 +33,7 @@ services:
         - WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
         - WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
         - WORDPRESS_DB_HOST=db
+        - WORDPRESS_SMTP_HOST=maildev
         - TZ=${TZ}
     ports:
       - 8080:80
@@ -43,3 +44,14 @@ services:
       - ./docker-entrypoint.dev.sh:/usr/local/bin/docker-entrypoint.sh:ro
       - ./sitemap.xml:/var/www/html/sitemap.xml
       - ./uploads/:/var/www/html/wp-content/uploads/
+
+  maildev:
+    image: maildev/maildev
+    container_name: dev_maildev_${NAME}
+    ports: 
+        - 1025:1025
+        - 1080:1080
+    environment:
+      MAILDEV_INCOMING_PASS: ${WORDPRESS_SMTP_PASSWORD}
+      MAILDEV_INCOMING_USER: ${WORDPRESS_SMTP_USER}
+      TZ: ${TZ}
