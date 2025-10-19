@@ -76,7 +76,6 @@ function addCors(): void {
  * @return string the frontend base url possibly with "www." depending on the request origin
  */
 function getAllowOriginResponseHeader(): string {
-
     $frontendBaseUrl = getFrontendBaseUrl();
     $frontendBaseUrlWithWWW = getFrontendBaseUrl(true);
 
