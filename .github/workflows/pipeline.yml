@@ -1,11 +1,11 @@
-name: spellbook_gmbh_wordpress main
+name: spellbook_gmbh_wordpress
 
 run-name: ${{ github.event.head_commit.message }}
 on: 
-  push: 
-    branches: 
-      - main
-
+    push:
+      branches:
+        - dev
+    workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -18,6 +18,8 @@ jobs:
         
         
   push_to_DockerHub:
+    # NOTE: ${{}} syntax does not work here
+    if: (github.head_ref || github.ref_name) == 'main'
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -63,14 +65,18 @@ jobs:
       - name: Checkout repository 
         uses: actions/checkout@v4
 
-      - name: Copy some files to remote
-        uses: appleboy/scp-action@v0.1.7
+        # connect to vpn
+      - name: Checkout repository 
+        uses: actions/checkout@v4
+      - name: Install OpenVPN
+        run: |
+            sudo apt update
+            sudo apt install -y openvpn openvpn-systemd-resolved
+      - name: Connect to VPN
+        uses: "kota65535/github-openvpn-connect-action@v3"
         with:
-            host: spellbook-gmbh.de
-            username: ${{ secrets.SSH_USER_NAME }}
-            password: ${{ secrets.SSH_PASSWORD }}
-            source: copySecretsToRemote.sh,docker-entrypoint.sh,docker-compose.yml
-            target: /root
+            config_file: .github/workflows/config.ovpn
+            client_key: ${{ secrets.OPEN_VPN_PRIVATE_KEY }}
 
       - name: copy .env vars to temporary github env
         run: |
