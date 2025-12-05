@@ -1,7 +1,7 @@
 # used for dev
 services:
   db: 
-    image: mysql:${MYSQL_VERSION}
+    image: mariadb:${MARIADB_VERSION}
     ports:
       - ${WORDPRESS_DB_PORT}:${WORDPRESS_DB_PORT}
     environment:
@@ -12,7 +12,7 @@ services:
     volumes:
       - ./dbVolume/:/var/lib/mysql/
     healthcheck:
-      test: mysqladmin ping -h db
+      test: mariadb-admin ping -u root -p${WORDPRESS_DB_PASSWORD}
       start_period: 20s
       interval: 5s
       timeout: 5s
@@ -32,6 +32,12 @@ services:
         - WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
         - WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
         - WORDPRESS_DB_HOST=db
+        - ENV=dev
+        - HOST=localhost
+        - PORT=8080
+        - FRONTEND_PROTOCOL=http
+        - FRONTEND_HOST=localhost
+        - FRONTEND_PORT=3000
     ports:
       - 8080:80
     volumes:

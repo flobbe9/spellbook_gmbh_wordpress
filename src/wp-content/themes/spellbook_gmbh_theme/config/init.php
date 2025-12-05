@@ -32,6 +32,7 @@ function deleteDefaultThemes(): void {
     deleteDir(dirname(__DIR__, 2) . "/twentytwentytwo");
     deleteDir(dirname(__DIR__, 2) . "/twentytwentythree");
     deleteDir(dirname(__DIR__, 2) . "/twentytwentyfour");
+    deleteDir(dirname(__DIR__, 2) . "/twentytwentyfive");
 }
 
 
