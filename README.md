@@ -1,6 +1,6 @@
-# spellbook_gmbh_wordpress
+# Spellbook GmbH wordpress
 
-# Run
+## Run
 - create .env.local and place it in the same directory as ```docker-compose.dev.yml```
 - copy all content from .env file
 - inside .env.local override the following variables with following values:
@@ -10,10 +10,15 @@
     - FRONTEND_PROTOCOL=http
     - FRONTEND_HOST=localhost
     - FRONTEND_PORT=3000
-- run ```docker-compose -f docker-compose.dev.yml up```
+- run `docker-compose -f docker-compose.dev.yml up -d`
+- go to <a href="http://localhost:8080/wp-admin">http://localhost:8080/wp-admin</a>
+
+### Debugging
+`env: 'bash\r': No such file or directory` <br>
+Set the line endings of the `docker-entrypoint.dev.sh` to "LF"
 
 
-# Adding Namespaces Example
+## Adding Namespaces Example
 - "wordpress/var/www/html/wp-content/themes/gingco_relaunch/myFolder/MyClass.php"
 ```
 <?php
@@ -74,5 +79,5 @@ class AnyClass {
 ### Notes
 - Folder names for `"psr-4"` are relative to the "wordpress/var/www/html/wp-content/themes/gingco_relaunch/gingco_relaunch/vendor" folder.#
 
-# Update SSL
-Simply download the new .crt file from strato and replace the .crt / .crt.pem files (.pem file needs to be regenerated).
+### Service repositories
+- frontend: <a href="https://github.com/flobbe9/spellbook_gmbh_frontend">https://github.com/flobbe9/spellbook_gmbh_frontend</a>

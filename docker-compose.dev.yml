@@ -32,6 +32,12 @@ services:
         - WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
         - WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
         - WORDPRESS_DB_HOST=db
+        - ENV=dev
+        - HOST=localhost
+        - PORT=8080
+        - FRONTEND_PROTOCOL=http
+        - FRONTEND_HOST=localhost
+        - FRONTEND_PORT=3000
     ports:
       - 8080:80
     volumes:
